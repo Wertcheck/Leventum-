@@ -41,3 +41,13 @@ Ohne Backend läuft das Formular im **Demo-Modus** und versendet nichts (klar ge
 - **Schriften:** Fraunces (Display) + Manrope (Body), selbst gehostet unter `assets/fonts/` (SIL OFL, Lizenztexte liegen bei). Kein CDN.
 - **Farben:** Markenblau `#27446c`, CI-Grau `#d8d2c8`, Weiß plus Grautöne – keine weitere Akzentfarbe (Grün entfernt). Zentral in `css/tokens.css`.
 - **Bewegung:** ruhiger Hero-Einstieg, Hover-Mikrointeraktionen, animiertes FAQ, dünner Scroll-Fortschritt im Header. Kein Fade-up-Scrollreveal; alles entfällt bei `prefers-reduced-motion`.
+
+## Linkvorschau (WhatsApp, Messenger, soziale Netzwerke)
+Metadaten (Open Graph, Twitter Card) stehen im `<head>` von `index.html`, das Vorschaubild ist `assets/img/og-leventum.jpg` (1200 × 630, JPEG, unter 100 KB). `og:image` und `twitter:image` müssen absolute URLs sein; sie zeigen auf `https://wertcheck.github.io/Leventum-/assets/img/og-leventum.jpg`. Bei einer eigenen Domain diese URLs, `og:url` und `canonical` anpassen.
+
+Testen nach dem Deployment:
+1. Bild direkt im Browser öffnen: `https://wertcheck.github.io/Leventum-/assets/img/og-leventum.jpg` (muss ohne Login laden).
+2. Facebook/Messenger: Sharing Debugger (developers.facebook.com/tools/debug), URL eingeben und „Erneut abrufen“ wählen. Das löscht den Facebook-Cache.
+3. LinkedIn: Post Inspector (linkedin.com/post-inspector). X/Twitter: Link in einen Entwurf einfügen.
+4. WhatsApp hat keinen eigenen Debugger und speichert Vorschauen lange zwischen. Nach einer Änderung hilft es, den Link mit einem Zusatz zu teilen, zum Beispiel `https://wertcheck.github.io/Leventum-/?v=2`, oder zuvor den Facebook-Debugger zu nutzen (WhatsApp nutzt ähnliche Daten). Bereits gesendete Nachrichten ändern sich nicht.
+5. Bei einem neuen Bild den Dateinamen ändern (z. B. `og-leventum-2.jpg`), damit kein Cache greift.

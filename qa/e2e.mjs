@@ -278,9 +278,10 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
     const seen = [await sample()];
     for (let i = 0; i < 6; i++) { await ph.waitForTimeout(3100); seen.push(await sample()); }
     const acts = new Set(seen.map(s => s.act));
-    const texts = await ph.evaluate(() => [...document.querySelectorAll('.rot-item')].map(e => [e.querySelector('.l1').textContent, e.querySelector('.l2').textContent]));
-    check(`Hero-Wechsel ${n}: alle 4 Varianten kommen vor, Zeile 1 wechselt, „mit Leventum.“ bleibt fest`, acts.size === 4 && texts.length === 4 && new Set(texts.map(t => t[0])).size === 4 && (await ph.locator('.hero h1 .ln').last().innerText()).trim() === 'mit Leventum.', [...acts].join(','));
-    check(`Hero-Wechsel ${n}: jede Variante höchstens 3 Zeilen (je Zeile einzeilig, nichts abgeschnitten)`, await ph.evaluate(() => { const lh = parseFloat(getComputedStyle(document.querySelector('.hero h1')).lineHeight); const col = document.querySelector('.hero-copy').getBoundingClientRect().width; return [...document.querySelectorAll('.rot-item')].every(it => [...it.children].every(c => { const r = document.createRange(); r.selectNodeContents(c); const b = r.getBoundingClientRect(); return b.height <= lh * 1.05 && b.width <= col - 1; })); }));
+    const texts = await ph.evaluate(() => [...document.querySelectorAll('.rot-item')].map(e => e.textContent));
+    const lines = await ph.evaluate(() => [...document.querySelectorAll('.hero h1 > .ln')].map(e => e.innerText.trim()));
+    check(`Hero-Wechsel ${n}: Zeile 1 „Zuverlässig vermieten.“ und Zeile 3 „mit Leventum.“ bleiben fest, nur Zeile 2 wechselt (4 Varianten)`, acts.size === 4 && texts.length === 4 && new Set(texts).size === 4 && lines[0] === 'Zuverlässig vermieten.' && lines[2] === 'mit Leventum.', [...acts].join(','));
+    check(`Hero-Wechsel ${n}: jede Variante höchstens 3 Zeilen (je Zeile einzeilig, nichts abgeschnitten)`, await ph.evaluate(() => { const lh = parseFloat(getComputedStyle(document.querySelector('.hero h1')).lineHeight); const col = document.querySelector('.hero-copy').getBoundingClientRect().width; const fixed = [...document.querySelectorAll('.hero h1 .ln')].filter(l => !l.querySelector('.rot')).map(l => l.firstElementChild); return [...document.querySelectorAll('.rot-item'), ...fixed].every(c => { const r = document.createRange(); r.selectNodeContents(c); return c.getBoundingClientRect().height <= lh * 1.05 && r.getBoundingClientRect().width <= col - 1; }); }));
     check(`Hero-Wechsel ${n}: Höhe der Überschrift und Position der Buttons bleiben konstant`, new Set(seen.map(s => s.hH)).size === 1 && new Set(seen.map(s => s.btnTop)).size === 1 && seen.every(s => s.over <= 0), JSON.stringify([...new Set(seen.map(s => s.hH))]));
     check(`Hero-Wechsel ${n}: genau eine Aussage sichtbar für Screenreader`, await ph.evaluate(() => document.querySelectorAll('.rot-item:not([aria-hidden="true"])').length === 1));
     if (n === 'Desktop') {
@@ -299,6 +300,16 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   const rctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const pr = await rctx.newPage(); await pr.goto(BASE + '/'); await pr.waitForTimeout(6500);
   check('Hero-Wechsel: bei reduzierter Bewegung kein Wechsel, erste Aussage bleibt', await pr.evaluate(() => document.querySelector('.rot-item.is-active') === document.querySelector('.rot-item') && getComputedStyle(document.querySelector('.rot-item')).transitionDuration === '0s'));
   await rctx.close(); }
+// Linkvorschau (Open Graph / Twitter Card)
+{ const { readFileSync, statSync } = await import('node:fs'); const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8'); const head = html.slice(0, html.indexOf('</head>'));
+  const meta = (k, v) => (head.match(new RegExp(`<meta (?:property|name)="${k}" content="([^"]*)"`)) || [])[1] === v;
+  const B = 'https://wertcheck.github.io/Leventum-/';
+  check('Linkvorschau: og:title, og:description, og:url, og:type exakt wie vorgegeben', meta('og:title', 'LEVENTUM REAL ESTATE – Ihr gewerblicher Mietpartner') && meta('og:description', 'Leerstand vermeiden. Planbare Mieteinnahmen durch einen gewerblichen Mietpartner mit individuellen Sondervermietungskonzepten.') && meta('og:url', B) && meta('og:type', 'website'));
+  check('Linkvorschau: og:image und twitter:image sind absolute https-URLs derselben Datei, twitter:card = summary_large_image', meta('og:image', B + 'assets/img/og-leventum.jpg') && meta('twitter:image', B + 'assets/img/og-leventum.jpg') && meta('twitter:card', 'summary_large_image') && meta('og:image:width', '1200') && meta('og:image:height', '630'));
+  const f = new URL('../assets/img/og-leventum.jpg', import.meta.url); const kb = statSync(f).size / 1024; const buf = readFileSync(f);
+  let w = 0, hgt = 0; for (let i = 2; i < buf.length;) { if (buf[i] !== 0xFF) { i++; continue; } const m = buf[i + 1]; if (m >= 0xC0 && m <= 0xC3) { hgt = buf.readUInt16BE(i + 5); w = buf.readUInt16BE(i + 7); break; } i += 2 + buf.readUInt16BE(i + 2); }
+  check('Linkvorschau: Bild ist JPEG 1200×630 und unter 300 KB', w === 1200 && hgt === 630 && kb < 300, `${w}x${hgt}, ${Math.round(kb)} KB`);
+  const res = await fetch(BASE + '/assets/img/og-leventum.jpg'); check('Linkvorschau: Bild ist über den Server erreichbar (image/jpeg)', res.status === 200 && (res.headers.get('content-type') || '').includes('image/jpeg')); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);
