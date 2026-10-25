@@ -98,7 +98,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .btn .icon { transition: transform .25s var(--ease); }
   .btn:hover .icon { transform: translateX(4px); }
-  .card, .type-card, .role, .process li { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .card, .type-card, .process li { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
   .card:hover, .type-card:hover, .process li:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
   .js .acc-panel { transition: grid-template-rows .4s var(--ease), visibility .4s; }
   .js .acc-panel .acc-inner { transition: padding-bottom .4s var(--ease); }

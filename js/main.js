@@ -41,7 +41,7 @@
   var py = 0;
   if (motionOK && 'IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-on');
-    var sel = '.section-head, .card, .offer-card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
+    var sel = '.model-panel, .section-head, .card, .offer-card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
     var els = document.querySelectorAll(sel);
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -89,7 +89,7 @@
   var map = {};
   links.forEach(function (l) { map[l.getAttribute('href').slice(1)] = l; });
   // Abschnitte ohne eigenen Menüpunkt werden dem passenden Punkt zugeordnet
-  var alias = { herausforderungen: 'ueberblick', vereinbarungen: 'zusammenarbeit', kontakt: null };
+  var alias = { modell: 'ueberblick', herausforderungen: 'ueberblick', vereinbarungen: 'zusammenarbeit', kontakt: null };
   function setActive(id) {
     var key = id in alias ? alias[id] : id;
     links.forEach(function (l) { l.removeAttribute('aria-current'); });

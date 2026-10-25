@@ -35,8 +35,8 @@ check('Logo geladen', await page.locator('.brand img').evaluate(i => i.complete 
 check('Hero-Bild geladen, ohne lazy', await page.locator('.hero-figure img').evaluate(i => i.complete && i.naturalWidth > 0 && i.loading !== 'lazy'));
 check('Bilder unterhalb des Hero nutzen lazy loading', await page.evaluate(() => [...document.querySelectorAll('main img')].filter(i => !i.closest('.hero')).every(i => i.loading === 'lazy')));
 check('Alle Bilder haben alt-Text', await page.evaluate(() => [...document.images].every(i => i.alt.trim())));
-check('Hero zeigt Rent-to-Rent mit zwei Mietverträgen',/Rent-to-Rent/i.test(await page.locator('.roles-title').innerText()) && (await page.locator('.role-link:visible').count()) === 2);
-check('Hero-Rollen sichtbar (Eigentümer/LIVENTUM/Endmieter)', (await page.locator('.role:visible').allTextContents()).join(' ').match(/Eigentümer.*LIVENTUM.*Endmieter/s) !== null);
+check('Rent-to-Rent-Panel: Titel, 3 Beteiligte, 2 Mietverträge', /Rent-to-Rent/i.test(await page.locator('#model-title').innerText()) && (await page.locator('.flow .node').count()) === 3 && (await page.locator('.flow .link-chip').allInnerTexts()).join('|') === 'Mietvertrag 1|Mietvertrag 2');
+check('Hero-Rollen sichtbar (Eigentümer/LIVENTUM/Endmieter)', (await page.locator('.flow .node:visible').allTextContents()).join(' ').match(/Eigentümer.*LIVENTUM.*Endmieter/s) !== null);
 check('Keine Margen-/Garantie-Aussage im sichtbaren Text', !/marge|rendite|garantiert/i.test(await page.locator('body').innerText()));
 await shot(page, '01-hero');
 
@@ -130,7 +130,7 @@ for (const [w, h, name] of [[1440, 900, 'Desktop'], [1024, 768, 'Tablet quer'], 
   const p = await open(w, h);
   const overflow = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   const smallFonts = await p.evaluate(() => [...document.querySelectorAll('main p, main li, main td, main a, main button')].filter(e => e.offsetParent && parseFloat(getComputedStyle(e).fontSize) < 13).length);
-  const heroOk = await p.evaluate(() => { const r = [...document.querySelectorAll('.hero-copy, .hero-figure, .role')].filter(e => e.offsetParent).map(e => e.getBoundingClientRect()); return r.every(b => b.left >= -1 && b.right <= innerWidth + 1); });
+  const heroOk = await p.evaluate(() => { const r = [...document.querySelectorAll('.hero-copy, .hero-figure, .node')].filter(e => e.offsetParent).map(e => e.getBoundingClientRect()); return r.every(b => b.left >= -1 && b.right <= innerWidth + 1); });
   check(`${name} ${w}px: kein horizontaler Scroll`, overflow <= 0, `overflow=${overflow}`);
   check(`${name} ${w}px: Hero-Elemente im Viewport`, heroOk);
   check(`${name} ${w}px: keine Schrift < 13px`, smallFonts === 0, `${smallFonts}`);
