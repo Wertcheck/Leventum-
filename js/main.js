@@ -41,7 +41,7 @@
   var py = 0;
   if (motionOK && 'IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-on');
-    var sel = '.model-panel, .ba, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
+    var sel = '.model-panel, .ba, .founder, .vision, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
     var els = document.querySelectorAll(sel);
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

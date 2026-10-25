@@ -21,6 +21,9 @@ Die Seite lässt sich auch auf jedem statischen Hosting ausliefern.
 - Adresse, Telefon, E-Mail (Kontaktkarte in `index.html`, Impressum, Datenschutz)
 - Impressum und Datenschutzerklärung (rechtlich geprüft)
 
+## Gründer-Sektion
+Porträts liegen in `assets/img/team/` (Hochformat 4:5, 800×1000 px): `james-bonitzki.jpg` und `attila-attila.jpg`. Zum Austauschen die Datei ersetzen (gleicher Name) oder den `src` im Bereich `<!-- GRÜNDER -->` in `index.html` anpassen. Logos der Stationen von James liegen in `assets/img/partners/`; vor Veröffentlichung Nutzungsrechte klären.
+
 ## Social Media
 Die Icons im Footer (`.social-link`) haben bewusst noch keinen Link. Zum Aktivieren `href="https://…"` (und `target="_blank" rel="noopener"`) am jeweiligen `<a>` ergänzen. Nicht benötigte Netzwerke entfernen.
 

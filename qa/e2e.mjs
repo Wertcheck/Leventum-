@@ -228,6 +228,35 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
   check('Ohne JavaScript: statischer Vergleich (beide Bilder, kein Regler, Labels)', await pn.evaluate(() => { const imgs = [...document.querySelectorAll('#ba img')]; return imgs.every(i => i.complete && i.naturalWidth > 0) && getComputedStyle(document.getElementById('ba-range')).display === 'none' && document.querySelectorAll('.ba-label').length === 2 && getComputedStyle(document.querySelector('.ba-before')).clipPath !== 'none'; }));
   await pn.locator('#ba').screenshot({ path: `${SHOTS}23-vorher-nachher-ohne-js.png` });
   await nj.close(); }
+// Gründer-Sektion
+{ const pg = await open(1440, 900);
+  const order = await pg.evaluate(() => [...document.querySelectorAll('main > section[id]')].map(s => s.id));
+  check('Gründer-Sektion steht nach FAQ und vor dem Kontakt', order.indexOf('gruender') > order.indexOf('faq') && order.indexOf('gruender') < order.indexOf('kontakt'), order.join(' > '));
+  await pg.locator('#gruender').scrollIntoViewIfNeeded(); await pg.waitForTimeout(2200);
+  check('Gründer: Überschrift „Die Gründer“, zwei Karten mit Namen und Rollen', (await pg.locator('#founders-title').innerText()) === 'Die Gründer' && (await pg.locator('.founder h3').allInnerTexts()).join('|') === 'James John Bonitzki|Attila Attila' && (await pg.locator('.founder-role').allInnerTexts()).join('|') === 'Gründer & CEO|Gründer & COO');
+  check('Gründer: Qualifikation/Schwerpunkt korrekt', (await pg.locator('.founder-sub').allInnerTexts()).join('|') === 'Immobilienkaufmann (IHK)|Immobilien- und Projektentwicklung');
+  check('Gründer: Originalfoto von James geladen', await pg.evaluate(() => { const i = document.querySelector('.founder img[src*="james-bonitzki"]'); return i && i.complete && i.naturalWidth === 800; }));
+  check('Gründer: Porträt von Attila geladen, kein Platzhalter mehr', await pg.evaluate(() => { const i = document.querySelector('.founder img[src*="attila-attila"]'); return !!i && i.complete && i.naturalWidth === 800 && document.querySelectorAll('.is-placeholder, .placeholder-badge').length === 0; }));
+  check('Gründer: drei Referenzlogos bei James geladen, drei Tätigkeitsfelder bei Attila', await pg.evaluate(() => { const l = [...document.querySelectorAll('.founder-logos img')]; return l.length === 3 && l.every(i => i.complete && i.naturalWidth > 0) && document.querySelectorAll('.founder-areas li').length === 3; }));
+  check('Gründer: Vision-Zitat exakt und drei Leitwerte', (await pg.locator('.vision-quote p').innerText()).replace(/\s+/g, ' ') === '„Die Liventum Real Estate Holding GmbH verwandelt Gewerbeleerstand in Wohnraum.“' && (await pg.locator('.values strong').allInnerTexts()).join('|') === 'Effizient|Rentabel|Nachhaltig' && (await pg.locator('.vision-label').innerText()).toLowerCase() === 'unsere vision');
+  check('Gründer Desktop: Karten gleich groß, nebeneinander, Vision rechts', await pg.evaluate(() => { const [a, b] = [...document.querySelectorAll('.founder')].map(e => e.getBoundingClientRect()), v = document.querySelector('.vision').getBoundingClientRect(); return Math.abs(a.width - b.width) < 1 && Math.abs(a.height - b.height) < 1 && a.right <= b.left && b.right <= v.left + 1; }));
+  check('Gründer: Fotos haben gleiches Seitenverhältnis (4:5)', await pg.evaluate(() => [...document.querySelectorAll('.founder-photo')].every(f => { const r = f.getBoundingClientRect(); return Math.abs(r.width / r.height - 0.8) < 0.02; })));
+  await pg.evaluate(async () => { const s = document.getElementById('gruender'); const top = s.getBoundingClientRect().top + scrollY; for (let y = top - 100; y < top + s.offsetHeight; y += 250) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); } }); await pg.waitForTimeout(1800);
+  await pg.evaluate(() => { document.querySelector('.site-header').style.visibility = 'hidden'; });
+  await pg.locator('#gruender').screenshot({ path: `${SHOTS}24-gruender-desktop.png` });
+  await pg.evaluate(() => { document.querySelector('.site-header').style.visibility = ''; });
+  // Menüpunkt
+  await pg.evaluate(() => scrollTo(0, 0)); await pg.locator('.main-nav a[href="#gruender"]').click(); await pg.waitForTimeout(2500);
+  check('Menüpunkt „Gründer“ scrollt zur Sektion', (await pg.locator('#gruender').evaluate(e => Math.round(e.getBoundingClientRect().top))) < 140);
+  await pg.context().close();
+  for (const [w, h, n] of [[820, 1100, 'tablet'], [390, 844, 'mobil']]) {
+    const px = await open(w, h); await px.locator('#gruender').scrollIntoViewIfNeeded(); await px.waitForTimeout(2200);
+    const m = await px.evaluate(() => { const c = [...document.querySelectorAll('.founder')].map(e => e.getBoundingClientRect()); return { widths: c.map(r => Math.round(r.width)), stacked: c[1].top >= c[0].bottom - 1, over: document.documentElement.scrollWidth - innerWidth, imgOk: [...document.querySelectorAll('.founder-photo img')].every(i => i.getBoundingClientRect().width > 0) }; });
+    check(`Gründer ${n} ${w}px: kein Überlauf, Bilder sichtbar${n === 'mobil' ? ', Karten untereinander' : ''}`, m.over <= 0 && m.imgOk && (n === 'tablet' || m.stacked), JSON.stringify(m));
+    await px.evaluate(async () => { const s = document.getElementById('gruender'); const top = s.getBoundingClientRect().top + scrollY; for (let y = top - 100; y < top + s.offsetHeight; y += 250) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); } }); await px.waitForTimeout(1800);
+    await px.evaluate(() => { document.querySelector('.site-header').style.visibility = 'hidden'; document.querySelector('.sticky-cta').style.visibility = 'hidden'; });
+    await px.locator('#gruender').screenshot({ path: `${SHOTS}25-gruender-${n}.png` }); await px.context().close();
+  } }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);
