@@ -9,6 +9,9 @@ npm run qa           # E2E-Prüfung mit Playwright, schreibt Screenshots nach qa
 ```
 Die Seite lässt sich auch auf jedem statischen Hosting ausliefern.
 
+## Veröffentlichen
+Vor jedem Push `npm run build` ausführen. Das Skript hängt an alle CSS- und JS-Links einen Inhalts-Hash (`?v=…`). Ohne ihn können Browser und GitHub Pages (Cache ca. 10 Minuten) alte Styles mit neuem HTML mischen, wodurch Bereiche wie der Vorher-Nachher-Slider ungestaltet erscheinen. Der Test `npm run qa` schlägt fehl, wenn die Hashes veraltet sind.
+
 ## Struktur
 - `index.html` – Seite, SVG-Icon-Sprite, alle Abschnitte
 - `css/` – `tokens.css` (Farben, Abstände, Typo), `base.css`, `components.css`, `sections.css`

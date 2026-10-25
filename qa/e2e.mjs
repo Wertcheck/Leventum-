@@ -12,6 +12,13 @@ const lum = (c) => { const [r, g, b] = c.map(v => { v /= 255; return v <= .03928
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + .05) / (y + .05); };
 const rgb = (s) => s.match(/[\d.]+/g).slice(0, 3).map(Number);
 
+// Cache-Busting: Versions-Hashes an CSS/JS müssen zum aktuellen Dateiinhalt passen
+{ const { hashOf } = await import('../scripts/cache-bust.mjs'); const { readFileSync } = await import('node:fs');
+  for (const page of ['index.html', 'impressum.html', 'datenschutz.html']) {
+    const refs = [...readFileSync(new URL('../' + page, import.meta.url), 'utf8').matchAll(/(?:href|src)="((?:css|js)\/[^"?]+)(?:\?v=([0-9a-f]+))?"/g)];
+    const stale = refs.filter(([, f, v]) => v !== hashOf(f)).map(([, f]) => f);
+    check(`${page}: CSS/JS-Verweise tragen aktuellen Versions-Hash`, refs.length > 0 && stale.length === 0, stale.join(', ') || `${refs.length} Verweise`);
+  } }
 const browser = await chromium.launch();
 const consoleIssues = [];
 async function open(width, height) {
@@ -217,6 +224,12 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
   await pt.touchscreen.tap(tb.x + tb.width * 0.75, tb.y + tb.height / 2); await pt.waitForTimeout(300);
   const tpos = parseFloat(await pt.evaluate(() => getComputedStyle(document.getElementById('ba')).getPropertyValue('--pos')));
   check('Touch: Tippen setzt die Trennlinie (~75 %)', Math.abs(tpos - 75) < 6, `pos=${tpos.toFixed(1)}`);
+  { const cdp = await ctx.newCDPSession(pt); const y = tb.y + tb.height / 2;
+    const tp = (type, x) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y }] });
+    await tp('touchStart', tb.x + tb.width * 0.5); for (let i = 1; i <= 10; i++) await tp('touchMove', tb.x + tb.width * (0.5 - 0.03 * i)); await tp('touchEnd'); await pt.waitForTimeout(300);
+    const wp = parseFloat(await pt.evaluate(() => getComputedStyle(document.getElementById('ba')).getPropertyValue('--pos')));
+    check('Touch: Wischen nach links verschiebt die Trennlinie (~20 %)', wp < 35, `pos=${wp.toFixed(1)}`);
+    check('Touch: Vorher- und Nachher-Bild liegen im selben Rahmen übereinander', await pt.evaluate(() => { const [a, b] = [...document.querySelectorAll('#ba img')].map(i => i.getBoundingClientRect()); return Math.abs(a.top - b.top) < 1 && Math.abs(a.left - b.left) < 1 && Math.abs(a.width - b.width) < 1; })); }
   check('Mobil: Slider-Griff ≥ 44 px, Bild 4:3, kein Überlauf', await pt.evaluate(() => { const k = document.querySelector('.ba-knob').getBoundingClientRect(), b = document.getElementById('ba').getBoundingClientRect(); return k.width >= 44 && Math.abs(b.width / b.height - 4 / 3) < 0.03 && b.left >= 0 && b.right <= innerWidth && document.documentElement.scrollWidth <= innerWidth; }));
   await pt.evaluate(() => { const r = document.getElementById('ba-range'); r.value = 50; r.dispatchEvent(new Event('input', { bubbles: true })); });
   await pt.locator('#vorher-nachher').screenshot({ path: `${SHOTS}22-vorher-nachher-mobil.png` });

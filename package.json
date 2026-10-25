@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Akquisitionswebsite von LIVENTUM REAL ESTATE (statisch, ohne Abhängigkeiten)",
+  "description": "Akquisitionswebsite von LIVENTUM REAL ESTATE (statisch, ohne Abh\u00e4ngigkeiten)",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "qa": "node qa/e2e.mjs"
+    "qa": "node qa/e2e.mjs",
+    "build": "node scripts/cache-bust.mjs"
   }
 }
