@@ -63,8 +63,8 @@
 .step-badge { width: 36px; height: 36px; border-radius: 50%; background: var(--navy-800); color: #fff; display: grid; place-items: center; font-weight: 700; }
 
 /* Expertise */
-.expertise-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: var(--space-5); align-items: center; }
-.expertise-figure { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 9 / 11; background: var(--beige-200); }
+.expertise-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-5); align-items: center; }
+.expertise-figure { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 5 / 4; background: var(--beige-200); }
 .expertise-figure img { width: 100%; height: 100%; object-fit: cover; }
 .lead-dark { margin-top: var(--space-2); color: var(--grey-700); font-size: var(--fs-500); }
 .service-list { margin-top: var(--space-4); display: grid; }

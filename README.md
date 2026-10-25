@@ -13,13 +13,12 @@ Die Seite lässt sich auch auf jedem statischen Hosting ausliefern.
 - `index.html` – Seite, SVG-Icon-Sprite, alle Abschnitte
 - `css/` – `tokens.css` (Farben, Abstände, Typo), `base.css`, `components.css`, `sections.css`
 - `js/main.js` – Navigation, aktiver Menüpunkt, FAQ-Accordion, Formular
-- `assets/img/` – Logo, Hero-Foto, **Bildplatzhalter** (`expertise-handwerk.svg`, `objekt-*.svg`)
+- `assets/img/` – Logo und Fotos (Hero, Expertise, Objekttypen)
 - `impressum.html`, `datenschutz.html` – Gerüst mit Platzhaltern
 - `qa/e2e.mjs`, `qa/screenshots/` – Tests und Screenshots
 
 ## Noch einzutragen
 - Adresse, Telefon, E-Mail (Kontaktkarte in `index.html`, Impressum, Datenschutz)
-- Fotos: `expertise-handwerk` und die drei `objekt-*` Bilder ersetzen (gleicher Dateiname/`src` anpassen, Alt-Text aktualisieren)
 - Impressum und Datenschutzerklärung (rechtlich geprüft)
 
 ## Formularversand
