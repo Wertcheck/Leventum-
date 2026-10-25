@@ -390,3 +390,19 @@
   .benefit-grid .card h3 { font-size: 0.95rem; line-height: 1.25; hyphens: manual; overflow-wrap: break-word; }
   .benefit-grid .card p { font-size: 0.88rem; line-height: 1.4; hyphens: manual; overflow-wrap: break-word; }
 }
+
+/* Kontaktformular: kompakt auf dem Handy */
+@media (max-width: 760px) {
+  .form-card { padding: 1rem; border-radius: var(--radius-md); }
+  .form-card h3 { font-size: 1.2rem; }
+  .form-hint { margin: 0.1rem 0 0.6rem; font-size: 0.82rem; }
+  #contact-form .field { gap: 0.2rem; margin-bottom: 0.55rem; min-width: 0; }
+  #contact-form .field label { font-size: 0.85rem; }
+  #contact-form .field input:not([type="checkbox"]), #contact-form .field select, #contact-form .field textarea { min-height: 40px; padding: 0.45rem 0.65rem; font-size: 1rem; }
+  #contact-form .field textarea { min-height: 64px; }
+  #contact-form .field-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+  #contact-form .field-check { column-gap: 0.55rem; }
+  #contact-form .field-check input { width: 20px; height: 20px; }
+  #contact-form .field-check label { font-size: 0.82rem; line-height: 1.35; }
+  #contact-form .btn-lg { min-height: 46px; }
+}

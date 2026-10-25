@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/tokens.css?v=89aeff11">
   <link rel="stylesheet" href="css/base.css?v=f26ed30c">
   <link rel="stylesheet" href="css/components.css?v=ea470df2">
-  <link rel="stylesheet" href="css/sections.css?v=6ace0ca5">
+  <link rel="stylesheet" href="css/sections.css?v=d4df898b">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -516,6 +516,7 @@
           <h3>Unverbindliche Anfrage</h3>
           <p class="form-hint">Pflichtfelder sind mit * gekennzeichnet.</p>
           <form id="contact-form" novalidate data-endpoint="">
+            <div class="field-row">
             <div class="field">
               <label for="f-name">Name *</label>
               <input id="f-name" name="name" type="text" autocomplete="name" required>
@@ -525,6 +526,7 @@
               <label for="f-company">Unternehmen</label>
               <input id="f-company" name="company" type="text" autocomplete="organization">
             </div>
+            </div>
             <div class="field">
               <label for="f-email">Geschäftliche E-Mail-Adresse *</label>
               <input id="f-email" name="email" type="email" autocomplete="email" required>
@@ -532,11 +534,11 @@
             </div>
             <div class="field-row">
               <div class="field">
-                <label for="f-phone">Telefonnummer (optional)</label>
+                <label for="f-phone">Telefon (optional)</label>
                 <input id="f-phone" name="phone" type="tel" autocomplete="tel">
               </div>
               <div class="field">
-                <label for="f-units">Verfügbare Einheiten (optional)</label>
+                <label for="f-units">Einheiten (optional)</label>
                 <input id="f-units" name="units" type="number" min="1" inputmode="numeric">
               </div>
             </div>
@@ -553,7 +555,7 @@
             </div>
             <div class="field">
               <label for="f-message">Nachricht</label>
-              <textarea id="f-message" name="message" rows="4"></textarea>
+              <textarea id="f-message" name="message" rows="3"></textarea>
             </div>
             <div class="field field-check">
               <input id="f-consent" name="consent" type="checkbox" required>
