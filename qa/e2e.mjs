@@ -35,7 +35,7 @@ const shot = async (page, name, sel) => { await page.waitForTimeout(1300); retur
 
 /* ---------- Desktop ---------- */
 let page = await open(1440, 900);
-check('Seitentitel', (await page.title()) === 'LEVENTUM REAL ESTATE – Ihr gewerblicher Mietpartner');
+check('Seitentitel', (await page.title()) === 'LEVENTUM REAL ESTATE GmbH – Ihr gewerblicher Mietpartner');
 check('Genau eine h1', (await page.locator('h1').count()) === 1);
 check('Meta description + Open Graph', await page.evaluate(() => !!document.querySelector('meta[name=description]')?.content && !!document.querySelector('meta[property="og:title"]')));
 check('Logo geladen', await page.locator('.brand img').evaluate(i => i.complete && i.naturalWidth > 0));
@@ -304,7 +304,7 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
 { const { readFileSync, statSync } = await import('node:fs'); const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8'); const head = html.slice(0, html.indexOf('</head>'));
   const meta = (k, v) => (head.match(new RegExp(`<meta (?:property|name)="${k}" content="([^"]*)"`)) || [])[1] === v;
   const B = 'https://wertcheck.github.io/Leventum-/';
-  check('Linkvorschau: og:title, og:description, og:url, og:type exakt wie vorgegeben', meta('og:title', 'LEVENTUM REAL ESTATE – Ihr gewerblicher Mietpartner') && meta('og:description', 'Leerstand vermeiden. Planbare Mieteinnahmen durch einen gewerblichen Mietpartner mit individuellen Sondervermietungskonzepten.') && meta('og:url', B) && meta('og:type', 'website'));
+  check('Linkvorschau: og:title, og:description, og:url, og:type exakt wie vorgegeben', meta('og:title', 'LEVENTUM REAL ESTATE GmbH – Ihr gewerblicher Mietpartner') && meta('og:description', 'Leerstand vermeiden. Planbare Mieteinnahmen durch einen gewerblichen Mietpartner mit individuellen Sondervermietungskonzepten.') && meta('og:url', B) && meta('og:type', 'website'));
   check('Linkvorschau: og:image und twitter:image sind absolute https-URLs derselben Datei, twitter:card = summary_large_image', meta('og:image', B + 'assets/img/og-vorschau-leventum.jpg') && meta('twitter:image', B + 'assets/img/og-vorschau-leventum.jpg') && meta('twitter:card', 'summary_large_image') && meta('og:image:width', '1200') && meta('og:image:height', '630'));
   const f = new URL('../assets/img/og-vorschau-leventum.jpg', import.meta.url); const kb = statSync(f).size / 1024; const buf = readFileSync(f);
   let w = 0, hgt = 0; for (let i = 2; i < buf.length;) { if (buf[i] !== 0xFF) { i++; continue; } const m = buf[i + 1]; if (m >= 0xC0 && m <= 0xC3) { hgt = buf.readUInt16BE(i + 5); w = buf.readUInt16BE(i + 7); break; } i += 2 + buf.readUInt16BE(i + 2); }
