@@ -19,4 +19,4 @@ http.createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Nicht gefunden');
   }
-}).listen(port, () => console.log(`LIVENTUM-Website: http://localhost:${port}`));
+}).listen(port, () => console.log(`LEVENTUM-Website: http://localhost:${port}`));

@@ -35,7 +35,7 @@ const shot = async (page, name, sel) => { await page.waitForTimeout(1300); retur
 
 /* ---------- Desktop ---------- */
 let page = await open(1440, 900);
-check('Seitentitel', (await page.title()) === 'LIVENTUM REAL ESTATE – Ihr gewerblicher Mietpartner');
+check('Seitentitel', (await page.title()) === 'LEVENTUM REAL ESTATE – Ihr gewerblicher Mietpartner');
 check('Genau eine h1', (await page.locator('h1').count()) === 1);
 check('Meta description + Open Graph', await page.evaluate(() => !!document.querySelector('meta[name=description]')?.content && !!document.querySelector('meta[property="og:title"]')));
 check('Logo geladen', await page.locator('.brand img').evaluate(i => i.complete && i.naturalWidth > 0));
@@ -43,7 +43,7 @@ check('Hero-Bild geladen, ohne lazy', await page.locator('.hero-figure img').eva
 check('Bilder unterhalb des Hero nutzen lazy loading', await page.evaluate(() => [...document.querySelectorAll('main img')].filter(i => !i.closest('.hero')).every(i => i.loading === 'lazy')));
 check('Alle Bilder haben alt-Text', await page.evaluate(() => [...document.images].every(i => i.alt.trim())));
 check('Rent-to-Rent-Panel: Titel, 3 Beteiligte, keine Mietvertrag-Chips', /Rent-to-Rent/i.test(await page.locator('#model-title').innerText()) && (await page.locator('.flow .node').count()) === 3 && (await page.locator('.flow .link-chip').count()) === 0);
-check('Hero-Rollen sichtbar (Eigentümer/LIVENTUM/Endmieter)', (await page.locator('.flow .node:visible').allTextContents()).join(' ').match(/Eigentümer.*LIVENTUM.*Endmieter/is) !== null);
+check('Hero-Rollen sichtbar (Eigentümer/LEVENTUM/Endmieter)', (await page.locator('.flow .node:visible').allTextContents()).join(' ').match(/Eigentümer.*LEVENTUM.*Endmieter/is) !== null);
 check('Keine Margen-/Garantie-Aussage im sichtbaren Text', !/marge|rendite|garantiert/i.test(await page.locator('body').innerText()));
 await shot(page, '01-hero');
 
@@ -251,7 +251,7 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
   check('Gründer: Originalfoto von James geladen', await pg.evaluate(() => { const i = document.querySelector('.founder img[src*="james-bonitzki"]'); return i && i.complete && i.naturalWidth === 800; }));
   check('Gründer: Porträt von Attila geladen, kein Platzhalter mehr', await pg.evaluate(() => { const i = document.querySelector('.founder img[src*="attila-attila"]'); return !!i && i.complete && i.naturalWidth === 800 && document.querySelectorAll('.is-placeholder, .placeholder-badge').length === 0; }));
   check('Gründer: drei Referenzlogos bei James geladen, drei Tätigkeitsfelder bei Attila', await pg.evaluate(() => { const l = [...document.querySelectorAll('.founder-logos img')]; return l.length === 3 && l.every(i => i.complete && i.naturalWidth > 0) && document.querySelectorAll('.founder-areas li').length === 3; }));
-  check('Gründer: Vision-Zitat exakt und drei Leitwerte', (await pg.locator('.vision-quote p').innerText()).replace(/\s+/g, ' ') === '„Die Liventum Real Estate Holding GmbH verwandelt Gewerbeleerstand in Wohnraum.“' && (await pg.locator('.values strong').allInnerTexts()).join('|') === 'Effizient|Rentabel|Nachhaltig' && (await pg.locator('.vision-label').innerText()).toLowerCase() === 'unsere vision');
+  check('Gründer: Vision-Zitat exakt und drei Leitwerte', (await pg.locator('.vision-quote p').innerText()).replace(/\s+/g, ' ') === '„Die Leventum Real Estate Holding GmbH verwandelt Gewerbeleerstand in Wohnraum.“' && (await pg.locator('.values strong').allInnerTexts()).join('|') === 'Effizient|Rentabel|Nachhaltig' && (await pg.locator('.vision-label').innerText()).toLowerCase() === 'unsere vision');
   check('Gründer Desktop: Karten gleich groß, nebeneinander, Vision rechts', await pg.evaluate(() => { const [a, b] = [...document.querySelectorAll('.founder')].map(e => e.getBoundingClientRect()), v = document.querySelector('.vision').getBoundingClientRect(); return Math.abs(a.width - b.width) < 1 && Math.abs(a.height - b.height) < 1 && a.right <= b.left && b.right <= v.left + 1; }));
   check('Gründer: Fotos haben gleiches Seitenverhältnis (4:5)', await pg.evaluate(() => [...document.querySelectorAll('.founder-photo')].every(f => { const r = f.getBoundingClientRect(); return Math.abs(r.width / r.height - 0.8) < 0.02; })));
   await pg.evaluate(async () => { const s = document.getElementById('gruender'); const top = s.getBoundingClientRect().top + scrollY; for (let y = top - 100; y < top + s.offsetHeight; y += 250) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); } }); await pg.waitForTimeout(1800);

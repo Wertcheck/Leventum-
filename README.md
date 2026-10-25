@@ -1,4 +1,4 @@
-# LIVENTUM REAL ESTATE – Akquisitionswebsite
+# LEVENTUM REAL ESTATE – Akquisitionswebsite
 
 Statische Website (HTML/CSS/JS, **keine Abhängigkeiten, kein Build-Schritt**). Zielgruppe: Eigentümer, Bauunternehmer, Bestandshalter.
 
@@ -34,7 +34,7 @@ Die Icons im Footer (`.social-link`) haben bewusst noch keinen Link. Zum Aktivie
 Ohne Backend läuft das Formular im **Demo-Modus** und versendet nichts (klar gekennzeichnet). Versand aktivieren: `data-endpoint="https://…"` am `<form id="contact-form">` setzen. Das Formular sendet JSON per POST (z. B. Formspree oder eigenes Backend); Erfolg wird nur bei HTTP 2xx gemeldet. Datenschutzerklärung entsprechend ergänzen.
 
 ## Vor Veröffentlichung bestätigen
-- Schreibweise der Marke: Logo zeigt „LEVENTUM“, Texte verwenden „LIVENTUM“
+- Schreibweise der Marke: Logo zeigt „LEVENTUM“, Texte verwenden „LEVENTUM“
 - Aussagen zu handwerklicher Erfahrung (keine Qualifikationen behauptet), Start mit einer Wohnung, Sicherheiten (Kaution/Bürgschaft) und Weitervermietung durch Rechtsberatung prüfen lassen
 
 ## Gestaltungsrichtlinien (10K-Checklist)

@@ -1,9 +1,9 @@
 {
-  "name": "liventum-real-estate-website",
+  "name": "leventum-real-estate-website",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Akquisitionswebsite von LIVENTUM REAL ESTATE (statisch, ohne Abh\u00e4ngigkeiten)",
+  "description": "Akquisitionswebsite von LEVENTUM REAL ESTATE (statisch, ohne Abh\u00e4ngigkeiten)",
   "scripts": {
     "start": "node scripts/serve.mjs",
     "qa": "node qa/e2e.mjs",
