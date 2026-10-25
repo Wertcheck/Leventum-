@@ -436,3 +436,9 @@
 }
 
 .hero h1 .ln-end { margin-top: 0.15em; }
+
+/* Rent-to-Rent-Überschrift: Schriftgröße folgt der Panelbreite, jede Zeile bleibt einzeilig */
+.model-head { container-type: inline-size; }
+.model-head h2 { font-size: min(var(--fs-h2), 7.3cqw); }
+.model-head h2 .ln-block { white-space: nowrap; }
+@media (max-width: 900px) { .model-head h2 { font-size: min(1.55rem, 7.3cqw); } }
