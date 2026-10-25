@@ -79,16 +79,6 @@
 .process-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--tint); color: var(--navy-800); display: grid; place-items: center; }
 .process-no { color: var(--navy-800); margin-right: 0.15rem; }
 
-/* Matrix */
-.matrix-block { margin-top: var(--space-6); }
-.table-wrap { background: #fff; border: 1px solid var(--grey-300); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
-.matrix { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-.matrix th, .matrix td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--grey-100); vertical-align: top; }
-.matrix thead th { background: var(--navy-800); color: #fff; font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.matrix tbody th { color: var(--navy-800); width: 28%; }
-.matrix td { color: var(--grey-700); }
-.matrix tbody tr:last-child > * { border-bottom: 0; }
-.matrix tbody tr:nth-child(even) { background: #fafbfc; }
 
 /* Kontakt */
 .contact-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: var(--space-5); align-items: start; }
@@ -153,12 +143,6 @@
   .form-card { padding: var(--space-3); }
   .trust-list { grid-template-columns: 1fr; }
   /* Matrix als gestapelte Karten */
-  .matrix thead { display: none; }
-  .matrix, .matrix tbody, .matrix tr, .matrix th, .matrix td { display: block; width: 100%; }
-  .matrix tbody th { width: 100%; padding-bottom: 0.2rem; border-bottom: 0; }
-  .matrix td { padding-top: 0.2rem; border-bottom: 0; }
-  .matrix td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--grey-900); }
-  .matrix tbody tr { border-bottom: 1px solid var(--grey-100); padding: 0.4rem 0; }
 }
 @media (max-width: 480px) { .process { grid-template-columns: 1fr; } }
 
@@ -289,7 +273,6 @@
 .crm-frame { position: relative; isolation: isolate; }
 .crm-frame img { width: 100%; height: auto; filter: drop-shadow(0 22px 26px rgba(26, 47, 77, 0.22)); }
 .crm-frame::after { content: ""; position: absolute; z-index: -1; left: 6%; right: 6%; bottom: -6px; height: 26px; background: radial-gradient(ellipse at center, rgba(26, 47, 77, 0.28), transparent 70%); filter: blur(5px); }
-.crm-figure figcaption { margin-top: 1.5rem; font-size: 0.85rem; color: var(--grey-500); }
 @media (max-width: 900px) {
   .crm-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .crm-points li { font-size: 1rem; }
@@ -363,4 +346,32 @@
   .founder-body h3 { font-size: 1.4rem; }
   .founder-logos li { height: 36px; }
   .founder-areas li { font-size: 0.9rem; }
+}
+
+/* Mietvertrag-Übersicht */
+.contract-block { margin-top: var(--space-6); }
+.contract { background: #fff; border: 1px solid var(--sand); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+.contract-bar { display: flex; align-items: center; gap: 0.6rem; padding: 0.9rem var(--space-3); background: var(--navy-800); color: #fff; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem; }
+.contract-bar .icon { color: var(--sand); width: 20px; height: 20px; }
+.clauses { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.clauses li { display: flex; flex-direction: column; gap: 0.9rem; padding: var(--space-3) var(--space-2); border-right: 1px solid var(--sand); border-bottom: 1px solid var(--sand); }
+.clauses li:nth-child(5n) { border-right: 0; }
+.clauses li:nth-child(n+6) { border-bottom: 0; }
+.clause-icon { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--sand); color: var(--navy-800); }
+.clause-icon .icon { width: 22px; height: 22px; }
+.clauses h3 { font-size: 1.05rem; line-height: 1.25; }
+.clauses p { margin-top: 0.3rem; font-size: 0.9rem; color: var(--grey-700); line-height: 1.4; }
+@media (max-width: 1100px) {
+  .clauses { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .clauses li:nth-child(5n) { border-right: 1px solid var(--sand); }
+  .clauses li:nth-child(2n) { border-right: 0; }
+  .clauses li:nth-child(n+6) { border-bottom: 1px solid var(--sand); }
+  .clauses li:nth-child(n+9) { border-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .clauses { grid-template-columns: minmax(0, 1fr); }
+  .clauses li, .clauses li:nth-child(n) { flex-direction: row; align-items: center; gap: 1rem; padding: 0.85rem var(--space-2); border-right: 0; border-bottom: 1px solid var(--sand); }
+  .clauses li:last-child { border-bottom: 0; }
+  .clauses p { margin-top: 0.1rem; }
+  .clause-icon { flex: none; }
 }

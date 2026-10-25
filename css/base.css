@@ -31,4 +31,4 @@ section[id], [id="kontaktformular"], [id="kontaktdaten"] { scroll-margin-top: ca
 .skip-link { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--navy-800); color: #fff; padding: 10px 16px; border-radius: var(--radius-sm); }
 .skip-link:focus { top: 8px; }
 
-h3, .card p, .type-body, .matrix td { hyphens: auto; }
+h3, .card p, .type-body { hyphens: auto; }

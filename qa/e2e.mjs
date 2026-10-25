@@ -78,7 +78,7 @@ for (const b of typeBtns) { const t = await b.getAttribute('data-type'); await b
 check('„Objekt besprechen“ wählt Immobilientyp vor', preselect && typeBtns.length === 3);
 
 // Abschnitts-Screenshots
-for (const [n, s] of [['02-modell', '#modell'], ['03-vorteile', '#vorteile'], ['04-expertise', '#expertise'], ['05-verantwortungsmatrix', '#vereinbarungen']]) { await page.locator(s).scrollIntoViewIfNeeded(); await shot(page, n, s); }
+for (const [n, s] of [['02-modell', '#modell'], ['03-vorteile', '#vorteile'], ['04-expertise', '#expertise'], ['05-mietvertrag', '#vereinbarungen']]) { await page.locator(s).scrollIntoViewIfNeeded(); await shot(page, n, s); }
 
 // FAQ
 const triggers = page.locator('.acc-trigger');
@@ -125,7 +125,7 @@ consoleIssues.length = issuesBeforeMock; // die vom Mock (HTTP 500) erwartete Ko
 // Kontraste
 const contrasts = await page.evaluate(() => {
   const pick = (sel) => { const e = document.querySelector(sel); const cs = getComputedStyle(e); return [sel, cs.color, cs.backgroundColor]; };
-  const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero-points li')), beige(pick('.eyebrow')), pick('.tag'), pick('.matrix thead th'), pick('.site-footer')];
+  const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero-points li')), beige(pick('.eyebrow')), pick('.clause-icon'), pick('.contract-bar'), pick('.site-footer')];
 });
 for (const [sel, fg, bg] of contrasts) { const r = ratio(rgb(fg), rgb(bg)); check(`Kontrast ${sel} ≥ 4.5:1`, r >= 4.5, r.toFixed(2)); }
 const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [246, 244, 240]);
@@ -154,7 +154,7 @@ for (const [w, h, name] of [[1440, 900, 'Desktop'], [1024, 768, 'Tablet quer'], 
     check('Mobil: Escape schließt Menü', !(await p.locator('#main-nav').isVisible()));
     await btn.click(); await p.locator('.main-nav ul a[href="#faq"]').click(); await p.waitForTimeout(2000);
     check('Mobil: Menülink scrollt und schließt Menü', !(await p.locator('#main-nav').isVisible()) && (await p.locator('#faq').evaluate(e => Math.round(e.getBoundingClientRect().top))) < 140);
-    await p.locator('.matrix').scrollIntoViewIfNeeded(); await p.locator('#vereinbarungen').screenshot({ path: `${SHOTS}10-mobil-matrix.png` });
+    await p.locator('#vereinbarungen').scrollIntoViewIfNeeded(); await p.waitForTimeout(1500); await p.locator('#vereinbarungen').screenshot({ path: `${SHOTS}10-mobil-mietvertrag.png` });
     await p.locator('#kontakt').scrollIntoViewIfNeeded(); await p.locator('#kontakt').screenshot({ path: `${SHOTS}11-mobil-kontakt.png` });
   }
   await p.context().close();
@@ -170,7 +170,7 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
   check('CRM-Sektion steht vor den Immobilientypen und nach Expertise', order.indexOf('verwaltung') > order.indexOf('expertise') && order.indexOf('verwaltung') < order.indexOf('immobilientypen'), order.join(' > '));
   check('CRM: Überschrift und genau 4 Bullet Points', (await pc.locator('#crm-title').innerText()) === 'Immobilienverwaltung. Klar organisiert.' && (await pc.locator('.crm-points li').count()) === 4);
   await pc.locator('#verwaltung').scrollIntoViewIfNeeded(); await pc.waitForTimeout(1500);
-  check('CRM: Mockup geladen, als Beispielansicht gekennzeichnet', await pc.evaluate(() => { const i = document.querySelector('.crm-frame img'); return i.complete && i.naturalWidth > 0 && /Mockup/.test(document.querySelector('.crm-figure figcaption').textContent); }));
+  check('CRM: Mockup geladen, ohne Beispiel-Hinweis', await pc.evaluate(() => { const i = document.querySelector('.crm-frame img'); return i.complete && i.naturalWidth > 0 && !document.querySelector('.crm-figure figcaption'); }));
   check('CRM Desktop: Text und Dashboard nebeneinander', await pc.evaluate(() => { const a = document.querySelector('.crm-copy').getBoundingClientRect(), b = document.querySelector('.crm-figure').getBoundingClientRect(); return a.right <= b.left + 1 && Math.abs(a.top - b.top) < 200; }));
   await pc.locator('#verwaltung').screenshot({ path: `${SHOTS}18-crm-desktop.png` });
   const hb = await pc.evaluate(() => { const f = document.querySelector('.hero-figure').getBoundingClientRect(); return { right: f.right, w: innerWidth, h: document.querySelector('.hero-figure').getBoundingClientRect().height }; });
@@ -270,6 +270,9 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
     await px.evaluate(() => { document.querySelector('.site-header').style.visibility = 'hidden'; document.querySelector('.sticky-cta').style.visibility = 'hidden'; });
     await px.locator('#gruender').screenshot({ path: `${SHOTS}25-gruender-${n}.png` }); await px.context().close();
   } }
+{ const pv = await open(1440, 900);
+check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zusatz', await pv.evaluate(() => document.querySelectorAll('#vereinbarungen .clauses li').length === 10 && !document.querySelector('#vereinbarungen table') && !/Regelung|Was vorab geklärt wird/.test(document.getElementById('vereinbarungen').innerText)));
+  await pv.context().close(); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);

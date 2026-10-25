@@ -16,9 +16,9 @@
   <link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/tokens.css?v=bced2230">
-  <link rel="stylesheet" href="css/base.css?v=28830fbf">
-  <link rel="stylesheet" href="css/components.css?v=2a119ed7">
-  <link rel="stylesheet" href="css/sections.css?v=b7910956">
+  <link rel="stylesheet" href="css/base.css?v=f26ed30c">
+  <link rel="stylesheet" href="css/components.css?v=05d9c0db">
+  <link rel="stylesheet" href="css/sections.css?v=eabd1c77">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -286,7 +286,6 @@
           <div class="crm-frame">
             <img src="assets/img/crm-laptop.webp" width="1486" height="888" loading="lazy" alt="Laptop mit Beispielansicht eines Verwaltungs-Dashboards: Kennzahlen zu Mietern, Objekten, Verträgen und Aufgaben sowie Beispielmieter Max Mustermann">
           </div>
-          <figcaption>Beispielansicht (Mockup). Dargestellte Daten sind fiktiv.</figcaption>
         </figure>
       </div>
     </section>
@@ -359,32 +358,27 @@
           <li><span class="process-icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span><h3><span class="process-no">6</span> Ausbau</h3><p>Bei erfolgreicher Zusammenarbeit weitere geeignete Einheiten prüfen.</p></li>
         </ol>
 
-        <!-- Verantwortungsmatrix -->
-        <div class="matrix-block" id="vereinbarungen" aria-labelledby="matrix-title">
+        <!-- Mietvertrag -->
+        <div class="contract-block" id="vereinbarungen" aria-labelledby="matrix-title">
           <div class="section-head">
-            <p class="eyebrow">Transparenz und Risikomanagement</p>
-            <h2 id="matrix-title" class="h2-sm">Klare Vereinbarungen schaffen Sicherheit.</h2>
-            <p>Diese Themen werden vor Beginn der Zusammenarbeit ausdrücklich geregelt – abgestimmt auf das jeweilige Objekt.</p>
+            <p class="eyebrow">Der Mietvertrag</p>
+            <h2 id="matrix-title" class="h2-sm">Alles Wesentliche steht schwarz auf weiß.</h2>
+            <p>Diese Punkte werden vor Beginn der Zusammenarbeit schriftlich im Mietvertrag festgehalten und sind verbindlich.</p>
           </div>
-          <div class="table-wrap">
-            <table class="matrix">
-              <caption class="sr-only">Themen, die vor Beginn der Zusammenarbeit vertraglich geregelt werden</caption>
-              <thead>
-                <tr><th scope="col">Thema</th><th scope="col">Was vorab geklärt wird</th><th scope="col">Regelung</th></tr>
-              </thead>
-              <tbody>
-                <tr><th scope="row">Mietzahlung</th><td data-label="Was vorab geklärt wird">Miethöhe, Fälligkeit, Zahlungsmodalitäten</td><td data-label="Regelung"><span class="tag">Im Mietvertrag festgelegt</span></td></tr>
-                <tr><th scope="row">Auswahl und Betreuung der Endmieter</th><td data-label="Was vorab geklärt wird">Wer wählt aus, wer betreut, welche Zielgruppen sind vorgesehen</td><td data-label="Regelung"><span class="tag">Im Mietvertrag festgelegt</span></td></tr>
-                <tr><th scope="row">Möblierung und Ausstattung</th><td data-label="Was vorab geklärt wird">Umfang, Kostenübernahme, Verbleib bei Vertragsende</td><td data-label="Regelung"><span class="tag">Vorab vereinbart</span></td></tr>
-                <tr><th scope="row">Instandhaltung</th><td data-label="Was vorab geklärt wird">Umfang der Maßnahmen und Verantwortlichkeit</td><td data-label="Regelung"><span class="tag">Vorab vereinbart</span></td></tr>
-                <tr><th scope="row">Reparaturen</th><td data-label="Was vorab geklärt wird">Zuständigkeit, Kostenverteilung, Abstimmungsprozess</td><td data-label="Regelung"><span class="tag">Vorab vereinbart</span></td></tr>
-                <tr><th scope="row">Schäden</th><td data-label="Was vorab geklärt wird">Meldung, Beseitigung, Haftung und Kostentragung</td><td data-label="Regelung"><span class="tag">Im Mietvertrag festgelegt</span></td></tr>
-                <tr><th scope="row">Versicherung</th><td data-label="Was vorab geklärt wird">Welche Versicherungen bestehen oder abzuschließen sind</td><td data-label="Regelung"><span class="tag">Vorab vereinbart</span></td></tr>
-                <tr><th scope="row">Genehmigung der Weitervermietung</th><td data-label="Was vorab geklärt wird">Zustimmung des Eigentümers und objektspezifische rechtliche Anforderungen</td><td data-label="Regelung"><span class="tag">Schriftlich zu regeln</span></td></tr>
-                <tr><th scope="row">Zulässige Nutzung</th><td data-label="Was vorab geklärt wird">Wohn- oder Gewerbenutzung, behördliche und baurechtliche Vorgaben</td><td data-label="Regelung"><span class="tag">Objektspezifisch zu prüfen</span></td></tr>
-                <tr><th scope="row">Laufzeit und Kündigung</th><td data-label="Was vorab geklärt wird">Vertragsdauer, Kündigungsfristen, Verlängerung</td><td data-label="Regelung"><span class="tag">Im Mietvertrag festgelegt</span></td></tr>
-              </tbody>
-            </table>
+          <div class="contract">
+            <div class="contract-bar"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg><span>Im Mietvertrag geregelt</span></div>
+            <ul class="clauses">
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-euro"/></svg></span><div><h3>Mietzahlung</h3><p>Höhe, Fälligkeit, Zahlweise</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span><div><h3>Endmieter</h3><p>Auswahl und Betreuung</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-sofa"/></svg></span><div><h3>Möblierung</h3><p>Umfang, Kosten, Verbleib</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg></span><div><h3>Instandhaltung</h3><p>Umfang und Zuständigkeit</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span><div><h3>Reparaturen</h3><p>Zuständigkeit und Kosten</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-flag"/></svg></span><div><h3>Schäden</h3><p>Meldung, Beseitigung, Haftung</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span><div><h3>Versicherung</h3><p>Bestehende und nötige Policen</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span><div><h3>Weitervermietung</h3><p>Zustimmung und Rahmen</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span><div><h3>Nutzung</h3><p>Zulässige Verwendung</p></div></li>
+              <li><span class="clause-icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span><div><h3>Laufzeit &amp; Kündigung</h3><p>Dauer, Fristen, Verlängerung</p></div></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -517,11 +511,10 @@
           </div>
           <address class="contact-card" id="kontaktdaten" tabindex="-1">
             <strong>LIVENTUM REAL ESTATE</strong>
-            <span class="placeholder-flag">Platzhalter – Unternehmensdaten noch einzutragen</span>
             <dl>
-              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Adresse</dt><dd>[wird ergänzt]</dd></div>
-              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Telefon</dt><dd>[wird ergänzt]</dd></div>
-              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>E-Mail</dt><dd>[wird ergänzt]</dd></div>
+              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Adresse</dt><dd>Musterstraße 1, 12345 Musterstadt</dd></div>
+              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>Telefon</dt><dd>030-00000</dd></div>
+              <div><dt><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>E-Mail</dt><dd>info@leventum.de</dd></div>
             </dl>
           </address>
         </div>
@@ -603,6 +596,6 @@
 
   <a class="sticky-cta" href="#kontaktformular" data-cta="sticky">Kooperation besprechen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 
-  <script src="js/main.js?v=bef3310e" defer></script>
+  <script src="js/main.js?v=3294e944" defer></script>
 </body>
 </html>
