@@ -52,7 +52,7 @@ for (const l of await page.locator('.main-nav ul a').all()) {
 check('Header bleibt sticky', (await page.locator('.site-header').evaluate(e => e.getBoundingClientRect().top)) === 0);
 
 // CTAs
-for (const [sel, target] of [['[data-cta=nav]', '#kontaktformular'], ['[data-cta=hero-primary]', '#kontaktformular'], ['[data-cta=hero-secondary]', '#angebot'], ['[data-cta=contact-primary]', '#kontaktformular'], ['[data-cta=contact-secondary]', '#kontaktdaten']]) {
+for (const [sel, target] of [['[data-cta=nav]', '#kontaktformular'], ['[data-cta=hero-primary]', '#kontaktformular'], ['[data-cta=hero-secondary]', '#modell'], ['[data-cta=contact-primary]', '#kontaktformular'], ['[data-cta=contact-secondary]', '#kontaktdaten']]) {
   await page.evaluate(() => window.scrollTo(0, 0));
   const a = page.locator(sel).first();
   const href = await a.getAttribute('href');
@@ -71,7 +71,7 @@ for (const b of typeBtns) { const t = await b.getAttribute('data-type'); await b
 check('„Objekt besprechen“ wählt Immobilientyp vor', preselect && typeBtns.length === 3);
 
 // Abschnitts-Screenshots
-for (const [n, s] of [['02-angebot', '#angebot'], ['03-vorteile', '#vorteile'], ['04-expertise', '#expertise'], ['05-verantwortungsmatrix', '#vereinbarungen']]) { await page.locator(s).scrollIntoViewIfNeeded(); await shot(page, n, s); }
+for (const [n, s] of [['02-modell', '#modell'], ['03-vorteile', '#vorteile'], ['04-expertise', '#expertise'], ['05-verantwortungsmatrix', '#vereinbarungen']]) { await page.locator(s).scrollIntoViewIfNeeded(); await shot(page, n, s); }
 
 // FAQ
 const triggers = page.locator('.acc-trigger');
