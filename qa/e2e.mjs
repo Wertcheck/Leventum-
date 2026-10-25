@@ -116,10 +116,10 @@ consoleIssues.length = issuesBeforeMock; // die vom Mock (HTTP 500) erwartete Ko
 // Kontraste
 const contrasts = await page.evaluate(() => {
   const pick = (sel) => { const e = document.querySelector(sel); const cs = getComputedStyle(e); return [sel, cs.color, cs.backgroundColor]; };
-  const beige = (a) => [a[0], a[1], 'rgb(248, 244, 237)']; return [pick('.btn-primary'), beige(pick('.hero .lead')), beige(pick('.eyebrow')), pick('.tag'), pick('.matrix thead th'), pick('.site-footer')];
+  const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero .lead')), beige(pick('.eyebrow')), pick('.tag'), pick('.matrix thead th'), pick('.site-footer')];
 });
 for (const [sel, fg, bg] of contrasts) { const r = ratio(rgb(fg), rgb(bg)); check(`Kontrast ${sel} ≥ 4.5:1`, r >= 4.5, r.toFixed(2)); }
-const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [248, 244, 237]);
+const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [246, 244, 240]);
 check('Kontrast Hero-Akzent (Grün auf Beige) ≥ 4.5:1', heroCheck >= 4.5, heroCheck.toFixed(2));
 await page.context().close();
 

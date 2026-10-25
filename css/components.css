@@ -15,7 +15,7 @@
 .btn-outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
 .btn-outline-light:hover { background: rgba(255,255,255,.1); border-color: #fff; }
 .btn-soft { background: var(--beige-200); color: var(--navy-800); min-height: 40px; }
-.btn-soft:hover { background: #e6dccb; }
+.btn-soft:hover { background: #cbc4b8; }
 .btn-row { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
 
 /* Karten */
