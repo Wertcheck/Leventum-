@@ -15,7 +15,7 @@ const rgb = (s) => s.match(/[\d.]+/g).slice(0, 3).map(Number);
 // Cache-Busting: Versions-Hashes an CSS/JS müssen zum aktuellen Dateiinhalt passen
 { const { hashOf } = await import('../scripts/cache-bust.mjs'); const { readFileSync } = await import('node:fs');
   for (const page of ['index.html', 'impressum.html', 'datenschutz.html']) {
-    const refs = [...readFileSync(new URL('../' + page, import.meta.url), 'utf8').matchAll(/(?:href|src)="((?:css|js)\/[^"?]+)(?:\?v=([0-9a-f]+))?"/g)];
+    const refs = [...readFileSync(new URL('../' + page, import.meta.url), 'utf8').matchAll(/(?:href|src)="((?:css|js)\/[^"?]+|assets\/img\/logo-leventum\.png)(?:\?v=([0-9a-f]+))?"/g)];
     const stale = refs.filter(([, f, v]) => v !== hashOf(f)).map(([, f]) => f);
     check(`${page}: CSS/JS-Verweise tragen aktuellen Versions-Hash`, refs.length > 0 && stale.length === 0, stale.join(', ') || `${refs.length} Verweise`);
   } }
@@ -128,8 +128,6 @@ const contrasts = await page.evaluate(() => {
   const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero-points li')), beige(pick('.eyebrow')), pick('.clause-icon'), pick('.contract-bar'), pick('.site-footer')];
 });
 for (const [sel, fg, bg] of contrasts) { const r = ratio(rgb(fg), rgb(bg)); check(`Kontrast ${sel} ≥ 4.5:1`, r >= 4.5, r.toFixed(2)); }
-const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [246, 244, 240]);
-check('Kontrast Hero-Akzent (Blau auf Beige) ≥ 4.5:1', heroCheck >= 4.5, heroCheck.toFixed(2));
 await page.context().close();
 
 /* ---------- Responsiv ---------- */

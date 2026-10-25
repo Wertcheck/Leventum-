@@ -30,7 +30,7 @@
 .card p { color: var(--grey-700); font-size: 0.97rem; }
 .card-icon {
   width: 44px; height: 44px; border-radius: var(--radius-sm); flex: none;
-  display: grid; place-items: center; background: var(--tint); color: var(--navy-800);
+  display: grid; place-items: center; background: var(--sand); color: var(--navy-800);
 }
 .card-icon .icon { width: 24px; height: 24px; }
 
@@ -43,7 +43,7 @@
 }
 .dot-list { display: grid; gap: 0.4rem; }
 .dot-list li { position: relative; padding-left: 1.1rem; font-size: 0.95rem; color: var(--grey-700); }
-.dot-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--navy-800); }
+.dot-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 7px; height: 7px; border-radius: 50%; background: var(--sand); }
 
 .eyebrow { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-700); margin-bottom: 0.75rem; }
 
