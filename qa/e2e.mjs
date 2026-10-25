@@ -153,6 +153,11 @@ for (const [w, h, name] of [[1440, 900, 'Desktop'], [1024, 768, 'Tablet quer'], 
   await p.context().close();
 }
 
+{ const pf = await open(1440, 900);
+check('Kein „Rechtlicher Hinweis“-Kasten mehr', (await pf.locator('.legal-note').count()) === 0);
+check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(() => !!document.querySelector('.site-footer .footer-logo img') && document.querySelectorAll('.social-link').length === 3 && [...document.querySelectorAll('.social-link')].every(a => !a.hasAttribute('href'))));
+  check('Logos laden (Header + Footer, mit Transparenz)', (await pf.evaluate(() => scrollTo(0, document.body.scrollHeight)), await pf.waitForTimeout(1200), await pf.evaluate(() => [...document.querySelectorAll('.brand img, .footer-logo img')].every(i => i.complete && i.naturalWidth > 0))));
+  await pf.context().close(); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);

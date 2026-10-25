@@ -21,6 +21,9 @@ Die Seite lässt sich auch auf jedem statischen Hosting ausliefern.
 - Adresse, Telefon, E-Mail (Kontaktkarte in `index.html`, Impressum, Datenschutz)
 - Impressum und Datenschutzerklärung (rechtlich geprüft)
 
+## Social Media
+Die Icons im Footer (`.social-link`) haben bewusst noch keinen Link. Zum Aktivieren `href="https://…"` (und `target="_blank" rel="noopener"`) am jeweiligen `<a>` ergänzen. Nicht benötigte Netzwerke entfernen.
+
 ## Formularversand
 Ohne Backend läuft das Formular im **Demo-Modus** und versendet nichts (klar gekennzeichnet). Versand aktivieren: `data-endpoint="https://…"` am `<form id="contact-form">` setzen. Das Formular sendet JSON per POST (z. B. Formspree oder eigenes Backend); Erfolg wird nur bei HTTP 2xx gemeldet. Datenschutzerklärung entsprechend ergänzen.
 
