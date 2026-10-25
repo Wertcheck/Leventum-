@@ -35,6 +35,7 @@ check('Logo geladen', await page.locator('.brand img').evaluate(i => i.complete 
 check('Hero-Bild geladen, ohne lazy', await page.locator('.hero-figure img').evaluate(i => i.complete && i.naturalWidth > 0 && i.loading !== 'lazy'));
 check('Bilder unterhalb des Hero nutzen lazy loading', await page.evaluate(() => [...document.querySelectorAll('main img')].filter(i => !i.closest('.hero')).every(i => i.loading === 'lazy')));
 check('Alle Bilder haben alt-Text', await page.evaluate(() => [...document.images].every(i => i.alt.trim())));
+check('Hero zeigt Rent-to-Rent mit zwei Mietverträgen',/Rent-to-Rent/i.test(await page.locator('.roles-title').innerText()) && (await page.locator('.role-link:visible').count()) === 2);
 check('Hero-Rollen sichtbar (Eigentümer/LIVENTUM/Endmieter)', (await page.locator('.role:visible').allTextContents()).join(' ').match(/Eigentümer.*LIVENTUM.*Endmieter/s) !== null);
 check('Keine Margen-/Garantie-Aussage im sichtbaren Text', !/marge|rendite|garantiert/i.test(await page.locator('body').innerText()));
 await shot(page, '01-hero');
