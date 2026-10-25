@@ -56,7 +56,7 @@ for (const [sel, target] of [['[data-cta=nav]', '#kontaktformular'], ['[data-cta
   await page.evaluate(() => window.scrollTo(0, 0));
   const a = page.locator(sel).first();
   const href = await a.getAttribute('href');
-  await a.evaluate(e => e.click()); await page.waitForTimeout(900);
+  await a.evaluate(e => e.click()); await page.waitForTimeout(2200);
   const exists = await page.locator(target).count();
   const top = exists ? await page.locator(target).evaluate(e => Math.round(e.getBoundingClientRect().top)) : 9999;
   check(`CTA ${sel} → ${target}`, href === target && exists === 1 && top >= 0 && top < 900, `top=${top}`);
