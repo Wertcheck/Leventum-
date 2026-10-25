@@ -286,9 +286,10 @@
 .crm-points li { font-size: 1.08rem; font-weight: 600; color: var(--navy-800); padding-left: 1.9rem; }
 .crm-points li::before { top: 0.3em; width: 1.15em; height: 1.15em; background: var(--bronze); }
 .crm-figure { margin: 0; min-width: 0; }
-.crm-frame { border: 1px solid var(--sand); border-radius: var(--radius-lg); overflow: hidden; background: #fff; box-shadow: var(--shadow-md); }
-.crm-frame img { width: 100%; height: auto; }
-.crm-figure figcaption { margin-top: 0.75rem; font-size: 0.85rem; color: var(--grey-500); }
+.crm-frame { position: relative; isolation: isolate; }
+.crm-frame img { width: 100%; height: auto; filter: drop-shadow(0 22px 26px rgba(26, 47, 77, 0.22)); }
+.crm-frame::after { content: ""; position: absolute; z-index: -1; left: 6%; right: 6%; bottom: -6px; height: 26px; background: radial-gradient(ellipse at center, rgba(26, 47, 77, 0.28), transparent 70%); filter: blur(5px); }
+.crm-figure figcaption { margin-top: 1.5rem; font-size: 0.85rem; color: var(--grey-500); }
 @media (max-width: 900px) {
   .crm-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .crm-points li { font-size: 1rem; }
