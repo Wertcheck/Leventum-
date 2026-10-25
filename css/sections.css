@@ -434,3 +434,5 @@
   .hero-figure { aspect-ratio: 1600 / 667; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%); -webkit-mask-composite: source-over; mask-composite: add; }
   .hero-figure img { transform: none; object-fit: cover; }
 }
+
+.hero h1 .ln-end { margin-top: 0.15em; }
