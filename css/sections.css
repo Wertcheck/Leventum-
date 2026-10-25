@@ -315,7 +315,7 @@
 .founder-photo { position: relative; margin: 0; aspect-ratio: 4 / 5; border-radius: var(--radius-sm); overflow: hidden; background: var(--beige-200); }
 .founder-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .founder-body { padding: var(--space-2) 0.25rem 0; }
-.founder-body h3 { font-family: var(--font-serif); font-weight: 500; font-size: 1.5rem; }
+.founder-body h3 { font-family: var(--font-sans); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.01em; }
 .founder-role { margin-top: 0.3rem; font-weight: 700; color: var(--navy-800); }
 .founder-sub { color: var(--grey-700); }
 .founder-foot { margin-top: auto; padding: var(--space-2) 0.25rem 0.25rem; }
@@ -348,7 +348,7 @@
 @media (max-width: 640px) {
   .founders-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
   .founder-photo { aspect-ratio: 4 / 5; max-height: 460px; }
-  .founder-body h3 { font-size: 1.4rem; }
+  .founder-body h3 { font-size: 1.3rem; }
   .founder-logos li { height: 36px; }
   .founder-areas li { font-size: 0.9rem; }
 }
@@ -406,3 +406,5 @@
   #contact-form .field-check label { font-size: 0.82rem; line-height: 1.35; }
   #contact-form .btn-lg { min-height: 46px; }
 }
+
+.model-head h2 .ln-block { display: block; }
