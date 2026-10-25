@@ -148,7 +148,7 @@
   var rot = document.querySelector('[data-rotator]');
   if (rot) {
     var items = Array.prototype.slice.call(rot.children);
-    var current = 0, timer = null, INTERVAL = 2800;
+    var current = 0, timer = null, INTERVAL = 3000;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var show = function (i) {
       items[current].classList.remove('is-active');

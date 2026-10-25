@@ -276,9 +276,9 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
     const ph = await open(w, h);
     const sample = () => ph.evaluate(() => ({ act: [...document.querySelectorAll('.rot-item')].findIndex(e => e.classList.contains('is-active')), hH: Math.round(document.querySelector('.hero h1').getBoundingClientRect().height), btnTop: Math.round(document.querySelector('.hero .btn-row').getBoundingClientRect().top + scrollY), over: document.documentElement.scrollWidth - innerWidth }));
     const seen = [await sample()];
-    for (let i = 0; i < 6; i++) { await ph.waitForTimeout(2900); seen.push(await sample()); }
+    for (let i = 0; i < 6; i++) { await ph.waitForTimeout(3100); seen.push(await sample()); }
     const acts = new Set(seen.map(s => s.act));
-    check(`Hero-Wechsel ${n}: alle 5 Aussagen kommen vor, „Leerstand vermeiden.“ bleibt`, acts.size === 5 && /Leerstand vermeiden\./.test(await ph.locator('.hero h1 .ln').first().innerText()), [...acts].join(','));
+    check(`Hero-Wechsel ${n}: alle 5 Varianten kommen vor, „mit Leventum.“ bleibt fest`, acts.size === 5 && (await ph.locator('.hero h1 .ln').last().innerText()).trim() === 'mit Leventum.' && (await ph.locator('.hero h1 .rot-item.is-active .l1').innerText()) === 'Leerstand vermeiden.', [...acts].join(','));
     check(`Hero-Wechsel ${n}: Höhe der Überschrift und Position der Buttons bleiben konstant`, new Set(seen.map(s => s.hH)).size === 1 && new Set(seen.map(s => s.btnTop)).size === 1 && seen.every(s => s.over <= 0), JSON.stringify([...new Set(seen.map(s => s.hH))]));
     check(`Hero-Wechsel ${n}: genau eine Aussage sichtbar für Screenreader`, await ph.evaluate(() => document.querySelectorAll('.rot-item:not([aria-hidden="true"])').length === 1));
     if (n === 'Desktop') {

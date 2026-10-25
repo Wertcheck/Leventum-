@@ -419,3 +419,7 @@
 }
 
 .hero-copy { min-width: 0; }
+
+/* Hero-Überschrift: Zeilen 1 und 2 wechseln gemeinsam, Zeile 3 bleibt */
+.rot-item .l1, .rot-item .l2 { display: block; }
+.rot-item .l2 { margin-top: 0.15em; color: var(--taupe); }
