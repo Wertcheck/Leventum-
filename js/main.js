@@ -36,6 +36,16 @@
     setTimeout(function () { target.focus({ preventScroll: true }); }, 0);
   });
 
+  /* ---------- Scroll-Fortschritt ---------- */
+  var ticking = false;
+  function progress() {
+    var max = document.documentElement.scrollHeight - innerHeight;
+    header.style.setProperty('--progress', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+    ticking = false;
+  }
+  addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
+  progress();
+
   /* ---------- Aktiver Navigationspunkt ---------- */
   var links = Array.prototype.slice.call(nav.querySelectorAll('ul a'));
   var map = {};
@@ -58,11 +68,10 @@
   /* ---------- FAQ-Accordion ---------- */
   document.querySelectorAll('[data-accordion] .acc-trigger').forEach(function (btn) {
     var panel = document.getElementById(btn.getAttribute('aria-controls'));
-    panel.hidden = true;
     btn.addEventListener('click', function () {
       var open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
-      panel.hidden = open;
+      panel.classList.toggle('is-open', !open);
     });
   });
 

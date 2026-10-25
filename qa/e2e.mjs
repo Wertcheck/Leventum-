@@ -21,6 +21,7 @@ async function open(width, height) {
   page.on('pageerror', e => consoleIssues.push('pageerror: ' + e.message));
   page.on('requestfailed', r => consoleIssues.push('requestfailed: ' + r.url()));
   await page.goto(BASE + '/');
+  await page.waitForTimeout(1800); // Einstiegsanimation abwarten
   return page;
 }
 const shot = (page, name, sel) => sel ? page.locator(sel).screenshot({ path: `${SHOTS}${name}.png` }) : page.screenshot({ path: `${SHOTS}${name}.png` });
@@ -74,12 +75,12 @@ for (const [n, s] of [['02-angebot', '#angebot'], ['03-vorteile', '#vorteile'], 
 // FAQ
 const triggers = page.locator('.acc-trigger');
 check('FAQ hat 10 Fragen', (await triggers.count()) === 10);
-check('FAQ initial geschlossen', await page.evaluate(() => [...document.querySelectorAll('.acc-trigger')].every(b => b.getAttribute('aria-expanded') === 'false' && document.getElementById(b.getAttribute('aria-controls')).hidden)));
+check('FAQ initial geschlossen', await page.evaluate(() => [...document.querySelectorAll('.acc-trigger')].every(b => b.getAttribute('aria-expanded') === 'false' && getComputedStyle(document.getElementById(b.getAttribute('aria-controls'))).visibility === 'hidden')));
 await triggers.first().click();
-check('FAQ öffnet per Klick', (await triggers.first().getAttribute('aria-expanded')) === 'true' && await page.locator('#faq-p1').isVisible());
-await triggers.nth(1).focus(); await page.keyboard.press('Enter');
+check('FAQ öffnet per Klick', (await triggers.first().getAttribute('aria-expanded')) === 'true' && await page.waitForTimeout(500) === undefined && await page.locator('#faq-p1').isVisible());
+await triggers.nth(1).focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(500);
 check('FAQ öffnet per Tastatur (Enter)', await page.locator('#faq-p2').isVisible());
-await page.keyboard.press('Enter');
+await page.keyboard.press('Enter'); await page.waitForTimeout(600);
 check('FAQ schließt wieder', !(await page.locator('#faq-p2').isVisible()));
 await page.locator('#faq').scrollIntoViewIfNeeded(); await shot(page, '06-faq', '#faq');
 
@@ -151,6 +152,15 @@ for (const [w, h, name] of [[1440, 900, 'Desktop'], [1024, 768, 'Tablet quer'], 
   await p.context().close();
 }
 
+// Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
+{ const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
+  const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);
+  check('Schriftpaar Fraunces (Display) + Manrope (Body) geladen', f[0] && f[1] && f[2].includes('Fraunces') && f[3].includes('Manrope') && !/inter|roboto/i.test(f[2] + f[3]), f.slice(2).join(' | '));
+  check('Scroll-Fortschrittsbalken reagiert', await (async () => { await p2.evaluate(() => scrollTo(0, document.body.scrollHeight)); await p2.waitForTimeout(300); return parseFloat(await p2.evaluate(() => getComputedStyle(document.querySelector('.site-header')).getPropertyValue('--progress'))) > 0.9; })());
+  await p2.context().close();
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const p3 = await ctx.newPage(); await p3.goto(BASE + '/');
+  check('prefers-reduced-motion: keine Hero-Animation', await p3.evaluate(() => getComputedStyle(document.querySelector('.hero-figure img')).animationName === 'none'));
+  await ctx.close(); }
 // Gesamtseite
 page = await open(1440, 900);
 await page.screenshot({ path: `${SHOTS}00-gesamtseite.png`, fullPage: true });

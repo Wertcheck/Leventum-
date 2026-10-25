@@ -28,3 +28,8 @@ Ohne Backend läuft das Formular im **Demo-Modus** und versendet nichts (klar ge
 ## Vor Veröffentlichung bestätigen
 - Schreibweise der Marke: Logo zeigt „LEVENTUM“, Texte verwenden „LIVENTUM“
 - Aussagen zu handwerklicher Erfahrung (keine Qualifikationen behauptet), Start mit einer Wohnung, Sicherheiten (Kaution/Bürgschaft) und Weitervermietung durch Rechtsberatung prüfen lassen
+
+## Gestaltungsrichtlinien (10K-Checklist)
+- **Schriften:** Fraunces (Display) + Manrope (Body), selbst gehostet unter `assets/fonts/` (SIL OFL, Lizenztexte liegen bei). Kein CDN.
+- **Farben:** Markenblau `#27446c`, CI-Grau `#d8d2c8`, Weiß plus Grautöne – keine weitere Akzentfarbe (Grün entfernt). Zentral in `css/tokens.css`.
+- **Bewegung:** ruhiger Hero-Einstieg, Hover-Mikrointeraktionen, animiertes FAQ, dünner Scroll-Fortschritt im Header. Kein Fade-up-Scrollreveal; alles entfällt bei `prefers-reduced-motion`.

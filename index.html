@@ -13,6 +13,8 @@
   <meta property="og:description" content="Leerstand vermeiden. Planbare Mieteinnahmen durch einen gewerblichen Mietpartner mit individuellen Sondervermietungskonzepten.">
   <meta property="og:image" content="assets/img/logo-liventum.png">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -57,6 +59,7 @@
   </svg>
 
   <header class="site-header" id="top">
+    <div class="scroll-progress" aria-hidden="true"></div>
     <div class="container header-inner">
       <a class="brand" href="#ueberblick" aria-label="LIVENTUM REAL ESTATE – zum Seitenanfang">
         <img src="assets/img/logo-liventum.png" width="900" height="347" alt="LIVENTUM REAL ESTATE">
@@ -425,43 +428,43 @@
         <div class="accordion" data-accordion>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p1" id="faq-b1">Welche Immobilien mietet LIVENTUM an?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p1" role="region" aria-labelledby="faq-b1"><p>LIVENTUM prüft geeignete Wohnungen, Gewerbeeinheiten und Mehrfamilienhäuser. Ob ein Objekt infrage kommt, hängt unter anderem von Lage, Zustand, Zuschnitt und zulässiger Nutzung ab und wird im Einzelfall gemeinsam geprüft.</p></div>
+            <div class="acc-panel" id="faq-p1" role="region" aria-labelledby="faq-b1"><div class="acc-inner"><p>LIVENTUM prüft geeignete Wohnungen, Gewerbeeinheiten und Mehrfamilienhäuser. Ob ein Objekt infrage kommt, hängt unter anderem von Lage, Zustand, Zuschnitt und zulässiger Nutzung ab und wird im Einzelfall gemeinsam geprüft.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p2" id="faq-b2">Wie wird die Miethöhe vereinbart?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p2" role="region" aria-labelledby="faq-b2"><p>Die Miethöhe wird individuell verhandelt und im Mietvertrag festgehalten. Grundlage sind das Objekt, das vorgesehene Nutzungskonzept und die gemeinsam durchgeführte Wirtschaftlichkeitsprüfung. Pauschale Konditionen gibt es nicht.</p></div>
+            <div class="acc-panel" id="faq-p2" role="region" aria-labelledby="faq-b2"><div class="acc-inner"><p>Die Miethöhe wird individuell verhandelt und im Mietvertrag festgehalten. Grundlage sind das Objekt, das vorgesehene Nutzungskonzept und die gemeinsam durchgeführte Wirtschaftlichkeitsprüfung. Pauschale Konditionen gibt es nicht.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p3" id="faq-b3">Welche Sondervermietungskonzepte sind möglich?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p3" role="region" aria-labelledby="faq-b3"><p>Denkbar sind zum Beispiel möbliertes Wohnen, temporäres Wohnen für beruflich bedingt zeitweise in einer Stadt lebende Personen oder Projektunterkünfte sowie weitere Wohn- oder Gewerbekonzepte. Die rechtliche Zulässigkeit muss objektspezifisch geprüft werden.</p></div>
+            <div class="acc-panel" id="faq-p3" role="region" aria-labelledby="faq-b3"><div class="acc-inner"><p>Denkbar sind zum Beispiel möbliertes Wohnen, temporäres Wohnen für beruflich bedingt zeitweise in einer Stadt lebende Personen oder Projektunterkünfte sowie weitere Wohn- oder Gewerbekonzepte. Die rechtliche Zulässigkeit muss objektspezifisch geprüft werden.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p4" id="faq-b4">Wer übernimmt die Möblierung?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p4" role="region" aria-labelledby="faq-b4"><p>Auf Wunsch organisiert LIVENTUM Ausstattung und Möblierung im vertraglich vereinbarten Umfang. Wer welche Kosten trägt und was bei Vertragsende mit der Ausstattung geschieht, wird vorab festgelegt.</p></div>
+            <div class="acc-panel" id="faq-p4" role="region" aria-labelledby="faq-b4"><div class="acc-inner"><p>Auf Wunsch organisiert LIVENTUM Ausstattung und Möblierung im vertraglich vereinbarten Umfang. Wer welche Kosten trägt und was bei Vertragsende mit der Ausstattung geschieht, wird vorab festgelegt.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p5" id="faq-b5">Wer ist für Instandhaltung und Reparaturen zuständig?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p5" role="region" aria-labelledby="faq-b5"><p>Das richtet sich nach der Vereinbarung. LIVENTUM kann praktische Expertise einbringen und vereinbarte Maßnahmen ausführen oder koordinieren. Umfang, Zuständigkeit und Kostenverteilung werden vor Beginn der Zusammenarbeit individuell geregelt.</p></div>
+            <div class="acc-panel" id="faq-p5" role="region" aria-labelledby="faq-b5"><div class="acc-inner"><p>Das richtet sich nach der Vereinbarung. LIVENTUM kann praktische Expertise einbringen und vereinbarte Maßnahmen ausführen oder koordinieren. Umfang, Zuständigkeit und Kostenverteilung werden vor Beginn der Zusammenarbeit individuell geregelt.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p6" id="faq-b6">Wie wird die Weitervermietung vertraglich geregelt?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p6" role="region" aria-labelledby="faq-b6"><p>Zulässigkeit, Zielgruppen und der Rahmen der Weitervermietung werden im Mietvertrag ausdrücklich geregelt. Ob eine Weitervermietung zulässig ist, hängt zusätzlich von Objekt, Nutzung und öffentlich-rechtlichen Vorgaben ab; eine Zustimmung des Eigentümers ersetzt diese nicht. Wir empfehlen eine rechtliche Prüfung.</p></div>
+            <div class="acc-panel" id="faq-p6" role="region" aria-labelledby="faq-b6"><div class="acc-inner"><p>Zulässigkeit, Zielgruppen und der Rahmen der Weitervermietung werden im Mietvertrag ausdrücklich geregelt. Ob eine Weitervermietung zulässig ist, hängt zusätzlich von Objekt, Nutzung und öffentlich-rechtlichen Vorgaben ab; eine Zustimmung des Eigentümers ersetzt diese nicht. Wir empfehlen eine rechtliche Prüfung.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p7" id="faq-b7">Welche Sicherheiten können vereinbart werden?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p7" role="region" aria-labelledby="faq-b7"><p>Je nach Objekt und Verhandlung kommen etwa Kaution, Bürgschaft oder andere individuell vereinbarte Sicherheiten in Betracht. Welche Sicherheit sinnvoll und wirksam ausgestaltet werden kann, sollte vorab anwaltlich geprüft werden. Eine absolute Zahlungsgarantie lässt sich daraus nicht ableiten.</p></div>
+            <div class="acc-panel" id="faq-p7" role="region" aria-labelledby="faq-b7"><div class="acc-inner"><p>Je nach Objekt und Verhandlung kommen etwa Kaution, Bürgschaft oder andere individuell vereinbarte Sicherheiten in Betracht. Welche Sicherheit sinnvoll und wirksam ausgestaltet werden kann, sollte vorab anwaltlich geprüft werden. Eine absolute Zahlungsgarantie lässt sich daraus nicht ableiten.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p8" id="faq-b8">Wie läuft ein erstes Kooperationsgespräch ab?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p8" role="region" aria-labelledby="faq-b8"><p>Im unverbindlichen Erstgespräch lernen wir Ihren Bedarf, Ihren Immobilienbestand und Ihre Ziele kennen. Anschließend prüfen wir gemeinsam, ob und welche Objekte für eine Zusammenarbeit infrage kommen.</p></div>
+            <div class="acc-panel" id="faq-p8" role="region" aria-labelledby="faq-b8"><div class="acc-inner"><p>Im unverbindlichen Erstgespräch lernen wir Ihren Bedarf, Ihren Immobilienbestand und Ihre Ziele kennen. Anschließend prüfen wir gemeinsam, ob und welche Objekte für eine Zusammenarbeit infrage kommen.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p9" id="faq-b9">Ist ein Start mit nur einer Wohnung möglich?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p9" role="region" aria-labelledby="faq-b9"><p>Ja, grundsätzlich kann die Zusammenarbeit mit einer einzelnen geeigneten Wohnung beginnen. Ob das im Einzelfall sinnvoll ist, klären wir im Gespräch.</p></div>
+            <div class="acc-panel" id="faq-p9" role="region" aria-labelledby="faq-b9"><div class="acc-inner"><p>Ja, grundsätzlich kann die Zusammenarbeit mit einer einzelnen geeigneten Wohnung beginnen. Ob das im Einzelfall sinnvoll ist, klären wir im Gespräch.</p></div></div>
           </div>
           <div class="acc-item">
             <h3><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="faq-p10" id="faq-b10">Wie kann die Zusammenarbeit auf weitere Immobilien ausgeweitet werden?<svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg></button></h3>
-            <div class="acc-panel" id="faq-p10" role="region" aria-labelledby="faq-b10"><p>Nach einem erfolgreichen Einstieg können weitere geeignete Einheiten oder Objekte geprüft und vertraglich ergänzt werden. Jede Erweiterung wird einzeln besprochen und vereinbart.</p></div>
+            <div class="acc-panel" id="faq-p10" role="region" aria-labelledby="faq-b10"><div class="acc-inner"><p>Nach einem erfolgreichen Einstieg können weitere geeignete Einheiten oder Objekte geprüft und vertraglich ergänzt werden. Jede Erweiterung wird einzeln besprochen und vereinbart.</p></div></div>
           </div>
         </div>
       </div>

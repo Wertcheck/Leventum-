@@ -60,8 +60,12 @@
 .acc-trigger:hover { color: var(--navy-800); }
 .acc-trigger .icon { transition: transform .2s; }
 .acc-trigger[aria-expanded="true"] .icon { transform: rotate(180deg); }
-.acc-panel { padding: 0 0.25rem 1.25rem; color: var(--grey-700); max-width: 68ch; }
-.js .acc-panel[hidden] { display: none; }
+.acc-panel { color: var(--grey-700); max-width: 68ch; }
+.acc-inner { padding: 0 0.25rem 1.25rem; }
+.js .acc-panel { display: grid; grid-template-rows: 0fr; visibility: hidden; }
+.js .acc-panel .acc-inner { overflow: hidden; min-height: 0; padding-bottom: 0; }
+.js .acc-panel.is-open { grid-template-rows: 1fr; visibility: visible; }
+.js .acc-panel.is-open .acc-inner { padding-bottom: 1.25rem; }
 
 /* Formular */
 .field { display: grid; gap: 0.35rem; margin-bottom: var(--space-2); }
@@ -89,3 +93,17 @@
 .section-navy .btn-primary:hover { background: #fff; }
 .section-navy .form-card .btn-primary { background: var(--navy-800); color: #fff; }
 .section-navy .form-card .btn-primary:hover { background: var(--navy-900); }
+
+/* Bewegung: leise, nur auf Interaktion; deaktiviert bei prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .btn .icon { transition: transform .25s var(--ease); }
+  .btn:hover .icon { transform: translateX(4px); }
+  .card, .type-card, .role, .process li { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .card:hover, .type-card:hover, .process li:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .js .acc-panel { transition: grid-template-rows .4s var(--ease), visibility .4s; }
+  .js .acc-panel .acc-inner { transition: padding-bottom .4s var(--ease); }
+  .acc-trigger .icon { transition: transform .35s var(--ease); }
+  .type-card img { transition: transform .8s var(--ease); }
+  .type-card:hover img { transform: scale(1.03); }
+  .type-card { overflow: hidden; }
+}

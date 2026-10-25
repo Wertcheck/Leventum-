@@ -5,7 +5,7 @@
 .main-nav { display: flex; align-items: center; gap: var(--space-3); }
 .main-nav ul { display: flex; gap: 1.25rem; }
 .main-nav ul a { display: block; padding: 0.4rem 0.1rem; font-size: 0.93rem; font-weight: 600; color: var(--navy-800); text-decoration: none; border-bottom: 2px solid transparent; }
-.main-nav ul a:hover { border-color: var(--grey-300); }
+.main-nav ul a:hover { border-color: var(--sand); }
 .main-nav ul a[aria-current="true"] { border-color: var(--navy-800); color: var(--navy-800); }
 .nav-toggle { display: none; width: 44px; height: 44px; border: 1px solid var(--grey-300); border-radius: var(--radius-sm); background: #fff; color: var(--navy-800); cursor: pointer; place-items: center; }
 .nav-toggle .icon { width: 24px; height: 24px; }
@@ -163,3 +163,22 @@
   .matrix tbody tr { border-bottom: 1px solid var(--grey-100); padding: 0.4rem 0; }
 }
 @media (max-width: 480px) { .process { grid-template-columns: 1fr; } }
+
+/* Scroll-Fortschritt */
+.scroll-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--navy-800); transform-origin: 0 50%; transform: scaleX(var(--progress, 0)); }
+
+/* Bewegung: einmaliger, ruhiger Einstieg des Hero; deaktiviert bei prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-figure img { animation: settle 1.6s var(--ease) both; }
+  .hero-copy > * { animation: rise .8s var(--ease) both; }
+  .hero-copy > :nth-child(2) { animation-delay: .08s; }
+  .hero-copy > :nth-child(3) { animation-delay: .16s; }
+  .hero-copy > :nth-child(4) { animation-delay: .24s; }
+  .roles .role { animation: rise .8s var(--ease) both; }
+  .roles .role:nth-child(1) { animation-delay: .35s; }
+  .roles .role:nth-child(2) { animation-delay: .45s; }
+  .roles .role:nth-child(3) { animation-delay: .55s; }
+  .main-nav ul a { transition: border-color .25s var(--ease), color .25s var(--ease); }
+}
+@keyframes settle { from { transform: scale(1.05); } to { transform: scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
