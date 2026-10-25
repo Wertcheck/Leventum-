@@ -51,3 +51,8 @@ Testen nach dem Deployment:
 3. LinkedIn: Post Inspector (linkedin.com/post-inspector). X/Twitter: Link in einen Entwurf einfügen.
 4. WhatsApp hat keinen eigenen Debugger und speichert Vorschauen lange zwischen. Nach einer Änderung hilft es, den Link mit einem Zusatz zu teilen, zum Beispiel `https://wertcheck.github.io/Leventum-/?v=2`, oder zuvor den Facebook-Debugger zu nutzen (WhatsApp nutzt ähnliche Daten). Bereits gesendete Nachrichten ändern sich nicht.
 5. Bei einem neuen Bild den Dateinamen ändern (z. B. `og-vorschau-leventum-3.jpg`), damit kein Cache greift.
+
+## Investorenseite
+`investoren.html` ist eine eigenständige Unterseite (Stile in `css/investoren.css`, Vergleichs-Tabs in `js/investoren.js`). Sie ist nur über den Navigationspunkt „Investoren“ der Startseite erreichbar; auf der Startseite gibt es keinen Investorenbereich. Alle Verweise sind relativ und funktionieren daher auch unter dem GitHub-Pages-Pfad `/Leventum-/`. Das Formular nutzt dieselbe Logik wie die Startseite (Demo-Modus ohne Versand, Endpoint siehe „Formularversand“).
+
+Vor einer tatsächlichen Vermarktung fachlich zu klären: Beteiligungen und Joint Venture (Gesellschafts- und Kapitalmarktrecht, Prospekt- und Werbebeschränkungen), Immobilienvermittlung (Erlaubnispflichten), Haftung und Steuerhinweise. Ein fünftes Modell „Vermittlung und Exit“ ist bewusst nicht enthalten, bis die rechtlichen Voraussetzungen geprüft sind.

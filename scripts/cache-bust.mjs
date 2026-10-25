@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const pages = ['index.html', 'impressum.html', 'datenschutz.html'];
+const pages = ['index.html', 'investoren.html', 'impressum.html', 'datenschutz.html'];
 const ref = /((?:href|src)=")((?:css|js)\/[^"?]+|assets\/img\/logo-leventum\.png)(?:\?v=[0-9a-f]+)?(")/g;
 
 export const hashOf = (file) => createHash('sha1').update(readFileSync(root + file)).digest('hex').slice(0, 8);

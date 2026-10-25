@@ -41,7 +41,7 @@
   var py = 0;
   if (motionOK && 'IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-on');
-    var sel = '.model-panel, .ba, .contract, .founder, .vision, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .accordion, .form-card, .contact-card';
+    var sel = '.inv-card, .inv-step, .inv-why, .inv-photo, .cmp-wrap, .model-panel, .ba, .contract, .founder, .vision, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .accordion, .form-card, .contact-card';
     var els = document.querySelectorAll(sel);
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -61,7 +61,7 @@
   }
   var figure = document.querySelector('.hero-figure');
   var sticky = document.querySelector('.sticky-cta');
-  var heroBtns = document.querySelector('.hero .btn-row');
+  var heroBtns = document.querySelector('.hero .btn-row, .inv-hero .btn-row');
   var contactSec = document.getElementById('kontakt');
   function frame() {
     if (motionOK && figure) figure.style.setProperty('--py', Math.min(scrollY, 700) * 0.07 + 'px');
@@ -85,7 +85,7 @@
   progress();
 
   /* ---------- Aktiver Navigationspunkt ---------- */
-  var links = Array.prototype.slice.call(nav.querySelectorAll('ul a'));
+  var links = Array.prototype.slice.call(nav.querySelectorAll('ul a[href^="#"]'));
   var map = {};
   links.forEach(function (l) { map[l.getAttribute('href').slice(1)] = l; });
   // Abschnitte ohne eigenen Menüpunkt werden dem passenden Punkt zugeordnet
@@ -170,8 +170,12 @@
 
   /* ---------- Immobilientyp aus Karten vorauswählen ---------- */
   var typeSelect = document.getElementById('f-type');
+  var modelSelect = document.getElementById('f-model');
+  document.querySelectorAll('a[data-model]').forEach(function (a) {
+    a.addEventListener('click', function () { if (modelSelect) modelSelect.value = a.getAttribute('data-model'); });
+  });
   document.querySelectorAll('a[data-type]').forEach(function (a) {
-    a.addEventListener('click', function () { typeSelect.value = a.getAttribute('data-type'); });
+    a.addEventListener('click', function () { if (typeSelect) typeSelect.value = a.getAttribute('data-type'); });
   });
 
   /* ---------- Kontaktformular ----------
@@ -199,7 +203,7 @@
     status.hidden = false;
   }
 
-  form.addEventListener('submit', function (e) {
+  if (form) form.addEventListener('submit', function (e) {
     e.preventDefault();
     clearErrors();
     status.hidden = true;
@@ -211,7 +215,7 @@
     var mail = el.email.value.trim();
     if (!mail) fail('email', 'Bitte geben Sie Ihre E-Mail-Adresse an.');
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) fail('email', 'Bitte geben Sie eine gültige E-Mail-Adresse an.');
-    if (!el.type.value) fail('type', 'Bitte wählen Sie einen Immobilientyp.');
+    if (el.type && el.type.required && !el.type.value) fail('type', 'Bitte wählen Sie einen Immobilientyp.');
     if (!el.consent.checked) fail('consent', 'Bitte bestätigen Sie die Datenschutzhinweise.');
     if (first) { first.focus(); return; }
 
