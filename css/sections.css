@@ -427,3 +427,10 @@
 .hero h1 { font-size: min(var(--fs-h1), 7.9cqw); }
 .rot-item, .hero h1 .ln > span { white-space: nowrap; }
 @media (max-width: 760px) { .hero h1 { font-size: min(1.72rem, 7.9cqw); } }
+
+/* Hero-Bild bis 1100 px: vollständig (kein Zuschnitt), randlos über die ganze Breite */
+@media (max-width: 1100px) {
+  .hero-visual { margin-inline: -16px; }
+  .hero-figure { aspect-ratio: 1600 / 667; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 74%, transparent 100%); -webkit-mask-composite: source-over; mask-composite: add; }
+  .hero-figure img { transform: none; object-fit: cover; }
+}
