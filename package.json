@@ -1,0 +1,11 @@
+{
+  "name": "liventum-real-estate-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Akquisitionswebsite von LIVENTUM REAL ESTATE (statisch, ohne Abhängigkeiten)",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "qa": "node qa/e2e.mjs"
+  }
+}

@@ -1,0 +1,44 @@
+:root {
+  /* Farben */
+  --navy-900: #0c1f3d;
+  --navy-800: #12294d;
+  --navy-700: #1c3a66;
+  --logo-blue: #28456f;
+  --green-700: #17653f;
+  --green-600: #1c7549;
+  --green-100: #e5f1ea;
+  --beige-100: #f8f4ed;
+  --beige-200: #efe8dc;
+  --white: #ffffff;
+  --grey-900: #1d2430;
+  --grey-700: #444d5c;
+  --grey-500: #6b7380;
+  --grey-300: #d5d9df;
+  --grey-100: #eef0f3;
+
+  /* Typografie */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --fs-300: 0.875rem;
+  --fs-400: 1rem;
+  --fs-500: 1.125rem;
+  --fs-600: 1.25rem;
+  --fs-h3: 1.1875rem;
+  --fs-h2: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --fs-h1: clamp(2rem, 1.3rem + 2.4vw, 3.1rem);
+
+  /* Abstände, Radien, Schatten */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 5rem;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(12, 31, 61, 0.06), 0 2px 8px rgba(12, 31, 61, 0.05);
+  --shadow-md: 0 6px 24px rgba(12, 31, 61, 0.12);
+  --container: 1200px;
+  --header-h: 72px;
+}
