@@ -264,19 +264,20 @@
 @keyframes nudge { 0%, 100% { transform: translateY(-50%) translateX(0) rotate(45deg); } 50% { transform: translateY(-50%) translateX(-5px) rotate(45deg); } }
 
 /* Footer */
-.site-footer { background: var(--navy-900); color: #c3cde0; padding: var(--space-5) 0 var(--space-3); font-size: 0.95rem; }
+.site-footer { background: #fff; color: var(--grey-700); border-top: 1px solid var(--sand); padding: var(--space-5) 0 var(--space-3); font-size: 0.95rem; }
 .footer-inner { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-3) var(--space-4); }
 .footer-logo { display: block; }
 .footer-logo img { height: 64px; width: auto; }
 .footer-nav { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.site-footer a { color: #fff; }
-.footer-nav a { text-underline-offset: 4px; }
+.site-footer a { color: var(--navy-800); }
+.footer-nav a { font-weight: 600; text-decoration-color: var(--sand); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.footer-nav a:hover { text-decoration-color: var(--navy-800); }
 .social { display: flex; gap: 0.6rem; }
-.social-link { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(216, 210, 200, 0.55); color: var(--sand); transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease); }
+.social-link { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--sand); color: var(--navy-800); transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease); }
 .social-link:not([href]) { cursor: default; }
-.social-link[href]:hover { background: var(--sand); color: var(--navy-900); border-color: var(--sand); }
+.social-link[href]:hover { background: var(--navy-800); color: #fff; border-color: var(--navy-800); }
 .social-link .icon { width: 22px; height: 22px; }
-.footer-copy { grid-column: 1 / -1; padding-top: var(--space-3); border-top: 1px solid rgba(216, 210, 200, 0.2); color: #aab6cb; font-size: 0.88rem; }
+.footer-copy { grid-column: 1 / -1; padding-top: var(--space-3); border-top: 1px solid var(--sand); color: var(--grey-500); font-size: 0.88rem; }
 @media (max-width: 900px) {
   .footer-inner { grid-template-columns: 1fr; justify-items: start; }
   .footer-logo img { height: 56px; }
