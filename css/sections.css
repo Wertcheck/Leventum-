@@ -16,10 +16,20 @@
 /* Hero */
 .hero { background: linear-gradient(180deg, var(--beige-100), #fff); padding: var(--space-5) 0 var(--space-5); }
 .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--space-5); align-items: center; }
-.hero .accent { color: var(--navy-700); }
-.hero .lead { font-size: var(--fs-500); color: var(--grey-700); margin-top: var(--space-3); max-width: 56ch; }
+.hero h1 { font-weight: 700; color: var(--navy-900); }
+.hero .accent { display: block; margin-top: 0.15em; color: var(--bronze); font-weight: 400; }
+.hero-points { display: grid; gap: 0.55rem; margin-top: var(--space-3); max-width: 46ch; }
+.hero-points li { position: relative; padding-left: 1.7rem; font-weight: 600; color: var(--navy-800); line-height: 1.4; }
+.hero-points li::before { content: ""; position: absolute; left: 0; top: 0.25em; width: 1.1em; height: 1.1em; background: var(--bronze);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / contain no-repeat; }
+.hero .lead { font-size: var(--fs-500); color: var(--grey-700); margin-top: var(--space-3); max-width: 46ch; }
 .hero-visual { position: relative; padding-bottom: var(--space-2); }
-.hero-figure { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); aspect-ratio: 4 / 3.2; background: var(--beige-200); }
+.hero-figure { margin: 0; aspect-ratio: 4 / 3.2; /* Bild läuft links und unten weich in den Hintergrund aus */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 30%), linear-gradient(to top, transparent 0, #000 22%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 30%), linear-gradient(to top, transparent 0, #000 22%);
+  mask-composite: intersect; }
 .hero-figure img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
 .roles { display: grid; gap: 0.6rem; margin-top: var(--space-2); }
 .role { hyphens: manual; display: flex; gap: 0.8rem; align-items: center; background: #fff; border: 1px solid var(--grey-100); border-radius: var(--radius-md); padding: 0.75rem 0.9rem; box-shadow: var(--shadow-sm); font-size: 0.9rem; color: var(--grey-700); line-height: 1.4; }
@@ -27,7 +37,7 @@
 .role-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); display: grid; place-items: center; background: var(--beige-200); color: var(--navy-800); flex: none; }
 .role-main { border-color: var(--navy-800); }
 .role-main .role-icon { background: var(--navy-800); color: #fff; }
-.roles { grid-template-columns: repeat(3, 1fr); }
+.roles { grid-template-columns: repeat(3, 1fr); margin-top: calc(-1 * var(--space-3)); position: relative; }
 .hero-visual { padding-bottom: 0; }
 
 .trust-strip { border-bottom: 1px solid var(--grey-100); background: #fff; }
@@ -142,6 +152,9 @@
   .main-nav ul a { padding: 0.8rem 0.25rem; font-size: 1.05rem; border-bottom: 1px solid var(--grey-100); }
   .nav-cta { width: 100%; }
 }
+@media (max-width: 1100px) {
+  .hero-figure { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 78%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 78%, transparent 100%); -webkit-mask-composite: source-over; mask-composite: add; aspect-ratio: 16 / 10; }
+}
 @media (max-width: 760px) {
   .section { padding: var(--space-5) 0; }
   .grid-3, .grid-4 { grid-template-columns: 1fr; }
@@ -169,7 +182,7 @@
 
 /* Bewegung: einmaliger, ruhiger Einstieg des Hero; deaktiviert bei prefers-reduced-motion */
 @media (prefers-reduced-motion: no-preference) {
-  .hero-figure img { animation: settle 1.6s var(--ease) both; }
+  .hero-figure img { animation: fadein 1.8s var(--ease) both, settle 2.4s var(--ease) both; }
   .hero-copy > * { animation: rise .8s var(--ease) both; }
   .hero-copy > :nth-child(2) { animation-delay: .08s; }
   .hero-copy > :nth-child(3) { animation-delay: .16s; }
@@ -180,5 +193,6 @@
   .roles .role:nth-child(3) { animation-delay: .55s; }
   .main-nav ul a { transition: border-color .25s var(--ease), color .25s var(--ease); }
 }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
 @keyframes settle { from { transform: scale(1.05); } to { transform: scale(1); } }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
