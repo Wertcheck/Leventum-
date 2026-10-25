@@ -278,7 +278,9 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
     const seen = [await sample()];
     for (let i = 0; i < 6; i++) { await ph.waitForTimeout(3100); seen.push(await sample()); }
     const acts = new Set(seen.map(s => s.act));
-    check(`Hero-Wechsel ${n}: alle 5 Varianten kommen vor, „mit Leventum.“ bleibt fest`, acts.size === 5 && (await ph.locator('.hero h1 .ln').last().innerText()).trim() === 'mit Leventum.' && (await ph.locator('.hero h1 .rot-item.is-active .l1').innerText()) === 'Leerstand vermeiden.', [...acts].join(','));
+    const texts = await ph.evaluate(() => [...document.querySelectorAll('.rot-item')].map(e => [e.querySelector('.l1').textContent, e.querySelector('.l2').textContent]));
+    check(`Hero-Wechsel ${n}: alle 4 Varianten kommen vor, Zeile 1 wechselt, „mit Leventum.“ bleibt fest`, acts.size === 4 && texts.length === 4 && new Set(texts.map(t => t[0])).size === 4 && (await ph.locator('.hero h1 .ln').last().innerText()).trim() === 'mit Leventum.', [...acts].join(','));
+    check(`Hero-Wechsel ${n}: jede Variante höchstens 3 Zeilen (je Zeile einzeilig, nichts abgeschnitten)`, await ph.evaluate(() => { const lh = parseFloat(getComputedStyle(document.querySelector('.hero h1')).lineHeight); const col = document.querySelector('.hero-copy').getBoundingClientRect().width; return [...document.querySelectorAll('.rot-item')].every(it => [...it.children].every(c => { const r = document.createRange(); r.selectNodeContents(c); const b = r.getBoundingClientRect(); return b.height <= lh * 1.05 && b.width <= col - 1; })); }));
     check(`Hero-Wechsel ${n}: Höhe der Überschrift und Position der Buttons bleiben konstant`, new Set(seen.map(s => s.hH)).size === 1 && new Set(seen.map(s => s.btnTop)).size === 1 && seen.every(s => s.over <= 0), JSON.stringify([...new Set(seen.map(s => s.hH))]));
     check(`Hero-Wechsel ${n}: genau eine Aussage sichtbar für Screenreader`, await ph.evaluate(() => document.querySelectorAll('.rot-item:not([aria-hidden="true"])').length === 1));
     if (n === 'Desktop') {

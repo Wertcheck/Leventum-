@@ -423,3 +423,9 @@
 /* Hero-Überschrift: Zeilen 1 und 2 wechseln gemeinsam, Zeile 3 bleibt */
 .rot-item .l1, .rot-item .l2 { display: block; }
 .rot-item .l2 { margin-top: 0.15em; color: var(--taupe); }
+
+/* Hero-Überschrift: Schriftgröße folgt der Spaltenbreite, damit jede Zeile einzeilig bleibt */
+.hero-copy { container-type: inline-size; }
+.hero h1 { font-size: min(var(--fs-h1), 7.9cqw); }
+.rot-item .l1, .rot-item .l2, .hero h1 .ln.accent > span { white-space: nowrap; }
+@media (max-width: 760px) { .hero h1 { font-size: min(1.72rem, 7.9cqw); } }
