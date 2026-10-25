@@ -41,7 +41,7 @@
   var py = 0;
   if (motionOK && 'IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-on');
-    var sel = '.model-panel, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
+    var sel = '.model-panel, .ba, .crm-copy, .crm-figure, .section-head, .card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
     var els = document.querySelectorAll(sel);
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -89,7 +89,7 @@
   var map = {};
   links.forEach(function (l) { map[l.getAttribute('href').slice(1)] = l; });
   // Abschnitte ohne eigenen Menüpunkt werden dem passenden Punkt zugeordnet
-  var alias = { modell: 'ueberblick', verwaltung: 'expertise', vereinbarungen: 'zusammenarbeit', kontakt: null };
+  var alias = { modell: 'ueberblick', 'vorher-nachher': 'expertise', verwaltung: 'expertise', vereinbarungen: 'zusammenarbeit', kontakt: null };
   function setActive(id) {
     var key = id in alias ? alias[id] : id;
     links.forEach(function (l) { l.removeAttribute('aria-current'); });
@@ -112,6 +112,37 @@
       panel.classList.toggle('is-open', !open);
     });
   });
+
+  /* ---------- Vorher/Nachher-Slider ---------- */
+  var ba = document.getElementById('ba');
+  var baRange = document.getElementById('ba-range');
+  if (ba && baRange) {
+    var userMoved = false;
+    var setPos = function (v) {
+      v = Math.max(0, Math.min(100, v));
+      ba.style.setProperty('--pos', v + '%');
+      baRange.setAttribute('aria-valuetext', Math.round(v) + ' Prozent Vorher sichtbar');
+    };
+    baRange.addEventListener('input', function () { userMoved = true; setPos(parseFloat(baRange.value)); });
+    ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) { baRange.addEventListener(ev, function () { userMoved = true; }, { passive: true }); });
+    // Einmaliger, ruhiger Hinweis-Schwenk beim ersten Sichtkontakt
+    if (motionOK && 'IntersectionObserver' in window) {
+      var hint = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        hint.disconnect();
+        var t0 = null, dur = 1800;
+        (function step(t) {
+          if (userMoved) return;
+          if (t0 === null) t0 = t;
+          var p = Math.min(1, (t - t0) / dur);
+          var v = 50 + 14 * Math.sin(p * Math.PI * 2) * (1 - p * 0.3);
+          baRange.value = v; setPos(v);
+          if (p < 1) requestAnimationFrame(step); else { baRange.value = 50; setPos(50); }
+        })(performance.now());
+      }, { threshold: 0.6 });
+      hint.observe(ba);
+    }
+  }
 
   /* ---------- Immobilientyp aus Karten vorauswählen ---------- */
   var typeSelect = document.getElementById('f-type');

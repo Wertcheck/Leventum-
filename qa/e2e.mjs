@@ -174,6 +174,60 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
   check('CRM Mobil: Bullet Points stehen vor dem Mockup', await pmc.evaluate(() => document.querySelector('.crm-points').getBoundingClientRect().bottom <= document.querySelector('.crm-frame').getBoundingClientRect().top + 1));
   await pmc.locator('#verwaltung').screenshot({ path: `${SHOTS}19-crm-mobil.png` });
   await pmc.context().close(); }
+// Vorher/Nachher-Slider
+{ const pb = await open(1440, 900);
+  const order = await pb.evaluate(() => [...document.querySelectorAll('main > section[id]')].map(s => s.id));
+  check('Vorher/Nachher steht nach Expertise und vor den Immobilientypen', order.indexOf('vorher-nachher') > order.indexOf('expertise') && order.indexOf('vorher-nachher') < order.indexOf('immobilientypen'), order.join(' > '));
+  check('Vorher/Nachher: Überschrift und Untertitel', (await pb.locator('#ba-title').innerText()) === 'Vom Leerstand zum Lebensraum.' && (await pb.locator('.ba-section .section-head p:last-child').innerText()).startsWith('Wir machen aus ungenutzten Räumen'));
+  await pb.locator('#ba').scrollIntoViewIfNeeded(); await pb.waitForTimeout(3200); // inkl. Hinweis-Schwenk
+  check('Vorher/Nachher: beide Bilder geladen, gleiche Größe, gleiches Verhältnis', await pb.evaluate(() => { const [a, b] = [...document.querySelectorAll('#ba img')]; const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return a.complete && b.complete && a.naturalWidth > 0 && b.naturalWidth > 0 && Math.abs(ra.width - rb.width) < 1 && Math.abs(ra.height - rb.height) < 1 && Math.abs(ra.width / ra.height - 1.5) < 0.02; }));
+  check('Vorher/Nachher: Labels VORHER und NACHHER', (await pb.locator('.ba-label').allInnerTexts()).map(t => t.toUpperCase()).join('|') === 'NACHHER|VORHER');
+  check('Slider startet bei 50 % (nach Hinweis-Schwenk)', Math.abs(parseFloat(await pb.locator('#ba-range').inputValue()) - 50) < 0.5);
+  check('Slider: Zugänglicher Name und Rolle', (await pb.locator('#ba-range').getAttribute('aria-label')).includes('Vorher und Nachher') && (await pb.locator('#ba-range').getAttribute('type')) === 'range');
+  const box = await pb.locator('#ba').boundingBox();
+  const posOf = () => pb.evaluate(() => parseFloat(getComputedStyle(document.getElementById('ba')).getPropertyValue('--pos')));
+  const handleX = () => pb.evaluate(() => Math.round(document.querySelector('.ba-knob').getBoundingClientRect().left + 26));
+  await pb.mouse.move(box.x + box.width * 0.5, box.y + box.height / 2); await pb.mouse.down();
+  await pb.mouse.move(box.x + box.width * 0.2, box.y + box.height / 2, { steps: 12 }); await pb.mouse.up();
+  const p20 = await posOf();
+  check('Maus: Ziehen nach links bewegt Trennlinie (~20 %)', Math.abs(p20 - 20) < 4, `pos=${p20.toFixed(1)}`);
+  check('Griff folgt der Trennlinie', Math.abs((await handleX()) - (box.x + box.width * p20 / 100)) < 4);
+  await pb.mouse.click(box.x + box.width * 0.8, box.y + box.height / 2);
+  const p80 = await posOf();
+  check('Maus: Klick auf rechte Seite springt (~80 %)', Math.abs(p80 - 80) < 4, `pos=${p80.toFixed(1)}`);
+  await pb.locator('#ba-range').focus(); const before = await posOf(); await pb.keyboard.press('ArrowLeft'); await pb.keyboard.press('ArrowLeft');
+  const afterKey = await posOf();
+  check('Tastatur: Pfeil links verschiebt die Trennlinie', afterKey < before, `${before.toFixed(1)} → ${afterKey.toFixed(1)}`);
+  await pb.keyboard.press('Home'); check('Tastatur: Home zeigt komplett Nachher (0 %)', (await posOf()) <= 0.1);
+  await pb.keyboard.press('End'); check('Tastatur: End zeigt komplett Vorher (100 %)', (await posOf()) >= 99.9);
+  await pb.keyboard.press('Home'); await pb.keyboard.press('Home');
+  await pb.evaluate(() => { const r = document.getElementById('ba-range'); r.value = 50; r.dispatchEvent(new Event('input', { bubbles: true })); });
+  await pb.waitForTimeout(300);
+  await pb.locator('#ba').screenshot({ path: `${SHOTS}20-vorher-nachher-desktop.png` });
+  await pb.evaluate(() => { const r = document.getElementById('ba-range'); r.value = 25; r.dispatchEvent(new Event('input', { bubbles: true })); });
+  await pb.locator('#ba').screenshot({ path: `${SHOTS}21-vorher-nachher-desktop-25.png` });
+  await pb.context().close();
+
+  // Touch (Mobil)
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const pt = await ctx.newPage(); pt.on('console', m => { if (['error', 'warning'].includes(m.type())) consoleIssues.push(m.text()); });
+  await pt.goto(BASE + '/'); await pt.waitForTimeout(1200);
+  await pt.evaluate(() => document.getElementById('vorher-nachher').scrollIntoView({ behavior: 'instant' })); await pt.waitForTimeout(3300);
+  const tb = await pt.locator('#ba').boundingBox();
+  await pt.touchscreen.tap(tb.x + tb.width * 0.75, tb.y + tb.height / 2); await pt.waitForTimeout(300);
+  const tpos = parseFloat(await pt.evaluate(() => getComputedStyle(document.getElementById('ba')).getPropertyValue('--pos')));
+  check('Touch: Tippen setzt die Trennlinie (~75 %)', Math.abs(tpos - 75) < 6, `pos=${tpos.toFixed(1)}`);
+  check('Mobil: Slider-Griff ≥ 44 px, Bild 4:3, kein Überlauf', await pt.evaluate(() => { const k = document.querySelector('.ba-knob').getBoundingClientRect(), b = document.getElementById('ba').getBoundingClientRect(); return k.width >= 44 && Math.abs(b.width / b.height - 4 / 3) < 0.03 && b.left >= 0 && b.right <= innerWidth && document.documentElement.scrollWidth <= innerWidth; }));
+  await pt.evaluate(() => { const r = document.getElementById('ba-range'); r.value = 50; r.dispatchEvent(new Event('input', { bubbles: true })); });
+  await pt.locator('#vorher-nachher').screenshot({ path: `${SHOTS}22-vorher-nachher-mobil.png` });
+  await ctx.close();
+
+  // Ohne JavaScript: statischer Vergleich
+  const nj = await browser.newContext({ viewport: { width: 1280, height: 800 }, javaScriptEnabled: false });
+  const pn = await nj.newPage(); await pn.goto(BASE + '/'); await pn.locator('#ba').scrollIntoViewIfNeeded(); await pn.waitForTimeout(800);
+  check('Ohne JavaScript: statischer Vergleich (beide Bilder, kein Regler, Labels)', await pn.evaluate(() => { const imgs = [...document.querySelectorAll('#ba img')]; return imgs.every(i => i.complete && i.naturalWidth > 0) && getComputedStyle(document.getElementById('ba-range')).display === 'none' && document.querySelectorAll('.ba-label').length === 2 && getComputedStyle(document.querySelector('.ba-before')).clipPath !== 'none'; }));
+  await pn.locator('#ba').screenshot({ path: `${SHOTS}23-vorher-nachher-ohne-js.png` });
+  await nj.close(); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);

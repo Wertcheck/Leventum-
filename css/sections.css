@@ -294,3 +294,29 @@
   .crm-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .crm-points li { font-size: 1rem; }
 }
+
+/* Vorher / Nachher */
+.container-ba { width: min(100% - 32px, 1040px); }
+.ba-section .section-head { margin-inline: auto; text-align: center; }
+.ba-section .section-head .eyebrow { justify-content: center; }
+.ba { position: relative; aspect-ratio: 3 / 2; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--sand); background: var(--beige-200); box-shadow: var(--shadow-md); user-select: none; -webkit-user-select: none; touch-action: pan-y; }
+.ba-layer { position: absolute; inset: 0; }
+.ba-layer img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; -webkit-user-drag: none; pointer-events: none; }
+.ba-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.ba-label { position: absolute; top: 14px; padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy-900); background: rgba(255, 255, 255, 0.92); box-shadow: var(--shadow-sm); }
+.ba-label-before { left: 14px; }
+.ba-label-after { right: 14px; }
+.ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 0; pointer-events: none; }
+.ba-handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(26, 47, 77, 0.25); }
+.ba-knob { position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--navy-800); border: 2px solid var(--navy-800); box-shadow: var(--shadow-md); }
+.ba-knob .icon { width: 26px; height: 26px; }
+.ba-range { display: none; }
+.js .ba-range { display: block; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 2; touch-action: pan-y; -webkit-appearance: none; appearance: none; }
+.ba-range:focus-visible ~ .ba-handle .ba-knob { outline: 3px solid #1a73e8; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .ba { aspect-ratio: 4 / 3; border-radius: var(--radius-md); }
+  .ba-label { top: 10px; font-size: 0.8rem; }
+  .ba-label-before { left: 10px; }
+  .ba-label-after { right: 10px; }
+  .ba-knob { width: 56px; height: 56px; }
+}
