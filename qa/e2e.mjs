@@ -120,7 +120,7 @@ const contrasts = await page.evaluate(() => {
 });
 for (const [sel, fg, bg] of contrasts) { const r = ratio(rgb(fg), rgb(bg)); check(`Kontrast ${sel} ≥ 4.5:1`, r >= 4.5, r.toFixed(2)); }
 const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [246, 244, 240]);
-check('Kontrast Hero-Akzent (Grün auf Beige) ≥ 4.5:1', heroCheck >= 4.5, heroCheck.toFixed(2));
+check('Kontrast Hero-Akzent (Blau auf Beige) ≥ 4.5:1', heroCheck >= 4.5, heroCheck.toFixed(2));
 await page.context().close();
 
 /* ---------- Responsiv ---------- */
