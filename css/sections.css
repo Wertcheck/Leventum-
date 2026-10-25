@@ -16,7 +16,7 @@
 /* Hero */
 .hero { background: linear-gradient(180deg, var(--beige-100), #fff); padding: var(--space-5) 0 var(--space-5); }
 .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--space-5); align-items: center; }
-.hero h1 { font-weight: 600; color: var(--navy-900); }
+.hero h1 { font-weight: 500; color: var(--navy-900); }
 .hero h1 .ln { display: block; overflow: hidden; padding-bottom: 0.14em; margin-bottom: -0.14em; }
 .hero h1 .ln > span { display: block; }
 .hero .accent { display: block; margin-top: 0.15em; color: var(--bronze); font-weight: inherit; }
@@ -65,7 +65,7 @@
 .service-list p { color: var(--grey-700); margin-top: 0.2rem; }
 
 /* Immobilientypen */
-.type-card { background: #fff; border: 1px solid var(--grey-100); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+.type-card { background: #fff; border: 1px solid var(--sand); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; }
 .type-card img { width: 100%; aspect-ratio: 10 / 7; object-fit: cover; }
 .type-body { padding: var(--space-3); display: flex; flex-direction: column; gap: 0.75rem; flex: 1; align-items: flex-start; }
 .type-body > p { color: var(--grey-700); font-size: 0.95rem; }
@@ -212,10 +212,10 @@
 .model-head { max-width: 40rem; margin-bottom: var(--space-5); }
 .model-head .eyebrow { color: var(--sand); display: flex; align-items: center; gap: 0.7rem; }
 .model-head .eyebrow::before { content: ""; width: 32px; height: 2px; background: var(--sand); }
-.model-head h2 { color: #fff; font-weight: 500; }
+.model-head h2 { color: #fff; }
 .flow { display: grid; grid-template-columns: 1fr minmax(110px, 0.8fr) 1.15fr minmax(110px, 0.8fr) 1fr; align-items: start; }
 .node { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-.node h3 { color: #fff; font-family: var(--font-serif); font-weight: 600; font-size: 1.35rem; }
+.node h3 { color: #fff; font-family: var(--font-serif); font-weight: 500; font-size: 1.35rem; }
 .node p { margin-top: 0.4rem; color: #d3dbe8; font-size: 0.95rem; max-width: 24ch; margin-inline: auto; }
 .node-icon { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; flex: none; color: var(--sand);
   border: 1.5px solid rgba(216, 210, 200, 0.55); background: rgba(255, 255, 255, 0.06); }
@@ -269,4 +269,27 @@
 @media (max-width: 900px) {
   .footer-inner { grid-template-columns: 1fr; justify-items: start; }
   .footer-logo img { height: 56px; }
+}
+
+/* Hero Desktop: Bild bündig zum rechten Rand, links weich ausgeblendet */
+@media (min-width: 1100px) {
+  .hero { padding: 0; overflow: hidden; }
+  .hero-grid { align-items: stretch; gap: var(--space-4); min-height: 560px; }
+  .hero-copy { align-self: center; padding: var(--space-5) 0; }
+  .hero-visual { margin-right: calc((min(100vw - 32px, var(--container)) - 100vw) / 2); }
+  .hero-figure { height: 100%; aspect-ratio: auto; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24%); mask-image: linear-gradient(to right, transparent 0, #000 24%); -webkit-mask-composite: source-over; mask-composite: add; }
+}
+
+/* CRM */
+.crm-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-5); align-items: center; }
+.crm-points { margin-top: var(--space-3); gap: 0.9rem; }
+.crm-points li { font-size: 1.08rem; font-weight: 600; color: var(--navy-800); padding-left: 1.9rem; }
+.crm-points li::before { top: 0.3em; width: 1.15em; height: 1.15em; background: var(--bronze); }
+.crm-figure { margin: 0; min-width: 0; }
+.crm-frame { border: 1px solid var(--sand); border-radius: var(--radius-lg); overflow: hidden; background: #fff; box-shadow: var(--shadow-md); }
+.crm-frame img { width: 100%; height: auto; }
+.crm-figure figcaption { margin-top: 0.75rem; font-size: 0.85rem; color: var(--grey-500); }
+@media (max-width: 900px) {
+  .crm-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .crm-points li { font-size: 1rem; }
 }

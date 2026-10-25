@@ -158,6 +158,22 @@ check('Kein „Rechtlicher Hinweis“-Kasten mehr', (await pf.locator('.legal-no
 check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(() => !!document.querySelector('.site-footer .footer-logo img') && document.querySelectorAll('.social-link').length === 3 && [...document.querySelectorAll('.social-link')].every(a => !a.hasAttribute('href'))));
   check('Logos laden (Header + Footer, mit Transparenz)', (await pf.evaluate(() => scrollTo(0, document.body.scrollHeight)), await pf.waitForTimeout(1200), await pf.evaluate(() => [...document.querySelectorAll('.brand img, .footer-logo img')].every(i => i.complete && i.naturalWidth > 0))));
   await pf.context().close(); }
+{ const pc = await open(1440, 900);
+  const order = await pc.evaluate(() => [...document.querySelectorAll('main > section[id]')].map(s => s.id));
+  check('CRM-Sektion steht vor den Immobilientypen und nach Expertise', order.indexOf('verwaltung') > order.indexOf('expertise') && order.indexOf('verwaltung') < order.indexOf('immobilientypen'), order.join(' > '));
+  check('CRM: Überschrift und genau 4 Bullet Points', (await pc.locator('#crm-title').innerText()) === 'Immobilienverwaltung. Klar organisiert.' && (await pc.locator('.crm-points li').count()) === 4);
+  await pc.locator('#verwaltung').scrollIntoViewIfNeeded(); await pc.waitForTimeout(1500);
+  check('CRM: Mockup geladen, als Beispielansicht gekennzeichnet', await pc.evaluate(() => { const i = document.querySelector('.crm-frame img'); return i.complete && i.naturalWidth > 0 && /Mockup/.test(document.querySelector('.crm-figure figcaption').textContent); }));
+  check('CRM Desktop: Text und Dashboard nebeneinander', await pc.evaluate(() => { const a = document.querySelector('.crm-copy').getBoundingClientRect(), b = document.querySelector('.crm-figure').getBoundingClientRect(); return a.right <= b.left + 1 && Math.abs(a.top - b.top) < 200; }));
+  await pc.locator('#verwaltung').screenshot({ path: `${SHOTS}18-crm-desktop.png` });
+  const hb = await pc.evaluate(() => { const f = document.querySelector('.hero-figure').getBoundingClientRect(); return { right: f.right, w: innerWidth, h: document.querySelector('.hero-figure').getBoundingClientRect().height }; });
+  check('Hero Desktop: Bild bündig zum rechten Rand', Math.abs(hb.right - hb.w) <= 16, `right=${Math.round(hb.right)} / ${hb.w}`);
+  await pc.context().close();
+  const pmc = await open(390, 844);
+  await pmc.locator('#verwaltung').scrollIntoViewIfNeeded(); await pmc.waitForTimeout(1500);
+  check('CRM Mobil: Bullet Points stehen vor dem Mockup', await pmc.evaluate(() => document.querySelector('.crm-points').getBoundingClientRect().bottom <= document.querySelector('.crm-frame').getBoundingClientRect().top + 1));
+  await pmc.locator('#verwaltung').screenshot({ path: `${SHOTS}19-crm-mobil.png` });
+  await pmc.context().close(); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);
