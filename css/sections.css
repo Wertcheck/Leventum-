@@ -442,3 +442,13 @@
 .model-head h2 { font-size: min(var(--fs-h2), 7.3cqw); }
 .model-head h2 .ln-block { white-space: nowrap; }
 @media (max-width: 900px) { .model-head h2 { font-size: min(1.55rem, 7.3cqw); } }
+
+/* Hero bis 1100 px: füllt die erste Bildschirmhöhe. Das Foto bleibt vollständig; darunter läuft es unscharf aus. */
+@media (max-width: 1100px) {
+  .hero { min-height: calc(100vh - var(--header-h)); min-height: calc(100svh - var(--header-h)); display: flex; flex-direction: column; }
+  .hero > .hero-grid { flex: 1; grid-template-rows: auto 1fr; }
+  .hero-visual { align-self: stretch; min-height: calc(100vw * 667 / 1600); }
+  .hero-figure { position: absolute; inset: 0; aspect-ratio: auto; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40px, #000 calc(100% - 80px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 40px, #000 calc(100% - 80px), transparent 100%); }
+  .hero-figure::before { content: ""; position: absolute; inset: -24px; background: url("../assets/img/hero-wohnung.jpg") 50% 100% / cover no-repeat; filter: blur(30px) saturate(1.05); opacity: 0.85; }
+  .hero-figure img { position: absolute; top: 0; left: 0; width: 100%; height: auto; aspect-ratio: 1600 / 667; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); }
+}
