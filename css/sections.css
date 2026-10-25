@@ -144,7 +144,7 @@
   .brand img { height: 54px; }
   .form-card { padding: var(--space-3); }
   .trust-list { grid-template-columns: repeat(2, 1fr); }
-  .trust-list li { padding: 0.5rem 0.6rem; font-size: 0.88rem; min-width: 0; hyphens: auto; overflow-wrap: anywhere; }
+  .trust-list li { padding: 0.5rem 0.6rem; font-size: 0.88rem; min-width: 0; hyphens: manual; overflow-wrap: break-word; }
   .trust-list .icon { width: 40px; height: 40px; }
   /* Matrix als gestapelte Karten */
 }
