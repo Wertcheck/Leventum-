@@ -144,6 +144,30 @@
     }
   }
 
+  /* ---------- Hero: zweite Überschriftenzeile wechselt (Fade) ---------- */
+  var rot = document.querySelector('[data-rotator]');
+  if (rot) {
+    var items = Array.prototype.slice.call(rot.children);
+    var current = 0, timer = null, INTERVAL = 2800;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var show = function (i) {
+      items[current].classList.remove('is-active');
+      items[current].setAttribute('aria-hidden', 'true');
+      current = i;
+      items[current].classList.add('is-active');
+      items[current].removeAttribute('aria-hidden');
+    };
+    var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
+    var start = function () {
+      stop();
+      if (reduce.matches || document.hidden || items.length < 2) return;
+      timer = setInterval(function () { show((current + 1) % items.length); }, INTERVAL);
+    };
+    document.addEventListener('visibilitychange', start);
+    if (reduce.addEventListener) reduce.addEventListener('change', function () { if (reduce.matches) show(0); start(); });
+    start();
+  }
+
   /* ---------- Immobilientyp aus Karten vorauswählen ---------- */
   var typeSelect = document.getElementById('f-type');
   document.querySelectorAll('a[data-type]').forEach(function (a) {

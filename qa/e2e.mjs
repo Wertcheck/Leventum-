@@ -271,6 +271,32 @@ check('Footer: Logo und 3 Social-Icons, keine toten Links', await pf.evaluate(()
 { const pv = await open(1440, 900);
 check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zusatz', await pv.evaluate(() => document.querySelectorAll('#vereinbarungen .clauses li').length === 10 && !document.querySelector('#vereinbarungen table') && !/Regelung|Was vorab geklärt wird/.test(document.getElementById('vereinbarungen').innerText)));
   await pv.context().close(); }
+// Hero: wechselnde Überschriftenzeile
+{ for (const [w, h, n] of [[1440, 900, 'Desktop'], [390, 844, 'Mobil'], [320, 640, 'Mobil klein']]) {
+    const ph = await open(w, h);
+    const sample = () => ph.evaluate(() => ({ act: [...document.querySelectorAll('.rot-item')].findIndex(e => e.classList.contains('is-active')), hH: Math.round(document.querySelector('.hero h1').getBoundingClientRect().height), btnTop: Math.round(document.querySelector('.hero .btn-row').getBoundingClientRect().top + scrollY), over: document.documentElement.scrollWidth - innerWidth }));
+    const seen = [await sample()];
+    for (let i = 0; i < 6; i++) { await ph.waitForTimeout(2900); seen.push(await sample()); }
+    const acts = new Set(seen.map(s => s.act));
+    check(`Hero-Wechsel ${n}: alle 5 Aussagen kommen vor, „Leerstand vermeiden.“ bleibt`, acts.size === 5 && /Leerstand vermeiden\./.test(await ph.locator('.hero h1 .ln').first().innerText()), [...acts].join(','));
+    check(`Hero-Wechsel ${n}: Höhe der Überschrift und Position der Buttons bleiben konstant`, new Set(seen.map(s => s.hH)).size === 1 && new Set(seen.map(s => s.btnTop)).size === 1 && seen.every(s => s.over <= 0), JSON.stringify([...new Set(seen.map(s => s.hH))]));
+    check(`Hero-Wechsel ${n}: genau eine Aussage sichtbar für Screenreader`, await ph.evaluate(() => document.querySelectorAll('.rot-item:not([aria-hidden="true"])').length === 1));
+    if (n === 'Desktop') {
+      // Tab unsichtbar: Wechsel pausiert
+      await ph.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }); document.dispatchEvent(new Event('visibilitychange')); });
+      const a1 = (await sample()).act; await ph.waitForTimeout(6200); const a2 = (await sample()).act;
+      check('Hero-Wechsel: pausiert bei verstecktem Tab', a1 === a2, `${a1} → ${a2}`);
+      await ph.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, get: () => false }); document.dispatchEvent(new Event('visibilitychange')); });
+      await ph.waitForTimeout(3300);
+      check('Hero-Wechsel: läuft nach Rückkehr weiter', (await sample()).act !== a2);
+      await ph.screenshot({ path: `${SHOTS}31-hero-wechsel-desktop.png` });
+    }
+    if (n === 'Mobil') await ph.screenshot({ path: `${SHOTS}31-hero-wechsel-mobil.png` });
+    await ph.context().close();
+  }
+  const rctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const pr = await rctx.newPage(); await pr.goto(BASE + '/'); await pr.waitForTimeout(6500);
+  check('Hero-Wechsel: bei reduzierter Bewegung kein Wechsel, erste Aussage bleibt', await pr.evaluate(() => document.querySelector('.rot-item.is-active') === document.querySelector('.rot-item') && getComputedStyle(document.querySelector('.rot-item')).transitionDuration === '0s'));
+  await rctx.close(); }
 // Schriften: Paar aus Fraunces + Manrope tatsächlich geladen, kein Inter/Roboto
 { const p2 = await open(1440, 900); await p2.evaluate(() => document.fonts.ready);
   const f = await p2.evaluate(() => [document.fonts.check('600 20px "Fraunces Variable"'), document.fonts.check('400 16px "Manrope Variable"'), getComputedStyle(document.querySelector('h1')).fontFamily, getComputedStyle(document.body).fontFamily]);
