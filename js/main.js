@@ -36,11 +36,49 @@
     setTimeout(function () { target.focus({ preventScroll: true }); }, 0);
   });
 
+  /* ---------- Bewegung: Reveal, Parallax, Sticky-CTA (nur ohne reduzierte Bewegung) ---------- */
+  var motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  var py = 0;
+  if (motionOK && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-on');
+    var sel = '.section-head, .card, .offer-card, .process li, .type-card, .service-list li, .expertise-figure, .table-wrap, .legal-note, .accordion, .form-card, .contact-card, .matrix-block .section-head';
+    var els = document.querySelectorAll(sel);
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        rio.unobserve(el);
+        el.classList.add('is-in');
+        setTimeout(function () { el.classList.remove('rv'); }, 2000); // danach wieder normale Hover-Transitions
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    els.forEach(function (el) {
+      var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+      el.style.setProperty('--d', Math.min(i, 5) * 80 + 'ms');
+      el.classList.add('rv');
+      rio.observe(el);
+    });
+  }
+  var figure = document.querySelector('.hero-figure');
+  var sticky = document.querySelector('.sticky-cta');
+  var heroBtns = document.querySelector('.hero .btn-row');
+  var contactSec = document.getElementById('kontakt');
+  function frame() {
+    if (motionOK && figure) figure.style.setProperty('--py', Math.min(scrollY, 700) * 0.07 + 'px');
+    if (sticky && heroBtns && contactSec) {
+      var pastHero = heroBtns.getBoundingClientRect().bottom < 0;
+      var inContact = contactSec.getBoundingClientRect().top < innerHeight * 0.85;
+      var menuOpen = nav.classList.contains('is-open');
+      sticky.classList.toggle('is-shown', pastHero && !inContact && !menuOpen);
+    }
+  }
+
   /* ---------- Scroll-Fortschritt ---------- */
   var ticking = false;
   function progress() {
     var max = document.documentElement.scrollHeight - innerHeight;
     header.style.setProperty('--progress', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+    frame();
     ticking = false;
   }
   addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });

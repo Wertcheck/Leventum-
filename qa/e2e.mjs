@@ -24,7 +24,7 @@ async function open(width, height) {
   await page.waitForTimeout(1800); // Einstiegsanimation abwarten
   return page;
 }
-const shot = (page, name, sel) => sel ? page.locator(sel).screenshot({ path: `${SHOTS}${name}.png` }) : page.screenshot({ path: `${SHOTS}${name}.png` });
+const shot = async (page, name, sel) => { await page.waitForTimeout(1300); return sel ? page.locator(sel).screenshot({ path: `${SHOTS}${name}.png` }) : page.screenshot({ path: `${SHOTS}${name}.png` }); };
 
 /* ---------- Desktop ---------- */
 let page = await open(1440, 900);
@@ -117,7 +117,7 @@ consoleIssues.length = issuesBeforeMock; // die vom Mock (HTTP 500) erwartete Ko
 // Kontraste
 const contrasts = await page.evaluate(() => {
   const pick = (sel) => { const e = document.querySelector(sel); const cs = getComputedStyle(e); return [sel, cs.color, cs.backgroundColor]; };
-  const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero .lead')), beige(pick('.eyebrow')), pick('.tag'), pick('.matrix thead th'), pick('.site-footer')];
+  const beige = (a) => [a[0], a[1], 'rgb(246, 244, 240)']; return [pick('.btn-primary'), beige(pick('.hero-points li')), beige(pick('.eyebrow')), pick('.tag'), pick('.matrix thead th'), pick('.site-footer')];
 });
 for (const [sel, fg, bg] of contrasts) { const r = ratio(rgb(fg), rgb(bg)); check(`Kontrast ${sel} ≥ 4.5:1`, r >= 4.5, r.toFixed(2)); }
 const heroCheck = ratio(rgb(await page.locator('.hero .accent').evaluate(e => getComputedStyle(e).color)), [246, 244, 240]);
@@ -161,8 +161,28 @@ for (const [w, h, name] of [[1440, 900, 'Desktop'], [1024, 768, 'Tablet quer'], 
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const p3 = await ctx.newPage(); await p3.goto(BASE + '/');
   check('prefers-reduced-motion: keine Hero-Animation', await p3.evaluate(() => getComputedStyle(document.querySelector('.hero-figure img')).animationName === 'none'));
   await ctx.close(); }
+// Mobiler Hero (Viewport wie ein Handy-Browser mit Leisten): Buttons komplett sichtbar, Bild lugt hervor
+{ const pm = await open(390, 700);
+  const m = await pm.evaluate(() => { const r = s => document.querySelector(s).getBoundingClientRect(); return { b1: r('.hero .btn-primary').bottom, b2: r('.hero .btn-outline').bottom, img: r('.hero-figure').top, imgVisible: Math.min(innerHeight, r('.hero-figure').bottom) - r('.hero-figure').top, logoH: r('.brand img').height, lead: document.querySelectorAll('.hero .lead').length }; });
+  check('Mobil 390x700: beide Hero-Buttons vollständig sichtbar', m.b1 <= 700 && m.b2 <= 700, `bottom=${Math.round(m.b1)}/${Math.round(m.b2)}`);
+  check('Mobil 390x700: Hero-Bild lugt sichtbar hervor (≥ 80px)', m.imgVisible >= 80, `${Math.round(m.imgVisible)}px`);
+  check('Mobil: Logo ≥ 50px hoch, kein Fließtext unter der Headline', m.logoH >= 50 && m.lead === 0, `logo=${Math.round(m.logoH)}px`);
+  await pm.screenshot({ path: `${SHOTS}12-mobil-hero-700.png` });
+  check('Sticky-CTA zu Beginn versteckt', !(await pm.locator('.sticky-cta').isVisible()));
+  await pm.evaluate(() => scrollTo(0, 1200)); await pm.waitForTimeout(700);
+  check('Sticky-CTA erscheint nach dem Hero', await pm.locator('.sticky-cta').isVisible());
+  await pm.screenshot({ path: `${SHOTS}13-mobil-sticky-cta.png` });
+  await pm.evaluate(() => document.getElementById('kontakt').scrollIntoView()); await pm.waitForTimeout(2500);
+  check('Sticky-CTA verschwindet im Kontaktbereich', !(await pm.locator('.sticky-cta').isVisible()));
+  await pm.context().close();
+  const pd = await open(1440, 900);
+  check('Desktop: Sticky-CTA nicht sichtbar', !(await pd.locator('.sticky-cta').isVisible()));
+  const rvLeft = await (async () => { await pd.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } }); await pd.waitForTimeout(2300); return pd.evaluate(() => document.querySelectorAll('.rv:not(.is-in)').length); })();
+  check('Scroll-Reveal: nach Durchscrollen ist alles eingeblendet', rvLeft === 0, `offen=${rvLeft}`);
+  await pd.context().close(); }
 // Gesamtseite
 page = await open(1440, 900);
+await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise(r => setTimeout(r, 150)); } scrollTo(0, 0); }); await page.waitForTimeout(2300);
 await page.screenshot({ path: `${SHOTS}00-gesamtseite.png`, fullPage: true });
 // Rechtsseiten erreichbar
 for (const u of ['impressum.html', 'datenschutz.html']) { const r = await page.goto(`${BASE}/${u}`); check(`${u} erreichbar`, r.status() === 200); }
