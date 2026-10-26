@@ -138,3 +138,61 @@
   .inv-hero .btn-lg { min-height: 48px; }
   .inv-hero-figure img { aspect-ratio: 2 / 1; }
 }
+
+/* ===== Kompakte Modellkarten (Details im gemeinsamen Dialog) ===== */
+.inv-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); }
+.inv-media { aspect-ratio: 4 / 3; }
+.inv-badge { width: 44px; height: 44px; bottom: -22px; left: var(--space-2); }
+.inv-badge .icon { width: 22px; height: 22px; }
+.inv-body { gap: 0.4rem; padding: calc(var(--space-2) + 18px) var(--space-2) var(--space-2); }
+.inv-body > h3 { font-size: 1.25rem; }
+.inv-body > .inv-sub { font-size: 0.93rem; font-weight: 500; line-height: 1.4; }
+.inv-more { margin-top: auto; align-self: stretch; justify-content: center; }
+.inv-body .btn.inv-more { align-self: stretch; }
+.inv-detail section + section { margin-top: var(--space-2); }
+.inv-detail h3 { font-family: var(--font-sans); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--taupe-text, #6c5d4c); margin-bottom: 0.4rem; hyphens: manual; }
+.inv-detail p { color: var(--grey-900); }
+.js .inv-card > .inv-body > .inv-detail { display: none; }
+html:not(.js) .inv-more { display: none; }
+html:not(.js) .inv-card { grid-column: 1 / -1; }
+html:not(.js) .inv-grid { grid-template-columns: minmax(0, 1fr); }
+
+/* ===== Dialog ===== */
+html.modal-open { overflow: hidden; }
+.inv-modal { padding: 0; border: 1px solid var(--sand); border-radius: var(--radius-lg); background: #fff; color: var(--grey-900); width: min(760px, calc(100vw - 32px)); max-width: none; max-height: min(88vh, 860px); max-height: min(88dvh, 860px); margin: auto; box-shadow: 0 24px 80px rgba(18, 41, 77, 0.35); overflow: hidden; }
+.inv-modal[open] { display: flex; }
+.inv-modal::backdrop { background: rgba(18, 41, 77, 0.6); }
+.inv-modal-inner { display: flex; flex-direction: column; width: 100%; min-height: 0; max-height: inherit; }
+.inv-modal-head { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--sand); background: var(--beige-100); }
+.inv-modal-img { width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: 50%; border: 1px solid var(--sand); background: var(--beige-200); }
+.inv-modal-titles { flex: 1; min-width: 0; }
+.inv-modal-titles .eyebrow { margin: 0 0 0.2rem; font-size: 0.72rem; }
+.inv-modal-titles h2 { font-size: clamp(1.25rem, 1rem + 1vw, 1.7rem); line-height: 1.2; }
+.inv-modal-close { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--sand); background: #fff; color: var(--navy-800); cursor: pointer; }
+.inv-modal-close:hover { background: var(--beige-200); }
+.inv-modal-close .icon { width: 22px; height: 22px; }
+.inv-modal-body { padding: var(--space-3); overflow-y: auto; overscroll-behavior: contain; flex: 1 1 auto; min-height: 0; }
+.inv-modal-body .inv-detail { display: block; }
+.inv-modal-foot { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: flex-end; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--sand); background: #fff; }
+@media (prefers-reduced-motion: no-preference) {
+  .inv-modal[open] { animation: modal-in .28s var(--ease) both; }
+  .inv-modal[open]::backdrop { animation: fade-in .28s ease both; }
+}
+@keyframes modal-in { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 1000px) { .inv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .inv-grid { gap: 0.75rem; }
+  .inv-body { padding: calc(0.75rem + 18px) 0.75rem 0.75rem; }
+  .inv-body > h3 { font-size: 1.1rem; }
+  .inv-body > .inv-sub { font-size: 0.88rem; }
+  .inv-modal { width: calc(100vw - 24px); }
+  .inv-modal-head { padding: 0.75rem var(--space-2); gap: 0.75rem; }
+  .inv-modal-img { width: 44px; height: 44px; }
+  .inv-modal-body { padding: var(--space-2); }
+  .inv-modal-foot { padding: 0.75rem var(--space-2); }
+  .inv-modal-foot .btn { flex: 1 1 100%; }
+  .inv-modal-foot .btn-primary { order: -1; }
+}
+@media (max-width: 359px) { .inv-grid { grid-template-columns: minmax(0, 1fr); } }

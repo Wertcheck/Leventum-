@@ -327,16 +327,18 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   await home.context().close();
   const d = await openInv(1440, 900);
   check('investoren.html direkt erreichbar (HTTP 200)', d.status === 200);
-  check('Investoren: 4 Modellkarten mit Bild, Überschrift und Button „Modell besprechen“', await d.p.evaluate(() => { const c = [...document.querySelectorAll('.inv-card')]; return c.length === 4 && c.every(x => x.querySelector('h3') && x.querySelector('.btn')?.textContent.trim().startsWith('Modell besprechen') && x.querySelector('.inv-roles') && x.querySelector('.inv-chips')) && [...document.querySelectorAll('.inv-card img')].every(i => i.loading === 'lazy' && i.alt.length > 10); }));
+  check('Investoren: 4 kompakte Karten (Bild, Name, Kurztext, „Mehr erfahren“), ohne Listen und Rollenangaben im sichtbaren Bereich', await d.p.evaluate(() => { const c = [...document.querySelectorAll('.inv-card')]; const vis = e => e && e.offsetParent !== null; return c.length === 4 && c.every(x => x.querySelector('.inv-media img')?.alt.length > 10 && x.querySelector('h3')?.textContent.trim() && x.querySelector('.inv-sub')?.textContent.trim().length > 10 && x.querySelector('.inv-more')?.textContent.trim().startsWith('Mehr erfahren') && !vis(x.querySelector('.check-list')) && !vis(x.querySelector('.inv-roles')) && !vis(x.querySelector('.inv-chips')) && !vis(x.querySelector('.inv-note'))); }));
+  check('Investoren: Karten deutlich kompakter (≤ 440 px hoch) und Kurztext nicht abgeschnitten', await d.p.evaluate(() => [...document.querySelectorAll('.inv-card')].every(c => c.getBoundingClientRect().height <= 440 && [...c.querySelectorAll('.inv-sub, h3')].every(e => e.scrollHeight <= e.clientHeight + 1))));
+  check('Investoren Desktop: vier Karten in einer Reihe', await d.p.evaluate(() => new Set([...document.querySelectorAll('.inv-card')].map(c => Math.round(c.getBoundingClientRect().top))).size === 1));
   check('Investoren Hero: drei Stichpunkte statt Fließtext', (await d.p.locator('.inv-hero .hero-points li').count()) === 3 && (await d.p.locator('.inv-hero .inv-lead').count()) === 0);
   check('Investoren: Vergleichstabelle 9 Kriterien × 4 Modelle', await d.p.evaluate(() => document.querySelectorAll('.cmp tbody tr').length === 9 && document.querySelectorAll('.cmp thead th[data-m]').length === 4 && [...document.querySelectorAll('.cmp tbody tr')].every(r => r.querySelectorAll('td').length === 4)));
   check('Investoren: vier Schritte und sechs Gründe', (await d.p.locator('.inv-step').count()) === 4 && (await d.p.locator('.inv-why').count()) === 6);
-  const txt = await d.p.locator('main').innerText();
+  const txt = await d.p.evaluate(() => document.querySelector('main').textContent);
   check('Investoren: keine Prozentwerte oder Euro-Beträge (keine erfundenen Renditen, Mindestanlagen)', !/\d\s?%|€|\bEUR\b/.test(txt));
   check('Investoren: keine Garantie-Aussage ohne Verneinung', !/garantiert(e|en)?\s+(rendite|miet|zahlung)/i.test(txt) && /nicht garantiert/i.test(txt) && /keine Anlageberatung/i.test(txt) && /besteht noch nicht/i.test(txt));
   check('Investoren: Hero-Bild geladen, ohne lazy', await d.p.locator('.inv-hero-figure img').evaluate(i => i.complete && i.naturalWidth > 0 && i.loading !== 'lazy'));
   check('Investoren: Logo und Footer wie Startseite', await d.p.evaluate(() => document.querySelector('.brand img').naturalWidth > 0 && !!document.querySelector('.site-footer .footer-logo img') && document.querySelectorAll('.social-link').length === 3));
-  check('Investoren: alle Bilder laden, Alt-Texte vorhanden', await (async () => { await d.p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); } scrollTo(0, 0); }); await d.p.waitForTimeout(2000); return d.p.evaluate(() => [...document.images].every(i => i.complete && i.naturalWidth > 0 && i.alt.trim())); })());
+  check('Investoren: alle Bilder laden, Alt-Texte vorhanden', await (async () => { await d.p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); } scrollTo(0, 0); }); await d.p.waitForTimeout(2000); return d.p.evaluate(() => [...document.images].filter(i => !i.closest('dialog')).every(i => i.complete && i.naturalWidth > 0 && i.alt.trim())); })());
   // CTAs
   const hero1 = await d.p.locator('[data-cta=inv-hero-primary]').getAttribute('href'); await d.p.locator('[data-cta=inv-hero-primary]').click(); await d.p.waitForTimeout(2200);
   const t1 = await d.p.locator('#modelle').evaluate(e => Math.round(e.getBoundingClientRect().top));
@@ -350,8 +352,35 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   const codes = []; for (const f of files) codes.push((await fetch(BASE + '/' + f)).status);
   check('Investoren: interne Seitenlinks erreichbar', codes.every(c => c === 200), files.join(', '));
   // Modell besprechen füllt das Formular vor, Formular-Demo
-  await d.p.locator('.inv-card').nth(1).locator('.btn').click(); await d.p.waitForTimeout(800);
-  check('„Modell besprechen“ wählt das Modell im Formular vor', (await d.p.locator('#f-model').inputValue()) === 'rent-to-rent');
+  // Dialogfenster
+  const models = [['buy-hold', 'Buy & Hold'], ['rent-to-rent', 'Rent-to-Rent mit Kapitalanleger'], ['projektentwicklung', 'Projektentwicklung und Immobilienaufwertung'], ['joint-venture', 'Gemeinsame Projektgesellschaft (Joint Venture)']];
+  const dlg = d.p.locator('#inv-modal');
+  check('Dialog: semantisch korrekt (dialog-Element, aria-modal, beschriftet), initial geschlossen', await d.p.evaluate(() => { const m = document.getElementById('inv-modal'); return m.tagName === 'DIALOG' && m.getAttribute('aria-modal') === 'true' && !!document.getElementById(m.getAttribute('aria-labelledby')) && !m.open && document.querySelectorAll('[id]').length === new Set([...document.querySelectorAll('[id]')].map(e => e.id)).size; }));
+  let allOk = true; const detail = [];
+  for (const [i, [key, name]] of models.entries()) {
+    const btn = d.p.locator('.inv-card').nth(i).locator('.inv-more'); await btn.scrollIntoViewIfNeeded(); await btn.click(); await d.p.waitForTimeout(450);
+    const info = await d.p.evaluate(() => { const m = document.getElementById('inv-modal'); return { open: m.open, title: document.getElementById('inv-modal-title').textContent, secs: [...m.querySelectorAll('.inv-modal-body h3')].map(h => h.textContent), focusIn: m.contains(document.activeElement), locked: getComputedStyle(document.documentElement).overflow === 'hidden', img: m.querySelector('.inv-modal-img').complete && m.querySelector('.inv-modal-img').naturalWidth > 0 }; });
+    const okSecs = ['Grundidee', 'Ablauf der Zusammenarbeit', 'Rollen', 'Wirtschaftliches Grundprinzip', 'Mögliche Vorteile', 'Kapitalbindung und wesentliche Risiken', 'Mögliche Exit-Optionen'].every(s => info.secs.includes(s));
+    const ok = info.open && info.title === name && okSecs && info.focusIn && info.locked && info.img; allOk &&= ok; if (!ok) detail.push(key + ':' + JSON.stringify(info));
+    if (i === 0) await d.p.screenshot({ path: `${SHOTS}45-investoren-modal-desktop.png` });
+    await d.p.keyboard.press('Escape'); await d.p.waitForTimeout(250);
+    if ((await d.p.evaluate(() => document.activeElement.closest('.inv-card')?.dataset.model)) !== key) { allOk = false; detail.push(key + ': Fokus nicht zurück'); }
+  }
+  check('Dialog: alle 4 Modelle öffnen mit richtigem Titel, allen Abschnitten, Fokus im Fenster, Seite gesperrt; Escape gibt Fokus zurück', allOk, detail.join(' | '));
+  const first = d.p.locator('.inv-card').first().locator('.inv-more');
+  await first.click(); await d.p.waitForTimeout(350); await d.p.click('.inv-modal-close'); await d.p.waitForTimeout(250);
+  check('Dialog: Schließen per X, Seite wieder entsperrt', !(await dlg.evaluate(m => m.open)) && (await d.p.evaluate(() => getComputedStyle(document.documentElement).overflow)) !== 'hidden');
+  await first.click(); await d.p.waitForTimeout(350); await d.p.mouse.click(8, 300); await d.p.waitForTimeout(250);
+  check('Dialog: Schließen per Klick auf den Hintergrund', !(await dlg.evaluate(m => m.open)));
+  await first.click(); await d.p.waitForTimeout(350); await d.p.locator('.inv-modal-body').click({ position: { x: 20, y: 20 } }); await d.p.locator('.inv-modal-head').click({ position: { x: 200, y: 10 } }); await d.p.waitForTimeout(250);
+  check('Dialog: Klick im Fenster schließt nicht', await dlg.evaluate(m => m.open));
+  await d.p.locator('.inv-modal-foot [data-close]').click(); await d.p.waitForTimeout(250);
+  check('Dialog: Schaltfläche „Schließen“ funktioniert', !(await dlg.evaluate(m => m.open)) && (await d.p.evaluate(() => document.activeElement.classList.contains('inv-more'))));
+  // Kontakt aus dem Dialog
+  await d.p.locator('.inv-card').nth(1).locator('.inv-more').click(); await d.p.waitForTimeout(350);
+  await d.p.click('[data-modal-cta]'); await d.p.waitForTimeout(2200);
+  const tk = await d.p.locator('#kontakt').evaluate(e => Math.round(e.getBoundingClientRect().top));
+  check('Dialog: „Beratungsgespräch vereinbaren“ schließt, wählt das Modell vor und springt zum Kontakt', !(await dlg.evaluate(m => m.open)) && (await d.p.locator('#f-model').inputValue()) === 'rent-to-rent' && tk >= 0 && tk < 200, `top=${tk}`);
   await d.p.fill('#f-name', ''); await d.p.click('#contact-form button[type=submit]');
   check('Investorenformular: Pflichtfehler (Name, E-Mail, Einwilligung), Modell und Kapitalrahmen optional', (await d.p.locator('.error:visible').count()) === 3);
   await d.p.fill('#f-name', 'Max Beispiel'); await d.p.fill('#f-email', 'max@beispiel.de'); await d.p.check('#f-consent'); await d.p.click('#contact-form button[type=submit]');
@@ -366,13 +395,23 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   for (const [w, h] of [[1440, 900], [1024, 768], [768, 1024], [390, 844], [320, 640]]) { const r = await openInv(w, h);
     check(`Investoren ${w}px: kein horizontaler Scroll, H1 vollständig (je Zeile einzeilig)`, await r.p.evaluate(() => document.documentElement.scrollWidth - innerWidth <= 0 && [...document.querySelectorAll('h1 .ln-block')].every(l => l.getBoundingClientRect().height < parseFloat(getComputedStyle(l).fontSize) * 1.6 && l.getBoundingClientRect().right <= innerWidth)));
     if (w === 390) {
+      check('Investoren Mobil: Karten zweispaltig, ohne Überlauf und ohne abgeschnittene Texte', await r.p.evaluate(() => { const c = [...document.querySelectorAll('.inv-card')].map(x => x.getBoundingClientRect()); return Math.abs(c[0].top - c[1].top) < 2 && c[1].left > c[0].right - 1 && c[2].top > c[0].bottom - 1 && [...document.querySelectorAll('.inv-card .inv-sub, .inv-card h3')].every(e => e.scrollHeight <= e.clientHeight + 1) && document.documentElement.scrollWidth <= innerWidth; }));
+      await r.p.locator('.inv-card').nth(3).locator('.inv-more').scrollIntoViewIfNeeded(); await r.p.locator('.inv-card').nth(3).locator('.inv-more').click(); await r.p.waitForTimeout(500);
+      const mm = await r.p.evaluate(() => { const m = document.getElementById('inv-modal'), b = m.querySelector('.inv-modal-body'), g = m.getBoundingClientRect(); return { inside: g.left >= 0 && g.right <= innerWidth && g.top >= 0 && g.bottom <= innerHeight, scrolls: b.scrollHeight > b.clientHeight, headFoot: m.querySelector('.inv-modal-head').getBoundingClientRect().top >= g.top - 1 && m.querySelector('.inv-modal-foot').getBoundingClientRect().bottom <= g.bottom + 1, over: document.documentElement.scrollWidth - innerWidth }; });
+      check('Investoren Mobil: Dialog liegt im Bildschirm, nur der Inhalt scrollt, Kopf und Fuß bleiben sichtbar', mm.inside && mm.scrolls && mm.headFoot && mm.over <= 0, JSON.stringify(mm));
+      const y0 = await r.p.evaluate(() => scrollY); await r.p.mouse.wheel(0, 600); await r.p.waitForTimeout(300);
+      check('Investoren Mobil: Hintergrundseite bleibt beim Scrollen im Dialog stehen', (await r.p.evaluate(() => scrollY)) === y0);
+      await r.p.screenshot({ path: `${SHOTS}45-investoren-modal-mobil.png` }); await r.p.keyboard.press('Escape'); await r.p.waitForTimeout(250);
+      await r.p.locator('#modelle').scrollIntoViewIfNeeded(); await r.p.waitForTimeout(1500); await r.p.locator('#modelle').screenshot({ path: `${SHOTS}46-investoren-modelle-mobil.png` });
+    }
+    if (w === 390) {
       check('Investoren Mobil: Menü öffnet, Investoren-Punkt aktiv, Vergleich zeigt ein Modell mit Tabs', await (async () => { await r.p.click('.nav-toggle'); const open = await r.p.locator('#main-nav').isVisible() && (await r.p.locator('.main-nav a[aria-current="page"]').innerText()) === 'Investoren'; await r.p.keyboard.press('Escape'); await r.p.locator('#vergleich').scrollIntoViewIfNeeded(); await r.p.waitForTimeout(1500);
         const vis1 = await r.p.evaluate(() => [...document.querySelectorAll('.cmp thead th[data-m]')].filter(t => getComputedStyle(t).display !== 'none').map(t => t.dataset.m)); await r.p.click('.cmp-tab[data-m="3"]');
         const vis2 = await r.p.evaluate(() => [...document.querySelectorAll('.cmp thead th[data-m]')].filter(t => getComputedStyle(t).display !== 'none').map(t => t.dataset.m)); return open && vis1.join() === '1' && vis2.join() === '3' && (await r.p.locator('.cmp-tab[data-m="3"]').getAttribute('aria-pressed')) === 'true'; })());
       await r.p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise(x => setTimeout(x, 60)); } scrollTo(0, 0); }); await r.p.waitForTimeout(800);
       await r.p.evaluate(() => { document.querySelector('.sticky-cta').style.display = 'none'; });
       await r.p.screenshot({ path: `${SHOTS}41-investoren-mobil.png`, fullPage: true }); }
-    if (w === 1440) { await r.p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise(x => setTimeout(x, 60)); } scrollTo(0, 0); }); await r.p.waitForTimeout(800); await r.p.screenshot({ path: `${SHOTS}41-investoren-desktop.png`, fullPage: true }); }
+    if (w === 1440) { await r.p.locator('#modelle').scrollIntoViewIfNeeded(); await r.p.waitForTimeout(1500); await r.p.locator('#modelle').screenshot({ path: `${SHOTS}46-investoren-modelle-desktop.png` }); await r.p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { scrollTo(0, y); await new Promise(x => setTimeout(x, 60)); } scrollTo(0, 0); }); await r.p.waitForTimeout(800); await r.p.screenshot({ path: `${SHOTS}41-investoren-desktop.png`, fullPage: true }); }
     await r.ctx.close(); }
   // Startseite unverändert funktionsfähig und ohne JavaScript bleibt die Tabelle komplett
   const nj = await openInv(1000, 800, { javaScriptEnabled: false });

@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="css/base.css?v=e09bdd14">
   <link rel="stylesheet" href="css/components.css?v=ea470df2">
   <link rel="stylesheet" href="css/sections.css?v=06c39ffd">
-  <link rel="stylesheet" href="css/investoren.css?v=5660d63e">
+  <link rel="stylesheet" href="css/investoren.css?v=6d57653f">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -127,117 +127,169 @@
           <p>Je nach Risikoprofil, Kapitalvolumen und Anlagehorizont gibt es unterschiedliche Wege. Welches Modell passt, hängt von Objekt, Finanzierung, Kostenstruktur, Verträgen und Ihren Zielen ab.</p>
         </div>
         <ol class="inv-grid">
-          <li class="inv-card" id="modell-buy-hold">
+          <li class="inv-card" id="modell-buy-hold" data-model="buy-hold" data-title="Buy &amp; Hold">
             <div class="inv-media">
               <img src="assets/img/investoren-buy-hold.jpg" width="1200" height="675" loading="lazy" alt="Modernes Wohngebäude mit Balkonen im warmen Abendlicht">
               <span class="inv-badge"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg></span>
             </div>
             <div class="inv-body">
-              <p class="inv-no">01</p>
               <h3>Buy &amp; Hold</h3>
-              <p class="inv-sub">Langfristiger Vermögensaufbau mit einer eigenen Bestandsimmobilie.</p>
-              <ul class="check-list">
-                <li>Sie erwerben eine geeignete Bestandsimmobilie.</li>
-                <li>Leventum entwickelt bei Bedarf ein Nutzungskonzept.</li>
-                <li>Anmietung durch Leventum oder vereinbarte Vermietung und Bewirtschaftung, sofern wirtschaftlich und vertraglich passend.</li>
-                <li>Sie erhalten die vertraglich vereinbarten Zahlungen.</li>
-              </ul>
-              <dl class="inv-roles">
-                <div><dt>Sie</dt><dd>Eigentümer und Kapitalgeber.</dd></div>
-                <div><dt>Leventum</dt><dd>Konzept, Nutzung und Bewirtschaftung im vereinbarten Rahmen.</dd></div>
-              </dl>
-              <p class="inv-note">Eine Anmietung durch Leventum wird nicht automatisch zugesagt. Sie hängt von Immobilie, Wirtschaftlichkeit und einer konkreten Vereinbarung ab.</p>
-              <ul class="inv-chips" aria-label="Einordnung">
-                <li><span>Kapitalbindung</span>Lang</li>
-                <li><span>Wesentliches Risiko</span>Objekt- und Marktrisiko</li>
-                <li><span>Aufwand für Sie</span>Gering bis mittel</li>
-              </ul>
-              <a class="btn btn-soft" href="#kontakt" data-model="buy-hold">Modell besprechen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <p class="inv-sub">Eigene Bestandsimmobilie, langfristig gehalten.</p>
+              <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="inv-detail">
+                <section><h3>Grundidee</h3><p>Langfristiger Vermögensaufbau mit einer eigenen Bestandsimmobilie.</p></section>
+                <section><h3>Ablauf der Zusammenarbeit</h3>
+                <ul class="check-list">
+                  <li>Sie erwerben eine geeignete Bestandsimmobilie.</li>
+                  <li>Leventum entwickelt bei Bedarf ein Nutzungskonzept.</li>
+                  <li>Anmietung durch Leventum oder vereinbarte Vermietung und Bewirtschaftung, sofern wirtschaftlich und vertraglich passend.</li>
+                  <li>Sie erhalten die vertraglich vereinbarten Zahlungen.</li>
+                </ul></section>
+                <section><h3>Rollen</h3>
+                <dl class="inv-roles">
+                  <div><dt>Sie</dt><dd>Eigentümer und Kapitalgeber.</dd></div>
+                  <div><dt>Leventum</dt><dd>Konzept, Nutzung und Bewirtschaftung im vereinbarten Rahmen.</dd></div>
+                </dl></section>
+                <section><h3>Wirtschaftliches Grundprinzip</h3><p>Einnahmen entstehen aus der Nutzung oder Vermietung der Immobilie. Ihre Höhe richtet sich nach Objekt, Markt und der konkreten Vereinbarung. Zahlungen sind nicht garantiert.</p></section>
+                <section><h3>Mögliche Vorteile</h3>
+                <ul class="check-list">
+                  <li>Eigener Immobilienbesitz mit langfristiger Perspektive</li>
+                  <li>Klare Trennung zwischen Eigentum und Bewirtschaftung</li>
+                  <li>Nutzungskonzept und operative Betreuung durch Leventum möglich</li>
+                </ul></section>
+                <section><h3>Kapitalbindung und wesentliche Risiken</h3>
+                <ul class="inv-chips" aria-label="Einordnung">
+                  <li><span>Kapitalbindung</span>Lang</li>
+                  <li><span>Wesentliches Risiko</span>Objekt- und Marktrisiko, Leerstand, Instandhaltungskosten</li>
+                  <li><span>Aufwand für Sie</span>Gering bis mittel</li>
+                </ul>
+                <p class="inv-note">Eine Anmietung durch Leventum wird nicht automatisch zugesagt. Sie hängt von Immobilie, Wirtschaftlichkeit und einer konkreten Vereinbarung ab.</p></section>
+                <section><h3>Mögliche Exit-Optionen</h3><p>Verkauf oder Fortführung der Bestandshaltung.</p></section>
+              </div>
             </div>
           </li>
-          <li class="inv-card" id="modell-rent-to-rent">
+          <li class="inv-card" id="modell-rent-to-rent" data-model="rent-to-rent" data-title="Rent-to-Rent mit Kapitalanleger">
             <div class="inv-media">
               <img src="assets/img/investoren-rent-to-rent.jpg" width="1200" height="675" loading="lazy" alt="Möbliertes Apartment mit Bett, Essplatz und Pflanzen im warmen Licht">
               <span class="inv-badge"><svg class="icon" aria-hidden="true"><use href="#i-key"/></svg></span>
             </div>
             <div class="inv-body">
-              <p class="inv-no">02</p>
-              <h3>Rent-to-Rent mit Kapitalanleger</h3>
-              <p class="inv-sub">Sie stellen die Immobilie, Leventum mietet an und setzt das Nutzungskonzept um.</p>
-              <ul class="check-list">
-                <li>Sie besitzen oder erwerben eine geeignete Immobilie.</li>
-                <li>Leventum prüft sie und entwickelt ein tragfähiges Konzept.</li>
-                <li>Anmietung auf Basis eines individuellen gewerblichen Mietvertrags.</li>
-                <li>Leventum organisiert Einrichtung, Vermietung und Betreuung im vereinbarten Umfang.</li>
-              </ul>
-              <dl class="inv-roles">
-                <div><dt>Sie</dt><dd>Eigentümer, vermietet an Leventum.</dd></div>
-                <div><dt>Leventum</dt><dd>Gewerblicher Mieter und operativer Betreiber.</dd></div>
-              </dl>
-              <p class="inv-note">Mietzahlungen, Leerstand, Kosten und Risiken werden vertraglich geregelt. Die Wirtschaftlichkeit wird vorab geprüft.</p>
-              <ul class="inv-chips" aria-label="Einordnung">
-                <li><span>Kapitalbindung</span>Lang</li>
-                <li><span>Wesentliches Risiko</span>Mietausfall und Leerstand, vertraglich zu regeln</li>
-                <li><span>Aufwand für Sie</span>Gering</li>
-              </ul>
-              <a class="btn btn-soft" href="#kontakt" data-model="rent-to-rent">Modell besprechen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <h3>Rent-to-Rent</h3>
+              <p class="inv-sub">Sie stellen die Immobilie, Leventum mietet an.</p>
+              <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="inv-detail">
+                <section><h3>Grundidee</h3><p>Sie stellen die Immobilie, Leventum mietet an und setzt das Nutzungskonzept um.</p></section>
+                <section><h3>Ablauf der Zusammenarbeit</h3>
+                <ul class="check-list">
+                  <li>Sie besitzen oder erwerben eine geeignete Immobilie.</li>
+                  <li>Leventum prüft sie und entwickelt ein tragfähiges Konzept.</li>
+                  <li>Anmietung auf Basis eines individuellen gewerblichen Mietvertrags.</li>
+                  <li>Leventum organisiert Einrichtung, Vermietung und Betreuung im vereinbarten Umfang.</li>
+                </ul></section>
+                <section><h3>Rollen</h3>
+                <dl class="inv-roles">
+                  <div><dt>Sie</dt><dd>Eigentümer, vermietet an Leventum.</dd></div>
+                  <div><dt>Leventum</dt><dd>Gewerblicher Mieter und operativer Betreiber.</dd></div>
+                </dl></section>
+                <section><h3>Wirtschaftliches Grundprinzip</h3><p>Sie vermieten die Immobilie an Leventum. Leventum nutzt sie im vereinbarten Konzept und übernimmt die vereinbarten operativen Aufgaben. Miete, Laufzeit und Kostenverteilung werden individuell vertraglich geregelt.</p></section>
+                <section><h3>Mögliche Vorteile</h3>
+                <ul class="check-list">
+                  <li>Ein gewerblicher Vertragspartner statt vieler Einzelmieter</li>
+                  <li>Je nach Vereinbarung weniger operativer Aufwand für Sie</li>
+                  <li>Konzept, Einrichtung und Betreuung aus einer Hand</li>
+                </ul></section>
+                <section><h3>Kapitalbindung und wesentliche Risiken</h3>
+                <ul class="inv-chips" aria-label="Einordnung">
+                  <li><span>Kapitalbindung</span>Lang</li>
+                  <li><span>Wesentliches Risiko</span>Mietausfall und Leerstand, vertraglich zu regeln</li>
+                  <li><span>Aufwand für Sie</span>Gering</li>
+                </ul>
+                <p class="inv-note">Mietzahlungen, Leerstand, Kosten und Risiken werden vertraglich geregelt. Die Wirtschaftlichkeit wird vorab geprüft.</p></section>
+                <section><h3>Mögliche Exit-Optionen</h3><p>Verkauf oder Vertragsende nach Laufzeit.</p></section>
+              </div>
             </div>
           </li>
-          <li class="inv-card" id="modell-projektentwicklung">
+          <li class="inv-card" id="modell-projektentwicklung" data-model="projektentwicklung" data-title="Projektentwicklung und Immobilienaufwertung">
             <div class="inv-media">
               <img src="assets/img/investoren-projekt.jpg" width="1200" height="675" loading="lazy" alt="Wohnung im Umbau mit Bauplänen, Leiter und Materialien im Abendlicht">
               <span class="inv-badge"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
             </div>
             <div class="inv-body">
-              <p class="inv-no">03</p>
-              <h3>Projektentwicklung und Immobilienaufwertung</h3>
-              <p class="inv-sub">Erwerb, Modernisierung oder Umbau, danach Nutzung oder Verkauf.</p>
-              <ul class="check-list">
-                <li>Eine geeignete Immobilie wird identifiziert und geprüft (Kaufpreis, Zustand, Genehmigungsbedarf).</li>
-                <li>Umbau- und Nutzungskonzept sowie Kostenplanung entstehen.</li>
-                <li>Die vereinbarten Maßnahmen werden umgesetzt.</li>
-                <li>Danach: halten, vermieten oder verkaufen, je nach Projekt.</li>
-              </ul>
-              <dl class="inv-roles">
-                <div><dt>Sie</dt><dd>Finanziert Erwerb oder vereinbarte Projektkosten.</dd></div>
-                <div><dt>Leventum</dt><dd>Entwicklung, Koordination und Umsetzung je nach Vereinbarung. Bau, Planung und Handwerk gegebenenfalls durch externe Fachfirmen.</dd></div>
-              </dl>
-              <p class="inv-note">Eine Wertsteigerung ist nicht garantiert. Baukosten, Zeitplan, Genehmigungen und Vermarktung bergen Risiken.</p>
-              <ul class="inv-chips" aria-label="Einordnung">
-                <li><span>Kapitalbindung</span>Mittel bis lang</li>
-                <li><span>Wesentliches Risiko</span>Bau-, Zeit- und Genehmigungsrisiko</li>
-                <li><span>Aufwand für Sie</span>Gering bis mittel</li>
-              </ul>
-              <a class="btn btn-soft" href="#kontakt" data-model="projektentwicklung">Modell besprechen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <h3>Projekt&shy;entwicklung</h3>
+              <p class="inv-sub">Erwerb, Aufwertung, dann Nutzung oder Verkauf.</p>
+              <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="inv-detail">
+                <section><h3>Grundidee</h3><p>Erwerb, Modernisierung oder Umbau, danach Nutzung oder Verkauf.</p></section>
+                <section><h3>Ablauf der Zusammenarbeit</h3>
+                <ul class="check-list">
+                  <li>Eine geeignete Immobilie wird identifiziert und geprüft (Kaufpreis, Zustand, Genehmigungsbedarf).</li>
+                  <li>Umbau- und Nutzungskonzept sowie Kostenplanung entstehen.</li>
+                  <li>Die vereinbarten Maßnahmen werden umgesetzt.</li>
+                  <li>Danach: halten, vermieten oder verkaufen, je nach Projekt.</li>
+                </ul></section>
+                <section><h3>Rollen</h3>
+                <dl class="inv-roles">
+                  <div><dt>Sie</dt><dd>Finanziert Erwerb oder vereinbarte Projektkosten.</dd></div>
+                  <div><dt>Leventum</dt><dd>Entwicklung, Koordination und Umsetzung je nach Vereinbarung. Bau, Planung und Handwerk gegebenenfalls durch externe Fachfirmen.</dd></div>
+                </dl></section>
+                <section><h3>Wirtschaftliches Grundprinzip</h3><p>Der wirtschaftliche Erfolg hängt von Kaufpreis, Projektkosten, Zeitplan und der späteren Nutzung oder dem Verkauf ab. Kosten, Vergütung und Ergebnisverteilung werden vorab vereinbart.</p></section>
+                <section><h3>Mögliche Vorteile</h3>
+                <ul class="check-list">
+                  <li>Möglichkeit, Zustand und Nutzbarkeit der Immobilie gezielt zu verbessern</li>
+                  <li>Koordination der Maßnahmen durch einen Partner</li>
+                  <li>Je nach Projekt mehrere Verwertungswege</li>
+                </ul></section>
+                <section><h3>Kapitalbindung und wesentliche Risiken</h3>
+                <ul class="inv-chips" aria-label="Einordnung">
+                  <li><span>Kapitalbindung</span>Mittel bis lang</li>
+                  <li><span>Wesentliches Risiko</span>Bau-, Zeit- und Genehmigungsrisiko, Vermarktung</li>
+                  <li><span>Aufwand für Sie</span>Gering bis mittel</li>
+                </ul>
+                <p class="inv-note">Eine Wertsteigerung ist nicht garantiert. Baukosten, Zeitplan, Genehmigungen und Vermarktung bergen Risiken.</p></section>
+                <section><h3>Mögliche Exit-Optionen</h3><p>Halten, Vermieten oder Verkauf nach Projektabschluss.</p></section>
+              </div>
             </div>
           </li>
-          <li class="inv-card" id="modell-joint-venture">
+          <li class="inv-card" id="modell-joint-venture" data-model="joint-venture" data-title="Gemeinsame Projektgesellschaft (Joint Venture)">
             <div class="inv-media">
               <img src="assets/img/investoren-joint-venture.jpg" width="1200" height="675" loading="lazy" alt="Offener Wohn- und Essbereich mit Balkon im warmen Abendlicht">
               <span class="inv-badge"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
             </div>
             <div class="inv-body">
-              <p class="inv-no">04</p>
-              <h3>Gemeinsame Projektgesellschaft (Joint Venture)</h3>
-              <p class="inv-sub">Ein gemeinsames Projekt über eine vereinbarte Beteiligungsstruktur.</p>
-              <ul class="check-list">
-                <li>Gemeinsame Prüfung eines Immobilienprojekts.</li>
-                <li>Festlegung von Kapitalbeiträgen und Verantwortlichkeiten.</li>
-                <li>Prüfung einer geeigneten Rechtsform, zum Beispiel einer Projekt-GmbH.</li>
-                <li>Vereinbarung zu Entscheidungen, Kosten, Vergütung und Ergebnisverteilung.</li>
-                <li>Umsetzung, dann halten, vermieten oder verkaufen.</li>
-              </ul>
-              <dl class="inv-roles">
-                <div><dt>Sie</dt><dd>Gesellschafter mit Kapitalbeitrag.</dd></div>
-                <div><dt>Leventum</dt><dd>Projektpartner mit operativer Umsetzung.</dd></div>
-              </dl>
-              <p class="inv-note">Eine Projektgesellschaft besteht noch nicht und würde erst projektbezogen gegründet. Beteiligungsquoten, Gewinnverteilung, Haftung, Finanzierung und Ausstieg sind individuell zu vereinbaren.</p>
-              <ul class="inv-chips" aria-label="Einordnung">
-                <li><span>Kapitalbindung</span>Mittel bis lang</li>
-                <li><span>Wesentliches Risiko</span>Haftungs-, Finanzierungs- und Abstimmungsrisiko</li>
-                <li><span>Aufwand für Sie</span>Mittel</li>
-              </ul>
-              <a class="btn btn-soft" href="#kontakt" data-model="joint-venture">Modell besprechen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <h3>Joint Venture</h3>
+              <p class="inv-sub">Gemeinsames Projekt mit vereinbarter Beteiligung.</p>
+              <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="inv-detail">
+                <section><h3>Grundidee</h3><p>Ein gemeinsames Projekt über eine vereinbarte Beteiligungsstruktur.</p></section>
+                <section><h3>Ablauf der Zusammenarbeit</h3>
+                <ul class="check-list">
+                  <li>Gemeinsame Prüfung eines Immobilienprojekts.</li>
+                  <li>Festlegung von Kapitalbeiträgen und Verantwortlichkeiten.</li>
+                  <li>Prüfung einer geeigneten Rechtsform, zum Beispiel einer Projekt-GmbH.</li>
+                  <li>Vereinbarung zu Entscheidungen, Kosten, Vergütung und Ergebnisverteilung.</li>
+                  <li>Umsetzung, dann halten, vermieten oder verkaufen.</li>
+                </ul></section>
+                <section><h3>Rollen</h3>
+                <dl class="inv-roles">
+                  <div><dt>Sie</dt><dd>Gesellschafter mit Kapitalbeitrag.</dd></div>
+                  <div><dt>Leventum</dt><dd>Projektpartner mit operativer Umsetzung.</dd></div>
+                </dl></section>
+                <section><h3>Wirtschaftliches Grundprinzip</h3><p>Sie und Leventum tragen das Projekt gemeinsam. Kapitalbeiträge, Entscheidungsrechte, Vergütung und Ergebnisverteilung werden vertraglich festgelegt.</p></section>
+                <section><h3>Mögliche Vorteile</h3>
+                <ul class="check-list">
+                  <li>Gemeinsame Ausrichtung auf ein Projekt</li>
+                  <li>Operative Umsetzung durch Leventum</li>
+                  <li>Rollen und Rechte individuell gestaltbar</li>
+                </ul></section>
+                <section><h3>Kapitalbindung und wesentliche Risiken</h3>
+                <ul class="inv-chips" aria-label="Einordnung">
+                  <li><span>Kapitalbindung</span>Mittel bis lang</li>
+                  <li><span>Wesentliches Risiko</span>Haftungs-, Finanzierungs- und Abstimmungsrisiko</li>
+                  <li><span>Aufwand für Sie</span>Mittel, mit Mitentscheidung</li>
+                </ul>
+                <p class="inv-note">Eine Projektgesellschaft besteht noch nicht und würde erst projektbezogen gegründet. Beteiligungsquoten, Gewinnverteilung, Haftung, Finanzierung und Ausstieg sind individuell zu vereinbaren.</p></section>
+                <section><h3>Mögliche Exit-Optionen</h3><p>Nach Regelung im Gesellschaftsvertrag.</p></section>
+              </div>
             </div>
           </li>
         </ol>
@@ -389,6 +441,21 @@
         <p class="inv-disclaimer">Diese Seite ist eine allgemeine Information und keine Anlageberatung, kein Angebot und keine Aufforderung zur Beteiligung. Renditen, Mietzahlungen und Wertsteigerungen sind nicht garantiert; jedes Modell hat Risiken. Beteiligungen, gemeinschaftliche Investments und Vermittlungsleistungen sind vor einer Umsetzung rechtlich und steuerlich zu prüfen.</p>
       </div>
     </section>
+    <!-- Gemeinsames Dialogfenster für die Modelldetails -->
+    <dialog class="inv-modal" id="inv-modal" aria-modal="true" aria-labelledby="inv-modal-title">
+      <div class="inv-modal-inner">
+        <header class="inv-modal-head">
+          <img class="inv-modal-img" src="assets/img/investoren-buy-hold.jpg" width="56" height="56" alt="">
+          <div class="inv-modal-titles"><p class="eyebrow">Investitionsmodell</p><h2 id="inv-modal-title"></h2></div>
+          <button type="button" class="inv-modal-close" aria-label="Fenster schließen" data-close><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </header>
+        <div class="inv-modal-body" id="inv-modal-body" tabindex="0"></div>
+        <footer class="inv-modal-foot">
+          <a class="btn btn-primary" href="#kontakt" data-modal-cta>Beratungsgespräch vereinbaren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <button type="button" class="btn btn-outline" data-close>Schließen</button>
+        </footer>
+      </div>
+    </dialog>
   </main>
 
   <footer class="site-footer">
@@ -413,6 +480,6 @@
   <a class="sticky-cta" href="#kontakt" data-cta="sticky">Beratungsgespräch vereinbaren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 
   <script src="js/main.js?v=6c84dfec" defer></script>
-  <script src="js/investoren.js?v=03f635be" defer></script>
+  <script src="js/investoren.js?v=9982a183" defer></script>
 </body>
 </html>
