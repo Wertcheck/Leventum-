@@ -328,6 +328,7 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   const d = await openInv(1440, 900);
   check('investoren.html direkt erreichbar (HTTP 200)', d.status === 200);
   check('Investoren: 4 Modellkarten mit Bild, Überschrift und Button „Modell besprechen“', await d.p.evaluate(() => { const c = [...document.querySelectorAll('.inv-card')]; return c.length === 4 && c.every(x => x.querySelector('h3') && x.querySelector('.btn')?.textContent.trim().startsWith('Modell besprechen') && x.querySelector('.inv-roles') && x.querySelector('.inv-chips')) && [...document.querySelectorAll('.inv-card img')].every(i => i.loading === 'lazy' && i.alt.length > 10); }));
+  check('Investoren Hero: drei Stichpunkte statt Fließtext', (await d.p.locator('.inv-hero .hero-points li').count()) === 3 && (await d.p.locator('.inv-hero .inv-lead').count()) === 0);
   check('Investoren: Vergleichstabelle 9 Kriterien × 4 Modelle', await d.p.evaluate(() => document.querySelectorAll('.cmp tbody tr').length === 9 && document.querySelectorAll('.cmp thead th[data-m]').length === 4 && [...document.querySelectorAll('.cmp tbody tr')].every(r => r.querySelectorAll('td').length === 4)));
   check('Investoren: vier Schritte und sechs Gründe', (await d.p.locator('.inv-step').count()) === 4 && (await d.p.locator('.inv-why').count()) === 6);
   const txt = await d.p.locator('main').innerText();
@@ -357,6 +358,10 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   check('Investorenformular: Demo-Zustand, es wird nichts versendet', /Demo-Modus/.test(await d.p.locator('#form-status').innerText()));
   await d.p.screenshot({ path: `${SHOTS}42-investoren-kontakt-desktop.png` });
   await d.ctx.close();
+{ const pm = await openInv(390, 700);
+  const m = await pm.p.evaluate(() => { const r = s => document.querySelector(s).getBoundingClientRect(); return { b1: r('.inv-hero .btn-primary').bottom, b2: r('.inv-hero .btn-outline').bottom, vis: Math.min(innerHeight, r('.inv-hero-figure').bottom) - r('.inv-hero-figure').top }; });
+  check('Investoren Mobil 390x700: beide Hero-Buttons sichtbar und Bild lugt hervor (≥ 70px)', m.b1 <= 700 && m.b2 <= 700 && m.vis >= 70, `buttons=${Math.round(m.b1)}/${Math.round(m.b2)}, Bild sichtbar=${Math.round(m.vis)}px`);
+  await pm.p.screenshot({ path: `${SHOTS}44-investoren-hero-mobil.png` }); await pm.ctx.close(); }
   // Responsiv
   for (const [w, h] of [[1440, 900], [1024, 768], [768, 1024], [390, 844], [320, 640]]) { const r = await openInv(w, h);
     check(`Investoren ${w}px: kein horizontaler Scroll, H1 vollständig (je Zeile einzeilig)`, await r.p.evaluate(() => document.documentElement.scrollWidth - innerWidth <= 0 && [...document.querySelectorAll('h1 .ln-block')].every(l => l.getBoundingClientRect().height < parseFloat(getComputedStyle(l).fontSize) * 1.6 && l.getBoundingClientRect().right <= innerWidth)));
