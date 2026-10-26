@@ -368,19 +368,44 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
   }
   check('Dialog: alle 4 Modelle öffnen mit richtigem Titel, allen Abschnitten, Fokus im Fenster, Seite gesperrt; Escape gibt Fokus zurück', allOk, detail.join(' | '));
   const first = d.p.locator('.inv-card').first().locator('.inv-more');
-  await first.click(); await d.p.waitForTimeout(350); await d.p.click('.inv-modal-close'); await d.p.waitForTimeout(250);
+  await first.click(); await d.p.waitForTimeout(350); await d.p.click('#inv-modal .inv-modal-close'); await d.p.waitForTimeout(250);
   check('Dialog: Schließen per X, Seite wieder entsperrt', !(await dlg.evaluate(m => m.open)) && (await d.p.evaluate(() => getComputedStyle(document.documentElement).overflow)) !== 'hidden');
   await first.click(); await d.p.waitForTimeout(350); await d.p.mouse.click(8, 300); await d.p.waitForTimeout(250);
   check('Dialog: Schließen per Klick auf den Hintergrund', !(await dlg.evaluate(m => m.open)));
-  await first.click(); await d.p.waitForTimeout(350); await d.p.locator('.inv-modal-body').click({ position: { x: 20, y: 20 } }); await d.p.locator('.inv-modal-head').click({ position: { x: 200, y: 10 } }); await d.p.waitForTimeout(250);
+  await first.click(); await d.p.waitForTimeout(350); await d.p.locator('#inv-modal .inv-modal-body').click({ position: { x: 20, y: 20 } }); await d.p.locator('#inv-modal .inv-modal-head').click({ position: { x: 200, y: 10 } }); await d.p.waitForTimeout(250);
   check('Dialog: Klick im Fenster schließt nicht', await dlg.evaluate(m => m.open));
-  await d.p.locator('.inv-modal-foot [data-close]').click(); await d.p.waitForTimeout(250);
+  await d.p.locator('#inv-modal .inv-modal-foot [data-close]').click(); await d.p.waitForTimeout(250);
   check('Dialog: Schaltfläche „Schließen“ funktioniert', !(await dlg.evaluate(m => m.open)) && (await d.p.evaluate(() => document.activeElement.classList.contains('inv-more'))));
   // Kontakt aus dem Dialog
   await d.p.locator('.inv-card').nth(1).locator('.inv-more').click(); await d.p.waitForTimeout(350);
   await d.p.click('[data-modal-cta]'); await d.p.waitForTimeout(2200);
   const tk = await d.p.locator('#kontakt').evaluate(e => Math.round(e.getBoundingClientRect().top));
   check('Dialog: „Beratungsgespräch vereinbaren“ schließt, wählt das Modell vor und springt zum Kontakt', !(await dlg.evaluate(m => m.open)) && (await d.p.locator('#f-model').inputValue()) === 'rent-to-rent' && tk >= 0 && tk < 200, `top=${tk}`);
+  // Rechenbeispiele (Pop-up + PDF)
+  {
+    let ok = true; const bad = [];
+    for (const [i, [key, name]] of models.entries()) {
+      await d.p.locator('.inv-card').nth(i).locator('.inv-more').scrollIntoViewIfNeeded(); await d.p.locator('.inv-card').nth(i).locator('.inv-more').click(); await d.p.waitForTimeout(350);
+      await d.p.click('[data-calc-open]'); await d.p.waitForTimeout(350);
+      const info = await d.p.evaluate(() => { const c = document.getElementById('calc-modal'); return { open: c.open, modelOpen: document.getElementById('inv-modal').open, title: document.getElementById('calc-title').textContent, rows: c.querySelectorAll('.calc-table tr').length, res: c.querySelectorAll('.calc-table tr.res').length, stamp: /Muster- und Beispielzahlen/.test(c.textContent), warn: /Keine Prognose/.test(c.textContent), pdf: document.getElementById('calc-pdf').getAttribute('href'), dl: document.getElementById('calc-pdf').hasAttribute('download'), focusIn: c.contains(document.activeElement), locked: getComputedStyle(document.documentElement).overflow === 'hidden' }; });
+      const pdf = await d.p.evaluate(async (u) => { const r = await fetch(u); const b = new Uint8Array(await r.arrayBuffer()); return { ok: r.ok, type: r.headers.get('content-type'), head: String.fromCharCode(...b.slice(0, 4)), size: b.length }; }, info.pdf);
+      const good = info.open && !info.modelOpen && info.title === name && info.rows >= 10 && info.res === 1 && info.stamp && info.warn && info.dl && info.focusIn && info.locked && pdf.ok && /pdf/.test(pdf.type) && pdf.head === '%PDF' && pdf.size > 5000;
+      if (!good) { ok = false; bad.push(key + JSON.stringify({ info, pdf })); }
+      if (i === 3) await d.p.screenshot({ path: `${SHOTS}49-rechenbeispiel-desktop.png` });
+      await d.p.keyboard.press('Escape'); await d.p.waitForTimeout(250);
+    }
+    check('Rechenbeispiel: alle 4 Modelle öffnen Pop-up (Titel, Tabelle, Hinweis „Muster- und Beispielzahlen“, genau ein Ergebnis) und PDF-Link liefert echte PDF', ok, bad.join(' | ').slice(0, 600));
+    const b1 = d.p.locator('.inv-card').nth(1).locator('.inv-more'); await b1.scrollIntoViewIfNeeded(); await b1.click(); await d.p.waitForTimeout(350); await d.p.click('[data-calc-open]'); await d.p.waitForTimeout(350);
+    await d.p.click('#calc-back'); await d.p.waitForTimeout(350);
+    check('Rechenbeispiel: „Zurück zum Modell“ öffnet wieder das Modell-Fenster', await d.p.evaluate(() => document.getElementById('inv-modal').open && !document.getElementById('calc-modal').open && document.getElementById('inv-modal-title').textContent.startsWith('Rent-to-Rent')));
+    await d.p.keyboard.press('Escape'); await d.p.waitForTimeout(250);
+    await b1.click(); await d.p.waitForTimeout(350); await d.p.click('[data-calc-open]'); await d.p.waitForTimeout(350); await d.p.mouse.click(8, 300); await d.p.waitForTimeout(250);
+    check('Rechenbeispiel: schließt per Hintergrundklick, Seite wieder entsperrt', await d.p.evaluate(() => !document.getElementById('calc-modal').open && getComputedStyle(document.documentElement).overflow !== 'hidden'));
+    await b1.click(); await d.p.waitForTimeout(350); await d.p.click('[data-calc-open]'); await d.p.waitForTimeout(350); await d.p.click('#calc-modal .inv-modal-close'); await d.p.waitForTimeout(250);
+    check('Rechenbeispiel: schließt per X, Fokus zurück auf „Mehr erfahren“', await d.p.evaluate(() => !document.getElementById('calc-modal').open && document.activeElement.classList.contains('inv-more')));
+    check('Rechenbeispiel: Zahlen im Pop-up stimmen mit den PDF-Quellwerten überein (Joint Venture: Gewinn 45.000 €, Investor 30.000 €)', await d.p.evaluate(() => { const m = window.LEV_RB.data['joint-venture']; const t = m.blocks.flatMap(b => b.rows).map(r => r.label + r.value).join('|'); return t.includes('45.000 €') && t.includes('30.000 €') && m.file === 'rechenbeispiel-joint-venture.pdf'; }));
+    check('Rechenbeispiel: PDF-Link auch ohne Pop-up in jedem Modell vorhanden (4 Download-Links)', await d.p.evaluate(() => document.querySelectorAll('.inv-card .inv-calc a[download][href$=".pdf"]').length === 4));
+  }
   await d.p.fill('#f-name', ''); await d.p.click('#contact-form button[type=submit]');
   check('Investorenformular: Pflichtfehler (Name, E-Mail, Einwilligung), Modell und Kapitalrahmen optional', (await d.p.locator('.error:visible').count()) === 3);
   await d.p.fill('#f-name', 'Max Beispiel'); await d.p.fill('#f-email', 'max@beispiel.de'); await d.p.check('#f-consent'); await d.p.click('#contact-form button[type=submit]');
@@ -402,6 +427,10 @@ check('Mietvertrag-Übersicht: 10 Punkte, keine Tabelle, kein „Regelung“-Zus
       const y0 = await r.p.evaluate(() => scrollY); await r.p.mouse.wheel(0, 600); await r.p.waitForTimeout(300);
       check('Investoren Mobil: Hintergrundseite bleibt beim Scrollen im Dialog stehen', (await r.p.evaluate(() => scrollY)) === y0);
       await r.p.screenshot({ path: `${SHOTS}45-investoren-modal-mobil.png` }); await r.p.keyboard.press('Escape'); await r.p.waitForTimeout(250);
+      await r.p.locator('.inv-card').nth(0).locator('.inv-more').scrollIntoViewIfNeeded(); await r.p.locator('.inv-card').nth(0).locator('.inv-more').click(); await r.p.waitForTimeout(400); await r.p.click('[data-calc-open]'); await r.p.waitForTimeout(500);
+      const cm = await r.p.evaluate(() => { const m = document.getElementById('calc-modal'), b = document.getElementById('calc-body'), g = m.getBoundingClientRect(); return { inside: g.left >= 0 && g.right <= innerWidth && g.top >= 0 && g.bottom <= innerHeight, scrolls: b.scrollHeight > b.clientHeight, tableFits: b.scrollWidth <= b.clientWidth, over: document.documentElement.scrollWidth - innerWidth, foot: m.querySelector('.inv-modal-foot').getBoundingClientRect().bottom <= g.bottom + 1 }; });
+      check('Rechenbeispiel Mobil: Pop-up im Bildschirm, Tabelle ohne Querscroll, Inhalt scrollt, Fuß sichtbar', cm.inside && cm.tableFits && cm.over <= 0 && cm.foot, JSON.stringify(cm));
+      await r.p.screenshot({ path: `${SHOTS}49-rechenbeispiel-mobil.png` }); await r.p.keyboard.press('Escape'); await r.p.waitForTimeout(250);
       await r.p.locator('#modelle').scrollIntoViewIfNeeded(); await r.p.waitForTimeout(1500); await r.p.locator('#modelle').screenshot({ path: `${SHOTS}46-investoren-modelle-mobil.png` });
     }
     if (w === 390) {

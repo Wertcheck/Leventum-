@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="css/base.css?v=e09bdd14">
   <link rel="stylesheet" href="css/components.css?v=ea470df2">
   <link rel="stylesheet" href="css/sections.css?v=06c39ffd">
-  <link rel="stylesheet" href="css/investoren.css?v=a7079204">
+  <link rel="stylesheet" href="css/investoren.css?v=67f26b59">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -137,6 +137,7 @@
               <p class="inv-sub">Eigene Bestandsimmobilie, langfristig gehalten.</p>
               <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
               <div class="inv-detail">
+<div class="inv-calc"><p><strong>Rechenbeispiel</strong> mit Muster- und Beispielzahlen</p><a class="btn btn-soft" href="assets/pdf/rechenbeispiel-buy-and-hold.pdf" download data-calc-pdf>PDF herunterladen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
                 <section><h3>Grundidee</h3><p>Langfristiger Vermögensaufbau mit einer eigenen Bestandsimmobilie.</p></section>
                 <section><h3>Ablauf der Zusammenarbeit</h3>
                 <ul class="check-list">
@@ -178,6 +179,7 @@
               <p class="inv-sub">Sie stellen die Immobilie, Leventum mietet an.</p>
               <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
               <div class="inv-detail">
+<div class="inv-calc"><p><strong>Rechenbeispiel</strong> mit Muster- und Beispielzahlen</p><a class="btn btn-soft" href="assets/pdf/rechenbeispiel-rent-to-rent.pdf" download data-calc-pdf>PDF herunterladen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
                 <section><h3>Grundidee</h3><p>Sie stellen die Immobilie, Leventum mietet an und setzt das Nutzungskonzept um.</p></section>
                 <section><h3>Ablauf der Zusammenarbeit</h3>
                 <ul class="check-list">
@@ -219,6 +221,7 @@
               <p class="inv-sub">Erwerb, Aufwertung, dann Nutzung oder Verkauf.</p>
               <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
               <div class="inv-detail">
+<div class="inv-calc"><p><strong>Rechenbeispiel</strong> mit Muster- und Beispielzahlen</p><a class="btn btn-soft" href="assets/pdf/rechenbeispiel-projektentwicklung.pdf" download data-calc-pdf>PDF herunterladen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
                 <section><h3>Grundidee</h3><p>Erwerb, Modernisierung oder Umbau, danach Nutzung oder Verkauf.</p></section>
                 <section><h3>Ablauf der Zusammenarbeit</h3>
                 <ul class="check-list">
@@ -260,6 +263,7 @@
               <p class="inv-sub">Gemeinsames Projekt mit vereinbarter Beteiligung.</p>
               <button type="button" class="btn btn-soft inv-more" aria-haspopup="dialog">Mehr erfahren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
               <div class="inv-detail">
+<div class="inv-calc"><p><strong>Rechenbeispiel</strong> mit Muster- und Beispielzahlen</p><a class="btn btn-soft" href="assets/pdf/rechenbeispiel-joint-venture.pdf" download data-calc-pdf>PDF herunterladen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
                 <section><h3>Grundidee</h3><p>Ein gemeinsames Projekt über eine vereinbarte Beteiligungsstruktur.</p></section>
                 <section><h3>Ablauf der Zusammenarbeit</h3>
                 <ul class="check-list">
@@ -456,6 +460,21 @@
         </footer>
       </div>
     </dialog>
+
+    <dialog class="inv-modal calc-modal" id="calc-modal" aria-modal="true" aria-labelledby="calc-title">
+      <div class="inv-modal-inner">
+        <header class="inv-modal-head">
+          <div class="inv-modal-titles"><p class="eyebrow">Rechenbeispiel · Muster- und Beispielzahlen</p><h2 id="calc-title"></h2></div>
+          <button type="button" class="inv-modal-close" aria-label="Fenster schließen" data-close><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </header>
+        <div class="inv-modal-body" id="calc-body" tabindex="0"></div>
+        <footer class="inv-modal-foot">
+          <a class="btn btn-primary" id="calc-pdf" href="assets/pdf/rechenbeispiel-buy-and-hold.pdf" download>PDF herunterladen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <button type="button" class="btn btn-soft" id="calc-back">Zurück zum Modell</button>
+          <button type="button" class="btn btn-outline" data-close>Schließen</button>
+        </footer>
+      </div>
+    </dialog>
   </main>
 
   <footer class="site-footer">
@@ -480,6 +499,7 @@
   <a class="sticky-cta" href="#kontakt" data-cta="sticky">Beratungsgespräch vereinbaren <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 
   <script src="js/main.js?v=6c84dfec" defer></script>
-  <script src="js/investoren.js?v=9982a183" defer></script>
+  <script src="js/rechenbeispiele.js?v=513609a5" defer></script>
+  <script src="js/investoren.js?v=9bbd318d" defer></script>
 </body>
 </html>

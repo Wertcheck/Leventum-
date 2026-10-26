@@ -236,3 +236,25 @@ html.modal-open { overflow: hidden; }
 .inv-photo { min-height: 320px; }
 @media (max-width: 1100px) { .inv-photo { min-height: 300px; } }
 @media (max-width: 640px) { .inv-photo { min-height: 340px; } .inv-why { padding: 0.6rem 0; } }
+
+/* Rechenbeispiele */
+.inv-calc { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; padding: 0.8rem var(--space-2); margin-bottom: var(--space-2); background: var(--beige-100); border: 1px solid var(--sand); border-radius: var(--radius-md); }
+.inv-calc p { flex: 1 1 14rem; margin: 0; font-size: 0.92rem; }
+.inv-calc .btn { min-height: 44px; }
+.calc-stamp { display: inline-block; margin: 0 0 0.6rem; padding: 0.25rem 0.7rem; border: 1px solid var(--sand); border-radius: var(--radius-sm, 6px); background: var(--beige-100); font-size: 0.8rem; font-weight: 700; color: var(--taupe-text); }
+.calc-intro { margin: 0 0 var(--space-1); color: var(--grey-700); }
+.inv-modal-body .calc-table + h3, .inv-modal-body .calc-intro + h3 { margin-top: var(--space-2); }
+.inv-modal-body h3 { font-size: 1rem; margin: var(--space-2) 0 0.3rem; }
+.calc-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+.calc-table th, .calc-table td { padding: 0.45rem 0; border-top: 1px solid var(--sand); font-weight: 400; text-align: left; vertical-align: top; }
+.calc-table td { text-align: right; white-space: nowrap; padding-left: 0.8rem; font-variant-numeric: tabular-nums; }
+.calc-table tr.sum th, .calc-table tr.sum td { font-weight: 700; background: var(--beige-100); }
+.calc-table tr.res th, .calc-table tr.res td { font-weight: 800; background: var(--navy-800); color: #fff; border-top-color: var(--navy-800); }
+.calc-table tr.res th { padding-left: 0.6rem; border-radius: 6px 0 0 6px; }
+.calc-table tr.res td { padding-right: 0.6rem; border-radius: 0 6px 6px 0; }
+.calc-scenario { margin: var(--space-2) 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--taupe); background: var(--beige-100); font-size: 0.93rem; }
+.calc-note { margin: var(--space-2) 0 0; font-size: 0.82rem; color: var(--grey-700); }
+.calc-modal .inv-modal-foot .btn-primary { order: -1; }
+@media (max-width: 480px) { .calc-table { font-size: 0.88rem; } .calc-table td { padding-left: 0.5rem; } }
+.inv-calc p { flex: 1 1 100%; }
+.inv-calc .btn { flex: 1 1 12rem; justify-content: center; }

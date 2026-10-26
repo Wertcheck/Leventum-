@@ -56,3 +56,9 @@ Testen nach dem Deployment:
 `investoren.html` ist eine eigenständige Unterseite (Stile in `css/investoren.css`, Vergleichs-Tabs in `js/investoren.js`). Sie ist nur über den Navigationspunkt „Investoren“ der Startseite erreichbar; auf der Startseite gibt es keinen Investorenbereich. Alle Verweise sind relativ und funktionieren daher auch unter dem GitHub-Pages-Pfad `/Leventum-/`. Das Formular nutzt dieselbe Logik wie die Startseite (Demo-Modus ohne Versand, Endpoint siehe „Formularversand“).
 
 Vor einer tatsächlichen Vermarktung fachlich zu klären: Beteiligungen und Joint Venture (Gesellschafts- und Kapitalmarktrecht, Prospekt- und Werbebeschränkungen), Immobilienvermittlung (Erlaubnispflichten), Haftung und Steuerhinweise. Ein fünftes Modell „Vermittlung und Exit“ ist bewusst nicht enthalten, bis die rechtlichen Voraussetzungen geprüft sind.
+
+## Rechenbeispiele (Investorenseite)
+
+- Zahlen (nur Muster- und Beispielzahlen) stehen an einer Stelle: `js/rechenbeispiele.js`. Daraus entstehen das Pop-up auf `investoren.html` und die PDFs in `assets/pdf/`.
+- Nach Änderungen an den Zahlen die PDFs neu erzeugen: `node scripts/build-pdfs.mjs` (benötigt Playwright), danach `npm run build` (Cache-Hashes).
+- Die Beispiele sind keine Prognose und keine Zusage. Vor der Veröffentlichung rechtlich prüfen lassen.
