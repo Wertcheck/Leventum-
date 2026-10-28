@@ -43,10 +43,10 @@ Ohne Backend läuft das Formular im **Demo-Modus** und versendet nichts (klar ge
 - **Bewegung:** ruhiger Hero-Einstieg, Hover-Mikrointeraktionen, animiertes FAQ, dünner Scroll-Fortschritt im Header. Kein Fade-up-Scrollreveal; alles entfällt bei `prefers-reduced-motion`.
 
 ## Linkvorschau (WhatsApp, Messenger, soziale Netzwerke)
-Metadaten (Open Graph, Twitter Card) stehen im `<head>` von `index.html`, das Vorschaubild ist `assets/img/og-vorschau-leventum-gmbh.jpg` (1200 × 630, JPEG). `og:image` und `twitter:image` müssen absolute URLs sein; sie zeigen auf `https://wertcheck.github.io/Leventum-/assets/img/og-vorschau-leventum-gmbh.jpg`. Bei einer eigenen Domain diese URLs, `og:url` und `canonical` anpassen.
+Metadaten (Open Graph, Twitter Card) stehen im `<head>` von `index.html`, das Vorschaubild ist `assets/img/og-vorschau-leventum-gmbh-2.jpg` (1200 × 630, JPEG). `og:image` und `twitter:image` müssen absolute URLs sein; sie zeigen auf `https://wertcheck.github.io/Leventum-/assets/img/og-vorschau-leventum-gmbh-2.jpg`. Bei einer eigenen Domain diese URLs, `og:url` und `canonical` anpassen.
 
 Testen nach dem Deployment:
-1. Bild direkt im Browser öffnen: `https://wertcheck.github.io/Leventum-/assets/img/og-vorschau-leventum-gmbh.jpg` (muss ohne Login laden).
+1. Bild direkt im Browser öffnen: `https://wertcheck.github.io/Leventum-/assets/img/og-vorschau-leventum-gmbh-2.jpg` (muss ohne Login laden).
 2. Facebook/Messenger: Sharing Debugger (developers.facebook.com/tools/debug), URL eingeben und „Erneut abrufen“ wählen. Das löscht den Facebook-Cache.
 3. LinkedIn: Post Inspector (linkedin.com/post-inspector). X/Twitter: Link in einen Entwurf einfügen.
 4. WhatsApp hat keinen eigenen Debugger und speichert Vorschauen lange zwischen. Nach einer Änderung hilft es, den Link mit einem Zusatz zu teilen, zum Beispiel `https://wertcheck.github.io/Leventum-/?v=2`, oder zuvor den Facebook-Debugger zu nutzen (WhatsApp nutzt ähnliche Daten). Bereits gesendete Nachrichten ändern sich nicht.
